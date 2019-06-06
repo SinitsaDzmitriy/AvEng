@@ -24,7 +24,7 @@ public class SpittleControllerTest {
     @Test
     public void shouldShowRecentSpittles() throws Exception {
 
-        // ?
+        // Create List of Spittles for testing
         List<Spittle> expectedSpittles = createSpittleList(20);
 
         // T mock(Class<T> classToMock): Creates mock object of given class or interface.
@@ -40,15 +40,22 @@ public class SpittleControllerTest {
         SpittleController controller = new SpittleController(mockRepository);
 
         // standaloneSetup(): Loads the instance of SpittleController to MockMvcBuilders.
-        // setSingleView(): Sets up a single ViewResolver that always returns the provided view instance.
+        // setSingleView(View view): Sets up a single ViewResolver that always returns the provided view instance.
         // build(): Create a MockMvc instance.
 
         // If default view resolution is left, mockMvc will fail,
         // because the view path will be confused with the controller’s path.
+        // In this case, the mock framework don't try to resolve
+        // the view name coming from the controller on its own.
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setSingleView(new InternalResourceView("/WEB-INF/views/spittles.jsp"))
                 .build();
+
+        // Ask the MockMvc instance to:
+        // 1. Perform a GET request for /.
+        // 2. Expect "spittles" view name.
+        // 3. Expect the model that has an attribute named "spittleList" with the expected contents.
 
 
         mockMvc.perform(MockMvcRequestBuilders.get("/spittles"))
@@ -58,58 +65,8 @@ public class SpittleControllerTest {
                         hasItems(expectedSpittles.toArray())));
     }
 
-    @Test
-    public void shouldShowPagedSpittles() throws Exception {
-        List<Spittle> expectedSpittles = createSpittleList(50);
-        SpittleRepository mockRepository = mock(SpittleRepository.class);
-        when(mockRepository.findSpittles(238900, 50))
-                .thenReturn(expectedSpittles);
-
-        SpittleController controller = new SpittleController(mockRepository);
-        MockMvc mockMvc = standaloneSetup(controller)
-                .setSingleView(new InternalResourceView("/WEB-INF/views/spittles.jsp"))
-                .build();
-
-        mockMvc.perform(get("/spittles?max=238900&count=50"))
-                .andExpect(view().name("spittles"))
-                .andExpect(model().attributeExists("spittleList"))
-                .andExpect(model().attribute("spittleList",
-                        hasItems(expectedSpittles.toArray())));
-    }
-
-    @Test
-    public void testSpittle() throws Exception {
-        Spittle expectedSpittle = new Spittle("Hello", new Date());
-        SpittleRepository mockRepository = mock(SpittleRepository.class);
-        when(mockRepository.findOne(12345)).thenReturn(expectedSpittle);
-
-        SpittleController controller = new SpittleController(mockRepository);
-        MockMvc mockMvc = standaloneSetup(controller).build();
-
-        mockMvc.perform(get("/spittles/12345"))
-                .andExpect(view().name("spittle"))
-                .andExpect(model().attributeExists("spittle"))
-                .andExpect(model().attribute("spittle", expectedSpittle));
-    }
-
-    @Test
-    public void saveSpittle() throws Exception {
-        SpittleRepository mockRepository = mock(SpittleRepository.class);
-        SpittleController controller = new SpittleController(mockRepository);
-        MockMvc mockMvc = standaloneSetup(controller).build();
-
-        mockMvc.perform(post("/spittles")
-                .param("message", "Hello World") // this works, but isn't really testing what really happens
-                .param("longitude", "-81.5811668")
-                .param("latitude", "28.4159649")
-        )
-                .andExpect(redirectedUrl("/spittles"));
-
-        verify(mockRepository, atLeastOnce()).save(new Spittle(null, "Hello World", new Date(), -81.5811668, 28.4159649));
-    }
-
     private List<Spittle> createSpittleList(int count) {
-        List<Spittle> spittles = new ArrayList<Spittle>();
+        List<Spittle> spittles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             spittles.add(new Spittle("Spittle " + i, new Date()));
         }
