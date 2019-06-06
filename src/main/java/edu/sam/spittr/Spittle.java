@@ -6,6 +6,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Date;
 
 public class Spittle {
+
+    // ToDo: Set id as null in constructor and remove static nextId field
+    static private Long nextId = 1L;
+
     private final Long id;
     private final String message;
     private final Date time;
@@ -17,11 +21,13 @@ public class Spittle {
     }
 
     public Spittle(String message, Date time, Double longitude, Double latitude) {
-        this.id = null;
+        this.id = nextId;
         this.message = message;
         this.time = time;
         this.longitude = longitude;
         this.latitude = latitude;
+
+        ++nextId;
     }
 
     public long getId() {
