@@ -21,4 +21,10 @@ public class HardcodeSpittleRepository implements SpittleRepository {
         spittles.add(new Spittle("2nd message", new Date(),53.9045, 27.5615 ));
         return spittles;
     }
+
+    @Override
+    public Spittle findOne(long id){
+        // ToDo It works bad even as a gag
+        return  new Spittle("Hard-coded Spittle entity with required ID", new Date(), 0D, 0D);
+    }
 }
