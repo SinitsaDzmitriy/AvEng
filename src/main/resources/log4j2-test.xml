@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- -->
+<!-- &quot;&quot;: &quot;&quot;,%n -->
+
+<!--
+    Configuration attributes:
+    dest - destination where events will be logged
+    status - level of internal Log4j events that should be logged to the destination
+-->
+
+<Configuration status="WARN">
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%date thread=&quot;%thread&quot; level=&quot;%level&quot; class=&quot;%class&quot; method=&quot;%method&quot; %msg%n"/>
+        </Console>
+
+        <File name="Logbook" fileName="logs/logbook.log">
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%date thread=&quot;%thread&quot; level=&quot;%level&quot; class=&quot;%class&quot; method=&quot;%method&quot; %msg%n"/>
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <Logger name="edu.sam.spittr.web" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Logbook"/>
+        </Logger>
+
+    </Loggers>
+</Configuration>

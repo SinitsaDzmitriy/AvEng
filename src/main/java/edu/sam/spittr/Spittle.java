@@ -53,4 +53,21 @@ public class Spittle {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this, "id", "time");
     }
+
+    @Override
+    public String toString() {
+        StringBuilder spittleAsString = new StringBuilder();
+        spittleAsString.append("{id=");
+        spittleAsString.append(this.id);
+        spittleAsString.append(" message=\"");
+        spittleAsString.append(this.message);
+        spittleAsString.append("\" time=\"");
+        spittleAsString.append(this.time);
+        spittleAsString.append("\" longitude=");
+        spittleAsString.append(this.longitude);
+        spittleAsString.append(" latitude=");
+        spittleAsString.append(this.latitude);
+        spittleAsString.append("}");
+        return spittleAsString.toString();
+    }
 }

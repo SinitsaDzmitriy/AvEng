@@ -1,5 +1,7 @@
 package edu.sam.spittr.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -18,6 +20,9 @@ public class HomeController {
     // With class-level @RequestMapping indicates that the home() method will handle GET requests for /.
     @RequestMapping(method=GET)
     public String home() {
+        Logger logger = LoggerFactory.getLogger(HomeController.class);
+        logger.debug("message=\"{}\"", "Controller has started request processing");
+        logger.debug("message=\"{}\", viewName=\"{}\"", "Controller has finished request processing", "home");
         // view name
         return "home";
     }
