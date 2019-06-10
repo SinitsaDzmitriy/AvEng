@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.view.InternalResourceView;
 
-import edu.sam.spittr.Spittle;
+import edu.sam.spittr.entities.Spittle;
 import edu.sam.spittr.data.SpittleRepository;
 import edu.sam.spittr.web.SpittleController;
 

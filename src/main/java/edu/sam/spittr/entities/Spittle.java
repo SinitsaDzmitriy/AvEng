@@ -1,4 +1,4 @@
-package edu.sam.spittr;
+package edu.sam.spittr.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

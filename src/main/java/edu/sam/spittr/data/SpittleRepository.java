@@ -1,6 +1,6 @@
 package edu.sam.spittr.data;
 
-import edu.sam.spittr.Spittle;
+import edu.sam.spittr.entities.Spittle;
 import java.util.List;
 
 public interface SpittleRepository {
