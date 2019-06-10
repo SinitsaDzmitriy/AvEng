@@ -22,7 +22,7 @@ public class SpittleController {
     @RequestMapping(method=RequestMethod.GET)
     public String spittles(Model model) {
         model.addAttribute(spittleRepository.findSpittles(Long.MAX_VALUE, 20));
-        return "spittles";
+        return "allSpittles";
     }
 
     // @RequestMapping that has a variable portion of the path represented the Spittle ID
