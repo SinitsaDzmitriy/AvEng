@@ -10,5 +10,6 @@ public class HardcodeSpitterRepository implements SpitterRepository {
     public Spitter save(Spitter spitter){return spitter;}
 
     @Override
-    public Spitter findByUsername(String username){return new Spitter();}
+    public Spitter findByUsername(String username){
+        return new Spitter(0L, "Test", "Spitter", "test_spitter", "TestPassword");}
 }

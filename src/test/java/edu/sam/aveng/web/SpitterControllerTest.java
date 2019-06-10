@@ -26,8 +26,8 @@ public class SpitterControllerTest {
     @Test
     public void registrationProcessTest() throws Exception {
         SpitterRepository mockRepository = Mockito.mock(SpitterRepository.class);
-        Spitter unsaved = new Spitter(/*"jbauer", "24hours", "Jack", "Bauer"*/);
-        Spitter saved = new Spitter(/*24L, "jbauer", "24hours", "Jack", "Bauer"*/);
+        Spitter unsaved = new Spitter("jbauer", "24hours", "Jack", "Bauer");
+        Spitter saved = new Spitter(24L, "jbauer", "24hours", "Jack", "Bauer");
         Mockito.when(mockRepository.save(unsaved)).thenReturn(saved);
         SpitterController controller = new SpitterController(mockRepository);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
@@ -39,7 +39,8 @@ public class SpitterControllerTest {
         // so that a browser refresh won’t accidentally submit the form a 2nd time.
 
         mockMvc.perform(MockMvcRequestBuilders.post("/spitter/register")
-                .param("firstName", "Jack")
+                .param("firstN" +
+                        "ame", "Jack")
                 .param("lastName", "Bauer")
                 .param("username", "jbauer")
                 .param("password", "24hours"))
