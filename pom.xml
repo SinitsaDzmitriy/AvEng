@@ -83,6 +83,13 @@
             <version>3.9</version>
         </dependency>
 
+        <!-- Used in HardcodedSpittleRepository -->
+        <!-- ToDo: Exclude it when database is connected -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
 
 
     </dependencies>
