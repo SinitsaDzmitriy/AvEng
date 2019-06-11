@@ -12,4 +12,7 @@ public interface SpittleRepository {
     List<Spittle> findSpittles(long max, int count);
 
     long save(Spittle newSpittle);
+
+    // finds a Spittle by ID
+    Spittle findOne(long id);
 }
