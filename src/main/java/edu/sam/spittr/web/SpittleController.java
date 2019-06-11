@@ -25,7 +25,10 @@ public class SpittleController {
     }
 
     @RequestMapping(value="/create", method=RequestMethod.GET)
-    public String create() {
+    public String create(Model model) {
+        // Add a Spittle object with "spittle" key in the model
+        // It uses in
+        model.addAttribute(new Spittle());
         return "createSpittleForm";
     }
 
