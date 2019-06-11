@@ -15,8 +15,12 @@ import java.util.List;
 @Repository
 public class HardcodedSpittleRepository implements SpittleRepository {
 
-    private final Long numberOfEntries = 20L;
+
+    private final long initialNumberOfEntries = 20L;
+
     private List<Spittle> spittleList;
+    private long numberOfEntries = 0L;
+    private long nextId = 1L;
 
     @Autowired
     public HardcodedSpittleRepository() {
@@ -30,24 +34,41 @@ public class HardcodedSpittleRepository implements SpittleRepository {
 
         spittleList = new ArrayList<>();
 
-        for(long i = 1; i <= numberOfEntries; i++) {
-            Spittle newSpittle = new Spittle();
+        for(long i = 1; i <= initialNumberOfEntries; i++) {
             RandomDataGenerator randomizer = new RandomDataGenerator();
 
             long newSpittleTimeInMillis = randomizer.nextLong(0L, currentDate.getTime());
             double newSpittleLongitude = Precision.round(randomizer.nextUniform(minLongitude, maxLongitude), 2);
             double newSpittleLatitude = Precision.round(randomizer.nextUniform(minLatitude, maxLatitude), 2);
 
-            newSpittle.setMessage("Спитл No " + i);
-            newSpittle.setTime(new Date(newSpittleTimeInMillis));
-            newSpittle.setLongitude(newSpittleLongitude);
-            newSpittle.setLatitude(newSpittleLatitude);
+            Spittle newSpittle = new Spittle(nextId,
+                    "Высказывание с ID = " + nextId,
+                    new Date(newSpittleTimeInMillis),
+                    newSpittleLongitude,
+                    newSpittleLatitude);
+
             spittleList.add(newSpittle);
+
+            nextId++;
+            numberOfEntries++;
         }
     }
 
     @Override
     public List<Spittle> findSpittles(long max, int count){
         return spittleList;
+    }
+
+    @Override
+    public long save(Spittle spittleToPersist){
+        Spittle newSpittle = new Spittle(nextId,
+                spittleToPersist.getMessage(),
+                spittleToPersist.getTime(),
+                spittleToPersist.getLongitude(),
+                spittleToPersist.getLatitude());
+
+        spittleList.add(newSpittle);
+        numberOfEntries++;
+        return nextId++;
     }
 }

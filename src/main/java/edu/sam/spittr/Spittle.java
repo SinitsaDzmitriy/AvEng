@@ -6,26 +6,24 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Date;
 
 public class Spittle {
-    private static Long nextId = 1L;
-
-    private Long id;
+    private long id;
     private String message;
     private Date time;
     private Double latitude;
     private Double longitude;
 
+    public Spittle() { id = 0L; }
 
-    public Spittle() {
-        id = nextId;
-        ++nextId;
-    }
-
-    public Spittle(String message, Date time, Double longitude, Double latitude) {
-        this();
+    public Spittle(long id, String message, Date time, Double longitude, Double latitude) {
+        this.id = id;
         this.message = message;
         this.time = time;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Spittle(String message, Date time, Double longitude, Double latitude) {
+        this(0L, message, time, longitude, latitude);
     }
 
     public void setMessage(String message) { this.message = message; }
