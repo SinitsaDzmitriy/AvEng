@@ -24,7 +24,7 @@
 
 <body>
 
-<h1>Spittles:</h1>
+<h1>List of all Spittles</h1>
 
 <table>
     <caption>JSP scriplet</caption>
@@ -78,7 +78,7 @@
     </c:forEach>
 </table>
 
-<button type="button" onclick="location.href='spittles/new'">Add</button>
+<button type="button" onclick="location.href='spittles/create'">Add</button>
 
 </body>
 

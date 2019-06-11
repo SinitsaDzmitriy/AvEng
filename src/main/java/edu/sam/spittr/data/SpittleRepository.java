@@ -10,4 +10,6 @@ public interface SpittleRepository {
      * @return
      */
     List<Spittle> findSpittles(long max, int count);
+
+    long save(Spittle newSpittle);
 }

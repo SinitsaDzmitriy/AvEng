@@ -1,6 +1,6 @@
 package edu.sam.spittr.web;
 
-
+import edu.sam.spittr.Spittle;
 import edu.sam.spittr.data.SpittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,4 +23,16 @@ public class SpittleController {
         model.addAttribute(spittleRepository.findSpittles(Long.MAX_VALUE, 20));
         return "allSpittles";
     }
+
+    @RequestMapping(value="/create", method=RequestMethod.GET)
+    public String create() {
+        return "createSpittleForm";
+    }
+
+    @RequestMapping(value="/create", method=RequestMethod.POST)
+    public String persist(Spittle spittleToPersist) {
+        spittleRepository.save(spittleToPersist);
+        return "allSpittles";
+    }
+
 }
