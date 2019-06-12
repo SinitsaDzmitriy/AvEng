@@ -67,9 +67,9 @@ public class SpittleControllerTest {
 
     @Test
     public void oneSpittleShowByIdTest() throws Exception {
-        Spittle expectedSpittle = new Spittle("Hello", new Date());
+        Spittle expectedSpittle = new Spittle();
         SpittleRepository mockRepository = Mockito.mock(SpittleRepository.class);
-        Mockito.when(mockRepository.findOne(12345)).thenReturn(expectedSpittle);
+        Mockito.when(mockRepository.findById(12345)).thenReturn(expectedSpittle);
         SpittleController controller = new SpittleController(mockRepository);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
