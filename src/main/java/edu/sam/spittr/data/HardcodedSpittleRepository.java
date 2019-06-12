@@ -1,5 +1,6 @@
 package edu.sam.spittr.data;
 
+import com.google.gson.Gson;
 import edu.sam.spittr.Spittle;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
@@ -8,22 +9,19 @@ import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 @Repository
 public class HardcodedSpittleRepository implements SpittleRepository {
 
-
-    private final long initialNumberOfEntries = 20L;
-
     private List<Spittle> spittleList;
-    private long numberOfEntries = 0L;
     private long nextId = 1L;
 
     @Autowired
     public HardcodedSpittleRepository() {
+        final long initialNumberOfEntries = 20L;
+
         final Date currentDate = new Date();
 
         final double minLongitude = -180D;
@@ -50,13 +48,22 @@ public class HardcodedSpittleRepository implements SpittleRepository {
             spittleList.add(newSpittle);
 
             nextId++;
-            numberOfEntries++;
         }
     }
 
     @Override
-    public List<Spittle> findSpittles(long max, int count){
-        return spittleList;
+    public List<Spittle> findSpittles(long max, int count) {
+        List<Spittle> spittleListCopy = null;
+        try {
+            Class<?> spittleListClass = spittleList.getClass();
+            Constructor <?> spittleListClassConstructor = spittleListClass.getConstructor();
+            spittleListCopy = (List<Spittle>) spittleListClassConstructor.newInstance();
+            spittleListCopy.addAll(Arrays.asList(new Spittle[spittleList.size()]));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        Collections.copy(spittleListCopy, spittleList);
+        return spittleListCopy;
     }
 
     @Override
@@ -68,7 +75,50 @@ public class HardcodedSpittleRepository implements SpittleRepository {
                 spittleToPersist.getLatitude());
 
         spittleList.add(newSpittle);
-        numberOfEntries++;
         return nextId++;
     }
+
+    @Override
+    public Spittle findById(long id) {
+        Spittle spittle = findOriginalById(id);
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJson(spittle), Spittle.class);
+    }
+
+    @Override
+    public long update(long id, Spittle editSpittle) {
+        Spittle spittle = findOriginalById(id);
+        if(spittle != null) {
+            spittle.setMessage(editSpittle.getMessage());
+            spittle.setTime(editSpittle.getTime());
+            spittle.setLongitude(editSpittle.getLongitude());
+            spittle.setLatitude(editSpittle.getLatitude());
+            return id;
+        } else{
+            return 0L;
+        }
+    }
+
+    @Override
+    public long remove(long id) {
+        Spittle spittleToDelete = findOriginalById(id);
+        if (spittleToDelete != null) {
+            spittleList.remove(spittleToDelete);
+            return id;
+        } else {
+            return 0L;
+        }
+    }
+
+    private Spittle findOriginalById(long id) {
+        Spittle spittle = null;
+        for (int i = spittleList.size() - 1; i >= 0; i--) {
+            spittle = spittleList.get(i);
+            if(spittle.getId() == id) {
+                break;
+            }
+        }
+        return spittle;
+    }
+
 }

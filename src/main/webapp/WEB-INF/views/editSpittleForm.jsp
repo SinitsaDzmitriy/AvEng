@@ -1,17 +1,6 @@
 <%@ page contentType="text/html; UTF-8" session="false" pageEncoding="UTF-8" %>
 
-<!--  -->
-<!-- JSTL tag lib is redundant -->
-
-<!--
-Spring forms tag lib
-Designed to:
-1. Connect a form and an object in the model.
-2. Communicate errors to the user.
--->
-
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
-
 
 <html>
 
@@ -26,7 +15,7 @@ Designed to:
 </head>
 
 <body>
-<h1>Create Spittle Form</h1>
+<h1>Edit Spittle Form</h1>
 
 <sf:form method="POST" commandName="spittle">
     Message:<br>
@@ -37,7 +26,7 @@ Designed to:
     <sf:input path="longitude"/><br>
     Latitude:<br>
     <sf:input path="latitude"/><br>
-    <input type="submit" value="Create" />
+    <input type="submit" value="Update" />
 </sf:form>
 
 </body>

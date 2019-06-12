@@ -13,6 +13,11 @@ public interface SpittleRepository {
 
     long save(Spittle newSpittle);
 
-    // finds a Spittle by ID
-    Spittle findOne(long id);
+    // Finds a Spittle by ID
+    Spittle findById(long id);
+
+    // Update a Spittle
+    long update(long id, Spittle spittle);
+
+    long remove (long id);
 }

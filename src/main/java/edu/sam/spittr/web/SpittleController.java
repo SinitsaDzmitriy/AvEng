@@ -36,23 +36,28 @@ public class SpittleController {
     @RequestMapping(value="/create", method=RequestMethod.POST)
     public String persist(Spittle spittleToPersist) {
         spittleRepository.save(spittleToPersist);
-        return "allSpittles";
+        return "redirect:/spittles";
     }
 
     @RequestMapping(value="/edit/{spittleId}", method=RequestMethod.GET)
-    public String create(@PathVariable long spittleId, Model model) {
+    public String edit(@PathVariable long spittleId, Model model) {
         // Add a Spittle object with specific ID and "spittle" key in the model
         // It's referenced in the editSpittleForm JSP view
         model.addAttribute(spittleRepository.findById(spittleId));
         return "editSpittleForm";
     }
 
-    @RequestMapping(value="/change", method=RequestMethod.POST)
-    public String perist(Spittle spittleToPersist) {
-        spittleRepository.save(spittleToPersist);
-        return "allSpittles";
+    @RequestMapping(value="/edit/{spittleId}", method=RequestMethod.POST)
+    public String update(@PathVariable long spittleId, Spittle editSpittle) {
+        spittleRepository.update(spittleId, editSpittle);
+        return "redirect:/spittles";
     }
 
+    @RequestMapping(value="/remove/{spittleId}", method=RequestMethod.GET)
+    public String edit(@PathVariable long spittleId) {
+       spittleRepository.remove(spittleId);
+        return "redirect:/spittles";
+    }
 
     // @RequestMapping that has a variable portion of the path represented the Spittle ID
     // Placeholder is a name surrounded by curly braces: {name}
@@ -67,7 +72,7 @@ public class SpittleController {
     @RequestMapping(value="/{spittleId}", method=RequestMethod.GET)
     public String spittle(Model model, @PathVariable long spittleId) {
         // The model key will be spittle, inferred by the type passed in to addAttribute()
-        model.addAttribute(spittleRepository.findOne(spittleId));
+        model.addAttribute(spittleRepository.findById(spittleId));
         return "spittle";
     }
 

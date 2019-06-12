@@ -85,12 +85,18 @@
 
         <!-- Used in HardcodedSpittleRepository -->
         <!-- ToDo: Exclude it when database is connected -->
+        <!--  -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
-
+        <!-- Used to make deep copy of an Object -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
 
     </dependencies>
 
