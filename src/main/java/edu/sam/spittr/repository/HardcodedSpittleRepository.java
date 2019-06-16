@@ -1,7 +1,7 @@
-package edu.sam.spittr.data;
+package edu.sam.spittr.repository;
 
 import com.google.gson.Gson;
-import edu.sam.spittr.Spittle;
+import edu.sam.spittr.dto.SpittleDTO;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.util.Precision;
@@ -10,19 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Constructor;
+import java.time.LocalTime;
 import java.util.*;
 
 @Repository
 public class HardcodedSpittleRepository implements SpittleRepository {
 
-    private List<Spittle> spittleList;
+    private List<SpittleDTO> spittleList;
     private long nextId = 1L;
 
     @Autowired
     public HardcodedSpittleRepository() {
         final long initialNumberOfEntries = 20L;
-
-        final Date currentDate = new Date();
 
         final double minLongitude = -180D;
         final double maxLongitude = 180D;
@@ -32,76 +31,79 @@ public class HardcodedSpittleRepository implements SpittleRepository {
 
         spittleList = new ArrayList<>();
 
-        for(long i = 1; i <= initialNumberOfEntries; i++) {
+        for (long i = 1; i <= initialNumberOfEntries; i++) {
             RandomDataGenerator randomizer = new RandomDataGenerator();
 
-            long newSpittleTimeInMillis = randomizer.nextLong(0L, currentDate.getTime());
             double newSpittleLongitude = Precision.round(randomizer.nextUniform(minLongitude, maxLongitude), 2);
             double newSpittleLatitude = Precision.round(randomizer.nextUniform(minLatitude, maxLatitude), 2);
 
-            Spittle newSpittle = new Spittle(nextId,
-                    "Высказывание с ID = " + nextId,
-                    new Date(newSpittleTimeInMillis),
-                    newSpittleLongitude,
-                    newSpittleLatitude);
+            SpittleDTO spittleDTO = new SpittleDTO.Builder()
+                    .setId(nextId)
+                    .setMessage("Высказывание с ID = " + nextId)
+                    .setLatitude(newSpittleLatitude)
+                    .setLongitude(newSpittleLongitude)
+                    .setTime(LocalTime.now())
+                    .build();
 
-            spittleList.add(newSpittle);
+            spittleList.add(spittleDTO);
 
             nextId++;
         }
     }
 
     @Override
-    public List<Spittle> findSpittles(long max, int count) {
-        List<Spittle> spittleListCopy = null;
+    public List<SpittleDTO> findSpittles(long max, int count) {
+        List<SpittleDTO> spittleListCopy = null;
         try {
             Class<?> spittleListClass = spittleList.getClass();
-            Constructor <?> spittleListClassConstructor = spittleListClass.getConstructor();
-            spittleListCopy = (List<Spittle>) spittleListClassConstructor.newInstance();
-            spittleListCopy.addAll(Arrays.asList(new Spittle[spittleList.size()]));
+            Constructor<?> spittleListClassConstructor = spittleListClass.getConstructor();
+            spittleListCopy = (List<SpittleDTO>) spittleListClassConstructor.newInstance();
+            spittleListCopy.addAll(Arrays.asList(new SpittleDTO[spittleList.size()]));
+            Collections.copy(spittleListCopy, spittleList);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Cannot perform search:" + e);
+            //TODO where is LOG?
         }
-        Collections.copy(spittleListCopy, spittleList);
         return spittleListCopy;
     }
 
     @Override
-    public long save(Spittle spittleToPersist){
-        Spittle newSpittle = new Spittle(nextId,
-                spittleToPersist.getMessage(),
-                spittleToPersist.getTime(),
-                spittleToPersist.getLongitude(),
-                spittleToPersist.getLatitude());
-
+    public long save(SpittleDTO spittleToPersist) {
+        SpittleDTO newSpittle = new SpittleDTO.Builder()
+                .setId(nextId)
+                .setMessage(spittleToPersist.getMessage())
+                .setLatitude(spittleToPersist.getLatitude())
+                .setLongitude(spittleToPersist.getLongitude())
+                .setTime(spittleToPersist.getTime())
+                .build();
         spittleList.add(newSpittle);
         return nextId++;
     }
 
     @Override
-    public Spittle findById(long id) {
-        Spittle spittle = findOriginalById(id);
+    public SpittleDTO findById(long id) {
+        SpittleDTO spittle = findOriginalById(id);
         Gson gson = new Gson();
-        return gson.fromJson(gson.toJson(spittle), Spittle.class);
+        return gson.fromJson(gson.toJson(spittle), SpittleDTO.class);
     }
 
     @Override
-    public long update(long id, Spittle editSpittle) {
-        Spittle spittle = findOriginalById(id);
-        if(spittle != null) {
+    public long update(long id, SpittleDTO editSpittle) {
+        SpittleDTO spittle = findOriginalById(id);
+        if (spittle != null) {
             spittle.setMessage(editSpittle.getMessage());
             spittle.setTime(editSpittle.getTime());
             spittle.setLongitude(editSpittle.getLongitude());
             spittle.setLatitude(editSpittle.getLatitude());
             return id;
-        } else{
+        } else {
             return 0L;
         }
     }
 
     @Override
     public long remove(long id) {
-        Spittle spittleToDelete = findOriginalById(id);
+        SpittleDTO spittleToDelete = findOriginalById(id);
         if (spittleToDelete != null) {
             spittleList.remove(spittleToDelete);
             return id;
@@ -110,11 +112,11 @@ public class HardcodedSpittleRepository implements SpittleRepository {
         }
     }
 
-    private Spittle findOriginalById(long id) {
-        Spittle spittle = null;
+    private SpittleDTO findOriginalById(long id) {
+        SpittleDTO spittle = null;
         for (int i = spittleList.size() - 1; i >= 0; i--) {
             spittle = spittleList.get(i);
-            if(spittle.getId() == id) {
+            if (spittle.getId() == id) {
                 break;
             }
         }

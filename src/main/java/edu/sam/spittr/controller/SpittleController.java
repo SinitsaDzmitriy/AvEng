@@ -1,7 +1,7 @@
 package edu.sam.spittr.web;
 
-import edu.sam.spittr.Spittle;
-import edu.sam.spittr.data.SpittleRepository;
+import edu.sam.spittr.dto.SpittleDTO;
+import edu.sam.spittr.repository.SpittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class SpittleController {
 
     @RequestMapping(value="/create", method=RequestMethod.GET)
     public String create(Model model) {
-        // Add a Spittle object with "spittle" key in the model
+        // Add a SpittleDTO object with "spittle" key in the model
         // It's referenced at createSpittleForm JSP
         model.addAttribute(new Spittle());
         return "createSpittleForm";
@@ -41,7 +41,7 @@ public class SpittleController {
 
     @RequestMapping(value="/edit/{spittleId}", method=RequestMethod.GET)
     public String edit(@PathVariable long spittleId, Model model) {
-        // Add a Spittle object with specific ID and "spittle" key in the model
+        // Add a SpittleDTO object with specific ID and "spittle" key in the model
         // It's referenced in the editSpittleForm JSP view
         model.addAttribute(spittleRepository.findById(spittleId));
         return "editSpittleForm";
@@ -59,7 +59,7 @@ public class SpittleController {
         return "redirect:/spittles";
     }
 
-    // @RequestMapping that has a variable portion of the path represented the Spittle ID
+    // @RequestMapping that has a variable portion of the path represented the SpittleDTO ID
     // Placeholder is a name surrounded by curly braces: {name}
 
     // Path parameter and method parameter binding:

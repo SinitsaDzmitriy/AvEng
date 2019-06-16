@@ -1,6 +1,10 @@
 package edu.sam.spittr.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
+import java.util.Properties;
 
 /*
  *  Any class that extends AbstractAnnotationConfigDispatcherServletInitializer
@@ -29,5 +33,10 @@ public class SpittrWebAppInitializer
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[] { WebConfig.class };
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{new CharacterEncodingFilter(properties.getProperty("encoding"))};
     }
 }
