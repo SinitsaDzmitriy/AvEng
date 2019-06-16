@@ -1,7 +1,5 @@
 package edu.sam.aveng.web;
 
-import static org.hamcrest.Matchers.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.view.InternalResourceView;
 
-import edu.sam.spittr.Spittle;
-import edu.sam.spittr.data.SpittleRepository;
-import edu.sam.spittr.web.SpittleController;
+import edu.sam.spittr.dto.SpittleDTO;
+import edu.sam.spittr.repository.SpittleRepository;
+import edu.sam.spittr.controller.SpittleController;
 
 public class SpittleControllerTest {
 
@@ -25,7 +23,7 @@ public class SpittleControllerTest {
     public void shouldShowRecentSpittles() throws Exception {
 
         // Create List of Spittles for testing
-        List<Spittle> expectedSpittles = createSpittleList(20);
+        List<SpittleDTO> expectedSpittles = createSpittleList(20);
 
         // T mock(Class<T> classToMock): Creates mock object of given class or interface.
         // Creat a mock implementation of the SpittleRepository interface.
@@ -33,7 +31,7 @@ public class SpittleControllerTest {
 
         // when(mock.someMethod(Type arg, ...)).thenDo(): Enables stubbing methods.
         // when the x method is called then ...
-        // Make the mockRepository return a list of 20 Spittle objects from its findSpittles() method.
+        // Make the mockRepository return a list of 20 SpittleDTO objects from its findSpittles() method.
         Mockito.when(mockRepository.findSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
 
         // Inject that mockRepository into a new SpittleController instance.
@@ -67,7 +65,7 @@ public class SpittleControllerTest {
 
     @Test
     public void oneSpittleShowByIdTest() throws Exception {
-        Spittle expectedSpittle = new Spittle();
+        SpittleDTO expectedSpittle = new SpittleDTO.Builder().build();
         SpittleRepository mockRepository = Mockito.mock(SpittleRepository.class);
         Mockito.when(mockRepository.findById(12345)).thenReturn(expectedSpittle);
         SpittleController controller = new SpittleController(mockRepository);
@@ -80,10 +78,10 @@ public class SpittleControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("spittle", expectedSpittle));
     }
 
-    private List<Spittle> createSpittleList(int count) {
-        List<Spittle> spittles = new ArrayList<>();
+    private List<SpittleDTO> createSpittleList(int count) {
+        List<SpittleDTO> spittles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            spittles.add(new Spittle());
+            spittles.add(new SpittleDTO.Builder().setId(i).build());
         }
         return spittles;
     }
