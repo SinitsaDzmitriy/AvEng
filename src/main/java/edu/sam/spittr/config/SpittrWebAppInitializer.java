@@ -51,9 +51,4 @@ public class SpittrWebAppInitializer
     protected Filter[] getServletFilters() {
         return new Filter[]{new CharacterEncodingFilter(properties.getProperty("encoding"))};
     }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{new CharacterEncodingFilter(properties.getProperty("encoding"))};
-    }
 }
