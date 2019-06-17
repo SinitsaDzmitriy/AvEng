@@ -1,5 +1,6 @@
 package edu.sam.spittr.dto;
 
+import edu.sam.spittr.domain.Spittle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -12,7 +13,7 @@ public class SpittleDTO {
     private Double latitude;
     private Double longitude;
 
-    public SpittleDTO() { }
+    private SpittleDTO() { }
 
     public long getId() {
         return id;
@@ -54,6 +55,16 @@ public class SpittleDTO {
         this.longitude = longitude;
     }
 
+    public Spittle toSpittle() {
+        Spittle spittle = new Spittle();
+        spittle.setId(id);
+        spittle.setMessage(message);
+        spittle.setTime(time);
+        spittle.setLatitude(latitude);
+        spittle.setLongitude(longitude);
+        return spittle;
+    }
+
     @Override
     public boolean equals(Object that) {
         return EqualsBuilder.reflectionEquals(this, that, "id", "time");
@@ -65,7 +76,8 @@ public class SpittleDTO {
     }
 
     public static class Builder {
-        private long id;
+        // default value
+        private long id = 0;
         private String message;
         private LocalTime time;
         private Double latitude;
@@ -108,5 +120,16 @@ public class SpittleDTO {
             dto.longitude = longitude;
             return  dto;
         }
+
+        public SpittleDTO build(Spittle spittle) {
+            SpittleDTO dto = new SpittleDTO();
+            dto.id = spittle.getId();
+            dto.message = spittle.getMessage();
+            dto.time = spittle.getTime();
+            dto.latitude = spittle.getLatitude();
+            dto.longitude = spittle.getLongitude();
+            return  dto;
+        }
+
     }
 }

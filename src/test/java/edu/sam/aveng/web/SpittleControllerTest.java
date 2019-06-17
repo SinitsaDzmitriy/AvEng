@@ -31,8 +31,8 @@ public class SpittleControllerTest {
 
         // when(mock.someMethod(Type arg, ...)).thenDo(): Enables stubbing methods.
         // when the x method is called then ...
-        // Make the mockRepository return a list of 20 SpittleDTO objects from its findSpittles() method.
-        Mockito.when(mockRepository.findSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
+        // Make the mockRepository return a list of 20 SpittleDTO objects from its readSpittles() method.
+        Mockito.when(mockRepository.readSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
 
         // Inject that mockRepository into a new SpittleController instance.
         SpittleController controller = new SpittleController(mockRepository);
@@ -67,7 +67,7 @@ public class SpittleControllerTest {
     public void oneSpittleShowByIdTest() throws Exception {
         SpittleDTO expectedSpittle = new SpittleDTO.Builder().build();
         SpittleRepository mockRepository = Mockito.mock(SpittleRepository.class);
-        Mockito.when(mockRepository.findById(12345)).thenReturn(expectedSpittle);
+        Mockito.when(mockRepository.readById(12345)).thenReturn(expectedSpittle);
         SpittleController controller = new SpittleController(mockRepository);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 

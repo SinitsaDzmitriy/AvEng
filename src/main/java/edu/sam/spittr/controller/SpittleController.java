@@ -33,9 +33,9 @@ public class SpittleController {
         return "createSpittleForm";
     }
 
-    @RequestMapping(value="/create", method=RequestMethod.POST)
-    public String persist(Spittle spittleToPersist) {
-        spittleRepository.save(spittleToPersist);
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String persist(SpittleDTO spittleToPersist) {
+        spittleRepository.create(spittleToPersist);
         return "redirect:/spittles";
     }
 
