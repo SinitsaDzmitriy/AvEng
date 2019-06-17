@@ -1,4 +1,4 @@
-package edu.sam.spittr.web;
+package edu.sam.spittr.controller;
 
 import edu.sam.spittr.dto.SpittleDTO;
 import edu.sam.spittr.repository.SpittleRepository;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/spittles")
-public class SpittleController {
+public class SpittleController{
     private SpittleRepository spittleRepository;
 
     @Autowired
@@ -19,17 +19,17 @@ public class SpittleController {
         this.spittleRepository = spittleRepository;
     }
 
-    @RequestMapping(method=RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String spittles(Model model) {
-        model.addAttribute(spittleRepository.findSpittles(Long.MAX_VALUE, 20));
+        model.addAttribute(Constants.Model.SPITTLE_LIST_KEY, spittleRepository.readSpittles(Long.MAX_VALUE, 20));
         return "allSpittles";
     }
 
-    @RequestMapping(value="/create", method=RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
         // Add a SpittleDTO object with "spittle" key in the model
         // It's referenced at createSpittleForm JSP
-        model.addAttribute(new Spittle());
+        model.addAttribute(Constants.Model.SPITTLE_ENTITY_KEY, new SpittleDTO.Builder().build());
         return "createSpittleForm";
     }
 
@@ -39,23 +39,23 @@ public class SpittleController {
         return "redirect:/spittles";
     }
 
-    @RequestMapping(value="/edit/{spittleId}", method=RequestMethod.GET)
+    @RequestMapping(value = "/edit/{spittleId}", method = RequestMethod.GET)
     public String edit(@PathVariable long spittleId, Model model) {
         // Add a SpittleDTO object with specific ID and "spittle" key in the model
         // It's referenced in the editSpittleForm JSP view
-        model.addAttribute(spittleRepository.findById(spittleId));
+        model.addAttribute(Constants.Model.SPITTLE_ENTITY_KEY, spittleRepository.readById(spittleId));
         return "editSpittleForm";
     }
 
-    @RequestMapping(value="/edit/{spittleId}", method=RequestMethod.POST)
-    public String update(@PathVariable long spittleId, Spittle editSpittle) {
-        spittleRepository.update(spittleId, editSpittle);
+    @RequestMapping(value = "/edit/{spittleId}", method = RequestMethod.POST)
+    public String update(@PathVariable long spittleId, SpittleDTO editSpittle) {
+        spittleRepository.update(editSpittle);
         return "redirect:/spittles";
     }
 
-    @RequestMapping(value="/remove/{spittleId}", method=RequestMethod.GET)
+    @RequestMapping(value = "/remove/{spittleId}", method = RequestMethod.GET)
     public String edit(@PathVariable long spittleId) {
-       spittleRepository.remove(spittleId);
+        spittleRepository.delete(spittleId);
         return "redirect:/spittles";
     }
 
@@ -69,11 +69,11 @@ public class SpittleController {
     // Since the method parameter name happens to be the same as the placeholder
     // name, value parameter on @PathVariable can optionally be omitted
 
-    @RequestMapping(value="/{spittleId}", method=RequestMethod.GET)
+    @RequestMapping(value = "/{spittleId}", method = RequestMethod.GET)
     public String spittle(Model model, @PathVariable long spittleId) {
         // The model key will be spittle, inferred by the type passed in to addAttribute()
-        model.addAttribute(spittleRepository.findById(spittleId));
-        return "spittle";
+        model.addAttribute(spittleRepository.readById(spittleId));
+        return Constants.Model.SPITTLE_ENTITY_KEY;
     }
 
 }

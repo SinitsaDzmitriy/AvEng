@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; UTF-8" session="false" pageEncoding="UTF-8" %>
 
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.sam.spittr.Spittle" %>
-
 <!-- JSTL tag lib connection -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 

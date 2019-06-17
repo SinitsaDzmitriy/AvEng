@@ -1,6 +1,6 @@
 package edu.sam.aveng.web;
 
-import edu.sam.spittr.web.HomeController;
+import edu.sam.spittr.controller.HomeController;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
