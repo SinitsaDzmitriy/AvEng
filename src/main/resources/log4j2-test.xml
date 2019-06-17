@@ -14,12 +14,12 @@
     <Appenders>
 
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%date thread=&quot;%thread&quot; level=&quot;%level&quot; class=&quot;%class&quot; method=&quot;%method&quot; %msg%n"/>
+            <PatternLayout pattern="%date [%level] %class %method %msg%n"/>
         </Console>
 
         <File name="Logbook" fileName="logs/logbook.log">
             <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="%date thread=&quot;%thread&quot; level=&quot;%level&quot; class=&quot;%class&quot; method=&quot;%method&quot; %msg%n"/>
+            <PatternLayout pattern="%date [%level] %class %method %msg%n%"/>
         </File>
 
     </Appenders>
