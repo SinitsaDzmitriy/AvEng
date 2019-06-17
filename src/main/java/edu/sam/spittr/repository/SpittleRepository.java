@@ -10,15 +10,15 @@ public interface SpittleRepository {
      * @param count - indicates how many SpittleDTO objects to return.
      * @return
      */
-    List<SpittleDTO> findSpittles(long max, int count);
+    List<SpittleDTO> readSpittles(long max, int count);
 
-    long save(SpittleDTO newSpittle);
+    long create(SpittleDTO newSpittle);
 
     // Finds a SpittleDTO by ID
-    SpittleDTO findById(long id);
+    SpittleDTO readById(long id);
 
     // Update a SpittleDTO
-    long update(long id, SpittleDTO spittle);
+    long update(SpittleDTO spittle);
 
-    long remove (long id);
+    long delete(long id);
 }
