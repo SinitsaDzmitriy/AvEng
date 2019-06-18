@@ -18,7 +18,7 @@ public interface SpittleRepository {
     SpittleDTO readById(long id);
 
     // Update a SpittleDTO
-    long update(SpittleDTO spittle);
+    long update(long id, SpittleDTO spittle);
 
     long delete(long id);
 }

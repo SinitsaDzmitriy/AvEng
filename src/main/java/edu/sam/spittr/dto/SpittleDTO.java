@@ -3,12 +3,15 @@ package edu.sam.spittr.dto;
 import edu.sam.spittr.domain.Spittle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalTime;
 
 public class SpittleDTO {
     private long id;
     private String message;
+    // ToDo: read about this annotation
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime time;
     private Double latitude;
     private Double longitude;
@@ -75,6 +78,23 @@ public class SpittleDTO {
         return HashCodeBuilder.reflectionHashCode(this, "id", "time");
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("{id=")
+                .append(id)
+                .append(" message=\"")
+                .append(message)
+                .append("\" time=\"")
+                .append(time)
+                .append("\" latitude=")
+                .append(latitude)
+                .append(" longitude=")
+                .append(longitude)
+                .append("}")
+                .toString();
+    }
+
     public static class Builder {
         // default value
         private long id = 0;
@@ -130,6 +150,5 @@ public class SpittleDTO {
             dto.longitude = spittle.getLongitude();
             return  dto;
         }
-
     }
 }

@@ -38,7 +38,7 @@
             <td>${spittle.time}</td>
             <td>${spittle.longitude}</td>
             <td>${spittle.latitude}</td>
-            <td><button type="button" onclick="location.href='spittles/edit/${spittle.id}'">edit</button></td>
+            <td><button type="button" onclick="location.href='spittles/update/${spittle.id}'">edit</button></td>
             <td><button type="button" onclick="location.href='spittles/delete/${spittle.id}'">remove</button></td>
         </tr>
     </c:forEach>

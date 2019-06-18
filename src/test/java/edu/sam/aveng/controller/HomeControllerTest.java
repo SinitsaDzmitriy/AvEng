@@ -1,4 +1,4 @@
-package edu.sam.aveng.web;
+package edu.sam.aveng.controller;
 
 import edu.sam.spittr.controller.HomeController;
 import org.springframework.test.web.servlet.MockMvc;

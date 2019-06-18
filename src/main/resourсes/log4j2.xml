@@ -14,12 +14,12 @@
     <Appenders>
 
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%date [%level] %class %method %msg%n"/>
+            <PatternLayout pattern="%date %-5level [%class{-3}, %method] %msg%n"/>
         </Console>
 
         <File name="Logbook" fileName="logs/logbook.log">
-            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="%date [%level] %class %method %msg%n%"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%date %-5level [%class{-3}, %method] %msg%n"/>
         </File>
 
     </Appenders>
@@ -30,8 +30,8 @@
             <AppenderRef ref="Console"/>
         </Root>
 
-        <Logger name="edu.sam.spittr.web" level="DEBUG" additivity="false">
-            <AppenderRef ref="Console"/>
+        <!-- default attribute: additivity="true" -->
+        <Logger name="edu.sam.spittr.controller" level="DEBUG">
             <AppenderRef ref="Logbook"/>
         </Logger>
 

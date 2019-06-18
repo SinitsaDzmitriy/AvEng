@@ -89,9 +89,9 @@ public class HardcodedSpittleRepository implements SpittleRepository {
 
 
     @Override
-    public long update(SpittleDTO editSpittle) {
+    public long update(long idOfSpittleToUpdate, SpittleDTO editSpittle) {
         if(editSpittle.getId() != 0){
-            Spittle spittle = readOriginalById(editSpittle.getId());
+            Spittle spittle = readOriginalById(idOfSpittleToUpdate);
             if (spittle != null) {
                 spittle.setMessage(editSpittle.getMessage());
                 spittle.setTime(editSpittle.getTime());
