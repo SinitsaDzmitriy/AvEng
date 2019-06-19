@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!--
     Directives contain instructions to a container
@@ -9,20 +10,23 @@
     2. [?] session: Defines whether create a session (boolean).
     3. pageEncoding: Defines the character encoding for JSP page.
 -->
-<%@ page contentType="text/html; UTF-8" session="false" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+
 
 <html>
 <head>
-    <title>Spittr</title>
+    <title><spring:message code="app.name" /></title>
     <link rel="stylesheet"
           type="text/css"
           href="<c:url value="resources/style.css" />">
 </head>
 <body>
-<h1>Welcome to Spittr</h1>
+<!-- spring:message -->
+<!-- Renders text with the specific key from a message source. -->
+<h1><spring:message code="home.welcome" /></h1>
 
-<a href="<c:url value="/spittles" />">Spittles</a> |
-<a href="<c:url value="/spitter/register" />">Register</a>
+<a href="<c:url value="/spittles" />"><spring:message code="home.recent_spittles" /></a> |
+<a href="<c:url value="/spitter/register" />"><spring:message code="home.registration" /></a>
 
 </body>
 </html>

@@ -88,7 +88,7 @@ public class SpittleControllerTest {
         // the view name coming from the controller on its own.
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller)
-            .setSingleView(new InternalResourceView("/WEB-INF/views/allSpittles.jsp"))
+            .setSingleView(new InternalResourceView("/WEB-INF/views/spittleList.jsp"))
             .build();
 
         // Ask the MockMvc instance to:

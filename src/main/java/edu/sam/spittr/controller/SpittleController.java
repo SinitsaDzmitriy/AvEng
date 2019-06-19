@@ -29,15 +29,15 @@ public class SpittleController{
         model.addAttribute(Constants.Model.SPITTLE_LIST_KEY, spittleRepository.readSpittles(Long.MAX_VALUE, 20));
         LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", "allSpittles");
-        return "allSpittles";
+        return "spittleList";
     }
 
     @RequestMapping(value = "/{spittleId}", method = RequestMethod.GET)
     public String spittle(Model model, @PathVariable long spittleId) {
         LOGGER.info("Displaying spittle with id={}.", spittleId);
         // The model key will be spittle, inferred by the type passed in to addAttribute()
-        model.addAttribute(spittleRepository.readById(spittleId));
-        return Constants.Model.SPITTLE_ENTITY_KEY;
+        model.addAttribute(Constants.Model.SPITTLE_ENTITY_KEY, spittleRepository.readById(spittleId));
+        return "spittle";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
