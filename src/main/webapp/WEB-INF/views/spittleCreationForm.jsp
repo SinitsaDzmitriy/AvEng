@@ -19,6 +19,17 @@ Designed to:
     input {
         margin-bottom: 2px;
     }
+    div.error {
+        color: red;
+        border: 2px solid red;
+        background-color: #ffcccc;
+    }
+    label.error {
+        color: red;
+    }
+    input.error {
+        background-color: #ffcccc;
+    }
 </style>
 
 <head>
@@ -28,15 +39,20 @@ Designed to:
 <body>
 <h1>Create Spittle Form</h1>
 
-<sf:form method="POST" commandName="spittle">
-    Message:<br>
-    <sf:input path="message"/><br>
-    Time:<br>
-    <sf:input path="time"/><br>
-    Longitude:<br>
-    <sf:input path="longitude"/><br>
-    Latitude:<br>
-    <sf:input path="latitude"/><br>
+
+<sf:input path="firstName" cssErrorClass="error" /><br/>
+
+<sf:form method="POST" commandName="spittleDTO">
+    <!-- element attribute: Defines a HTML tag in which errors are rendered -->
+    <sf:errors path="*" element="div" cssClass="errors" />
+    <sf:label path="message" cssErrorClass="error">Message</sf:label>:<br>
+    <sf:input path="message" cssErrorClass="error" /><br>
+    <sf:label path="time" cssErrorClass="error">Time</sf:label>:<br>
+    <sf:input path="time" cssErrorClass="error" /><br>
+    <sf:label path="longitude" cssErrorClass="error">Longitude</sf:label>:<br>
+    <sf:input path="longitude" cssErrorClass="error" /><br>
+    <sf:label path="latitude" cssErrorClass="error">Latitude</sf:label>:<br>
+    <sf:input path="latitude" cssErrorClass="error"/><br>
     <input type="submit" value="Create" />
 </sf:form>
 
