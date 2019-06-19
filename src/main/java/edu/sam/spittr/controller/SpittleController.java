@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,7 +61,7 @@ public class SpittleController{
     // that should immediately follow the @Valid-annotated parameter
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid SpittleDTO spittleToPersist, Errors errors) {
+    public String create(@Valid @ModelAttribute("spittleDTO") SpittleDTO spittleToPersist, Errors errors) {
         if (errors.hasErrors()) {
             return "spittleCreationForm";
         }
