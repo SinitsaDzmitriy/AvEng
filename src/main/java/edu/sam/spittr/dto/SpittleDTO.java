@@ -12,22 +12,22 @@ public class SpittleDTO {
     // ToDo: discuss if this field id needed
     private long id;
 
-    @NotBlank
-    @Size(max = 280)
+    @NotBlank(message="{validation.message.not_blank}")
+    @Size(min=10, max=280, message="{validation.message.size}")
     private String message;
 
     // ToDo: read about this annotation
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 
-    @PastOrPresent
+    @PastOrPresent(message="{validation.time.past_or_present}")
     private LocalTime time;
 
-    @Max(value = 180)
-    @Min(value = -180)
+    @Max(value = 180, message="{validation.latitude.max}")
+    @Min(value = -180, message="{validation.latitude.min}")
     private double latitude;
 
-    @Max(value = 90)
-    @Min(value = -90)
+    @Max(value = 90, message="{validation.longitude.max}")
+    @Min(value = -90, message="{validation.longitude.min}")
     private double longitude;
 
     private SpittleDTO() { }

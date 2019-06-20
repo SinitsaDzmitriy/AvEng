@@ -1,10 +1,12 @@
 package edu.sam.spittr.config;
 
+import org.apache.commons.lang3.CharSetUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -15,12 +17,15 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan("edu.sam.spittr.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    private static final String LOCALE_PARAM = "lang";
 
     @Bean
     public ViewResolver viewResolver() {
@@ -39,8 +44,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         // derive - происходить, bundle - пачка
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
         return messageSource;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean getValidator(){
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        return validator;
     }
 
     // LocalResolver object resolves messages using a specific local.
@@ -59,7 +71,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor(){
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-        interceptor.setParamName("lang");
+        interceptor.setParamName(LOCALE_PARAM);
         return interceptor;
     }
 

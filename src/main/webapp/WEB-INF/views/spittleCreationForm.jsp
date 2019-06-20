@@ -20,7 +20,7 @@ Designed to:
     input {
         margin-bottom: 2px;
     }
-    div.error {
+    div.errors {
         color: red;
         border: 2px solid red;
         background-color: #ffcccc;
@@ -40,30 +40,16 @@ Designed to:
 <body>
 <h1><spring:message code="headline.form.create" /></h1>
 
-<sf:form method="POST" commandName="spittleDTO">
+<spring_form:form method="POST" commandName="spittleDTO">
     <!-- element attribute: Defines a HTML tag in which errors are rendered -->
-    <sf:errors path="*" element="div" cssClass="errors" />
-    <sf:label path="message" cssErrorClass="error">Message</sf:label>:<br>
-    <sf:input path="message" cssErrorClass="error" /><br>
-    <sf:label path="time" cssErrorClass="error">Time</sf:label>:<br>
-    <sf:input path="time" cssErrorClass="error" /><br>
-    <sf:label path="longitude" cssErrorClass="error">Longitude</sf:label>:<br>
-    <sf:input path="longitude" cssErrorClass="error" /><br>
-    <sf:label path="latitude" cssErrorClass="error">Latitude</sf:label>:<br>
-    <sf:input path="latitude" cssErrorClass="error"/><br>
-    <input type="submit" value="Create" />
-</sf:form>
-
-<spring_form:form method="POST" commandName="spittle">
-    <!-- element attribute: Defines a HTML tag in which errors are rendered -->
-    <sf:errors path="*" element="div" cssClass="errors" />
-    <spring:message path="message" cssErrorClass="error" code="spittle.message" />:<br>
+    <spring_form:errors path="*" element="div" cssClass="errors" />
+    <spring_form:label path="message" cssErrorClass="error"><spring:message code="spittle.message" /></spring_form:label>:<br>
     <spring_form:input path="message" cssErrorClass="error"/><br>
-    <spring:message path="time" cssErrorClass="error" code="spittle.time" />:<br>
+    <spring_form:label path="time" cssErrorClass="error"><spring:message code="spittle.time" /></spring_form:label>:<br>
     <spring_form:input path="time" cssErrorClass="error"/><br>
-    <spring:message path="longitude" cssErrorClass="error" code="spittle.longitude" />:<br>
+    <spring_form:label path="longitude" cssErrorClass="error"><spring:message code="spittle.longitude" /></spring_form:label>:<br>
     <spring_form:input path="longitude" cssErrorClass="error"/><br>
-    <spring:message path="latitude" cssErrorClass="error" code="spittle.latitude" />:<br>
+    <spring_form:label path="latitude" cssErrorClass="error"><spring:message code="spittle.latitude" /></spring_form:label>:<br>
     <spring_form:input path="latitude" cssErrorClass="error"/><br>
     <input type="submit" value=<spring:message code="button.create" /> />
 </spring_form:form>
