@@ -2,12 +2,14 @@ package edu.sam.spittr.controller;
 
 import edu.sam.spittr.dto.SpittleDTO;
 import edu.sam.spittr.repository.SpittleRepository;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/spittles")
-public class SpittleController{
+public class SpittleController {
     private SpittleRepository spittleRepository;
     private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
 
@@ -62,7 +64,31 @@ public class SpittleController{
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("spittleDTO") SpittleDTO spittleToPersist, Errors errors) {
+        Class reflectionClass = SpittleDTO.class;
+
         if (errors.hasErrors()) {
+            String rejectedValue;
+            for (FieldError fieldError : errors.getFieldErrors()) {
+
+                // Add quotes to rejected value if it is an object of the String class.
+                try {
+                    if (reflectionClass.getDeclaredField(fieldError.getField()).getType() == String.class) {
+                        rejectedValue = new StringBuilder()
+                                .append('\"')
+                                .append(fieldError.getRejectedValue())
+                                .append('\"')
+                                .toString();
+                    } else {
+                        rejectedValue = fieldError.getRejectedValue().toString();
+                    }
+
+                    LOGGER.warn("Field {} with value {} was rejected in {} object.",
+                            fieldError.getField(), rejectedValue, fieldError.getObjectName());
+                } catch (NoSuchFieldException e) {
+                    LOGGER.error("Attempt to obtain a non-existent \"{}\" field from {}.\n{}",
+                            e.getMessage(), reflectionClass, ExceptionUtils.getStackTrace(e));
+                }
+            }
             return "spittleCreationForm";
         }
 

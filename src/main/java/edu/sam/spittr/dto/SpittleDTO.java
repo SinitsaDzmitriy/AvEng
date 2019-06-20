@@ -13,7 +13,7 @@ public class SpittleDTO {
     private long id;
 
     @NotBlank(message="{validation.message.not_blank}")
-    @Size(min=10, max=280, message="{validation.message.size}")
+    @Size(max=280, message="{validation.message.size}")
     private String message;
 
     // ToDo: read about this annotation
