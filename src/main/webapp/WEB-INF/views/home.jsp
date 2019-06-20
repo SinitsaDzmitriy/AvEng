@@ -25,6 +25,10 @@
 <!-- Renders text with the specific key from a message source. -->
 <h1><spring:message code="home.welcome" /></h1>
 
+<button type="button" onclick="location.href='homepage?lang=ru'">рус</button>
+<button type="button" onclick="location.href='homepage?lang=en'">eng</button>
+<br>
+
 <a href="<c:url value="/spittles" />"><spring:message code="home.recent_spittles" /></a> |
 <a href="<c:url value="/spitter/register" />"><spring:message code="home.registration" /></a>
 
