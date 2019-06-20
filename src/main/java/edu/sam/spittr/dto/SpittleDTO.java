@@ -5,16 +5,30 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.*;
 import java.time.LocalTime;
 
 public class SpittleDTO {
+    // ToDo: discuss if this field id needed
     private long id;
+
+    @NotBlank
+    @Size(max = 280)
     private String message;
+
     // ToDo: read about this annotation
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+
+    @PastOrPresent
     private LocalTime time;
-    private Double latitude;
-    private Double longitude;
+
+    @Max(value = 180)
+    @Min(value = -180)
+    private double latitude;
+
+    @Max(value = 90)
+    @Min(value = -90)
+    private double longitude;
 
     private SpittleDTO() { }
 
@@ -42,7 +56,7 @@ public class SpittleDTO {
         this.time = time;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -50,7 +64,7 @@ public class SpittleDTO {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -100,8 +114,8 @@ public class SpittleDTO {
         private long id = 0;
         private String message;
         private LocalTime time;
-        private Double latitude;
-        private Double longitude;
+        private double latitude;
+        private double longitude;
 
         public Builder() {
         }

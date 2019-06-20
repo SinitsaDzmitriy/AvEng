@@ -7,9 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/spittles")
@@ -46,14 +50,22 @@ public class SpittleController{
         LOGGER.debug("Initial state of params: model={}", model);
         // Add a SpittleDTO object with "spittle" key in the model
         // It's referenced at createSpittleForm JSP
-        model.addAttribute(Constants.Model.SPITTLE_ENTITY_KEY, new SpittleDTO.Builder().build());
+        model.addAttribute(Constants.Model.SPITTLE_DTO_KEY, new SpittleDTO.Builder().build());
         LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", "spittleCreationForm");
         return "spittleCreationForm";
     }
 
+    // @Valid: Spring will check if annotated object satisfies validation constraints.
+    // Validation errors available in Errors parameter
+    // that should immediately follow the @Valid-annotated parameter
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(SpittleDTO spittleToPersist) {
+    public String create(@Valid @ModelAttribute("spittleDTO") SpittleDTO spittleToPersist, Errors errors) {
+        if (errors.hasErrors()) {
+            return "spittleCreationForm";
+        }
+
         LOGGER.info("New spittle creation.");
         LOGGER.debug("Spittle to persist: spittleToPersist={}", spittleToPersist);
         spittleRepository.create(spittleToPersist);
