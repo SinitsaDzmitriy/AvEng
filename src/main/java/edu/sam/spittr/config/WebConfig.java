@@ -1,11 +1,15 @@
 package edu.sam.spittr.config;
 
 import org.apache.commons.lang3.CharSetUtils;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -17,8 +21,10 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
@@ -73,6 +79,49 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName(LOCALE_PARAM);
         return interceptor;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("org.h2.Driver");
+        ds.setUrl("jdbc:h2:mem:aveng");
+        ds.setUsername("sa");
+        ds.setPassword("");
+        return ds;
+    }
+
+    /*
+            SessionFactory is Hibernate’s SessionFactory interface that
+        responsible for opening, closing, and managing Hibernate Sessions.
+        In Spring, a Hibernate SessionFactory could be got through one
+        of Spring’s Hibernate session-factory beans.
+            AnnotationSessionFactoryBean can be configured for either
+        XML-based mapping or annotation-based mapping. In this case,
+        preference given to annotations
+    */
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
+        LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
+        sfb.setDataSource(dataSource);
+        sfb.setPackagesToScan("edu.sam.spittr.domain");
+        Properties props = new Properties();
+        props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
+        sfb.setHibernateProperties(props);
+        return sfb;
+    }
+
+    /*
+            Adding exception translation:
+            PersistenceExceptionTranslationPostProcessor is a bean
+        post-processor that catches platform specific exceptions and
+        rethrow them as one of Spring’s unified unchecked exceptions.
+     */
+
+    @Bean
+    public BeanPostProcessor persistenceTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 
     @Override
