@@ -1,0 +1,170 @@
+    The request resulting from a typical form submission is simple and takes the
+form of multiple name-value pairs separated by ampersands:
+    firstVar=firstVal&secondVar=secondVal
+
+    to result from - происходить в результате чего-либо
+
+    Although this encoding scheme is simple and sufficient for typical text-based
+form submissions, it isn’t robust enough to carry binary data such as an uploaded
+image.
+
+    sufficient - достаточный
+    robust - надежный, прочный
+
+    Multipart data breaks a form into individual parts, with one part per field.
+Each part can have its own type (typical textual data). But when sth is being
+uploaded, the part can be binary, as shown in the following multipart request
+body:
+    ------WebKitFormBoundaryqgkaBn8IHJCuNmiW
+    Content-Disposition: form-data; name="textualData"
+    Text
+    ------WebKitFormBoundaryqgkaBn8IHJCuNmiW
+    Content-Disposition: form-data; name="numericData"
+    0
+    ------WebKitFormBoundaryqgkaBn8IHJCuNmiW
+    Content-Disposition: form-data; name="picture"; filename="picture.jpg"
+    Content-Type: image/jpeg
+    [[ Binary image data goes here ]]
+    ------WebKitFormBoundaryqgkaBn8IHJCuNmiW--
+
+    multipart - составной, состоящий из нескольких частей
+    with ... per ... - по ... на каждый ... (по одной части на каждое поле)
+
+    In this multipart request, the picture part is noticeably different from the
+other parts. Among other things, it has its own Content-Type header indicating
+that it’s a JPEG image. And although it may not be obvious, the body of the
+picture part is binary data instead of simple text.
+
+    noticeably - заметно, значительно
+
+    It's easy to handle multipart requests in a Spring MVC controller. But before
+writing controller methods to handle file uploads, a multipart resolver has to be
+configured to tell DispatcherServlet how to read multipart requests.
+
+    -- Configuring a Multipart Resolver
+
+    DispatcherServlet doesn’t implement any logic for parsing the data in a
+multipart request. Instead, it delegates to an implementation of Spring’s
+MultipartResolver strategy interface to resolve the content in a multipart
+request. Since Spring 3.1, Spring comes with two out-of-the-box implementations
+of MultipartResolver to choose from:
+    -   CommonsMultipartResolver — Resolves multipart requests using Jakarta
+        Commons FileUpload
+    -   StandardServletMultipartResolver — Relies on Servlet 3.0 support for
+        multipart requests (since Spring 3.1)
+
+    Generally speaking, StandardServletMultipartResolver should probably be your
+first choice of these two. It uses existing support in your servlet container and
+doesn’t require any additional project dependencies.
+
+    generally speaking - вообще говоря
+    firs choice - оптимальный, наилучший, главный
+
+    Commons MultipartResolver might be used if app is deployed to a pre-Servlet
+3.0 container or Spring 3.1 or higher hasn't been used yet.
+
+    -- Resolving Multipart Requests With Servlet 3.0
+
+    The Servlet 3.0-compatible StandardServletMultipartResolver has no
+constructor arguments or properties to be set. This makes it extremely simple to
+declare as a bean Spring configuration:
+
+    @Bean
+    public MultipartResolver multipartResolver() throws IOException {
+        return new StandardServletMultipartResolver();
+    }
+
+    How can constraints be placed on the way StandardServletMultipartResolver
+works?
+    How to limit the max size of file that user can upload?
+    How to specify the location where the uploaded files are temporarily written
+while they’re being uploaded?
+
+    temporarily - временно
+
+    It has no properties and no constructor arguments
+
+    Despite of the fact that it has no properties and no constructor arguments,
+it’s possible to configure constraints on StandardServletMultipartResolver.
+Instead of configuring StandardServletMultipartResolver in Spring configuration,
+multipart configuration must be specified in the servlet configuration. At the
+very leas, file path where the file will be written during the upload must be
+specified. StandardServletMultipartResolver won’t work unless this minimum detail
+will be configure. More specifically, you must configure multipart details as
+part of DispatcherServlet’s configuration in web.xml or in the servlet
+initializer class.
+
+    At the very least, ... - Самое меньшее, ... По крайней мере, ...
+    More specifically, ... - Говоря конкретнее, ...
+    a dispatcher - дисетчер
+
+    If DispatcherServlet is being configured in a servlet initializer class that
+implements AbstractAnnotationConfigDispatcherServletInitializer, the instance of
+DispatcherServlet doesn’t created or registered with the servlet context
+directly. Consequently, there’s no handy reference to the Dynamic servlet
+registration to work with. But the customizeRegistration() method which is given
+a Dynamic as a parameter can be overridden to configure multipart details:
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        registration
+            .setMultipartConfig(new MultipartConfigElement("/tmp/uploads"));
+    }
+
+    Consequently, ... - следовательно
+    handy - удобный, легко управляемый
+    to customize - настраивать
+
+===============================================================================
+
+    (1)
+    customizeRegistration(ServletRegistration.Dynamic registration)
+
+    Optionally perform further registration customization once
+registerDispatcherServlet(ServletContext) has completed.
+
+    optionally - необязательно, по желанию.
+    once - как только.
+
+    (2)
+    registerDispatcherServlet(ServletContext)
+
+    Register (create and initialize) a DispatcherServlet against the given
+servlet context.
+
+    against - на, согласно
+
+    (3)
+    ServletRegistration.Dynamic
+    Interface through which a Servlet registered via one of the addServlet
+methods on ServletContext may be further configured.
+
+===============================================================================
+
+    The single-argument constructor for MultipartConfigElement takes the absolute
+path to a directory in the filesystem where the uploaded file will be written
+temporarily. But there’s another constructor that lets you set a few constraints
+on the size of the file being uploaded. In addition to the temporary location
+path, the other constructor accepts the following:
+    -   The maximum size (in bytes) of any file uploaded. By default there is no
+limit.
+    -   The maximum size (in bytes) of the entire multipart request, regardless
+of how many parts or how big any of the parts are. By default there is no limit.
+    -   The maximum size (in bytes) of a file that can be uploaded without being
+written to the temporary location. The default is 0, meaning that all uploaded
+files will be written to disk.
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        registration
+            .setMultipartConfig(new MultipartConfigElement("/tmp/uploads",
+                2097152, 4194304, 0));
+    }
+
+    thus far - до сих пор
+    regardless of - не обращая внимания на
+
+    -- Handling Multipart Requests
+
+    The most common way of writing a controller method which accepts the uploaded
+file is to annotate its parameter with @RequestPart.

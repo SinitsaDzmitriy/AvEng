@@ -11,6 +11,8 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Properties;
@@ -89,6 +92,25 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ds.setUsername("sa");
         ds.setPassword("");
         return ds;
+    }
+
+    /*
+        Uploaded (media) files are carried as a part of multipart request. This
+    part has a binary data in body. DispatcherServlet delegates to an
+    implementation of Spring’s MultipartResolver strategy interface to resolve
+    the content in a multipart request. Spring comes with
+    StandardServletMultipartResolver - the out-of-the-box implementation of
+    MultipartResolver. It declares as a bean in Spring configuration. It has no
+    properties and no constructor arguments. Multipart configuration must be
+    specified in the servlet configuration. The customizeRegistration() method
+    which is given a Dynamic servlet registration as a parameter can be
+    overridden to configure multipart details.
+     */
+
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
     }
 
     /*

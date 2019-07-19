@@ -1,0 +1,2 @@
+    Relationship between every 2 Cards entities has an additional attribute
+(frequency), therefore it should be represented in the object model.

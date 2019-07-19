@@ -4,6 +4,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
 import java.util.Properties;
 
 /*
@@ -50,5 +52,11 @@ public class SpittrWebAppInitializer
     @Override
     protected Filter[] getServletFilters() {
         return new Filter[]{new CharacterEncodingFilter(properties.getProperty("encoding"))};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setMultipartConfig(
+                new MultipartConfigElement("/tmp/uploads"));
     }
 }
