@@ -17,7 +17,7 @@ import java.util.List;
     it's always found.
 */
 
-@Repository
+// @Repository
 public class HibernateSpitterRepository {
 
     // Automatic injection of a SessionFactory
@@ -42,7 +42,7 @@ public class HibernateSpitterRepository {
     }
 
     public Spitter find(long id) {
-        return (Spitter) currentSession().get(Spitter.class, id);
+        return  currentSession().get(Spitter.class, id);
     }
 
     public Spitter findByUsername(String username) {

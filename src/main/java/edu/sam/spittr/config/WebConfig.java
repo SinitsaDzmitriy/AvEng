@@ -84,15 +84,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return interceptor;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.h2.Driver");
-        ds.setUrl("jdbc:h2:mem:aveng");
-        ds.setUsername("sa");
-        ds.setPassword("");
-        return ds;
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource ds = new DriverManagerDataSource();
+//        ds.setDriverClassName("org.h2.Driver");
+//        ds.setUrl("jdbc:h2:mem:aveng");
+//        ds.setUsername("sa");
+//        ds.setPassword("");
+//        return ds;
+//    }
 
     /*
         Uploaded (media) files are carried as a part of multipart request. This
@@ -123,16 +123,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         preference given to annotations
     */
 
-    @Bean
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
-        sfb.setDataSource(dataSource);
-        sfb.setPackagesToScan("edu.sam.spittr.domain");
-        Properties props = new Properties();
-        props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
-        sfb.setHibernateProperties(props);
-        return sfb;
-    }
+//    @Bean
+//    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
+//        LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
+//        sfb.setDataSource(dataSource);
+//        sfb.setPackagesToScan("edu.sam.spittr.domain");
+//        Properties props = new Properties();
+//        props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
+//        sfb.setHibernateProperties(props);
+//        return sfb;
+//    }
 
     /*
             Adding exception translation:
@@ -141,10 +141,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         rethrow them as one of Spring’s unified unchecked exceptions.
      */
 
-    @Bean
-    public BeanPostProcessor persistenceTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
+//    @Bean
+//    public BeanPostProcessor persistenceTranslation() {
+//        return new PersistenceExceptionTranslationPostProcessor();
+//    }
 
     @Override
     /*

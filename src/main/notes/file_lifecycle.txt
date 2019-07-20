@@ -188,7 +188,7 @@ necessary form parts:
 
             <form method="post" action="/form" enctype="multipart/form-data">
                 <input type="text" name="name"/>
-                <input type="file" accept=".mp3" name="file"/>
+                <input type="file" accept=".extension" name="uploadedFile"/>
                 <input type="submit"/>
             </form>
 
@@ -242,11 +242,31 @@ should be validated on the server.
     descr: the user can pick all image files
 
     value: media_type
-    descr: a valid media type, there is alist of standard media types
+    descr: a valid media type, there is a list of standard media types
 
 ===============================================================================
 
     The enctype attribute of the <form> tag setting to multipart/form-data tells
-the browser to submit the form as multipart data instead of form data. Each
-field has its own part in the multipart request.
+the browser to submit the form as multipart data instead of form data. Each field
+has its own part in the multipart request.
+    A new <input> field whose type is file has been added. This lets the user
+select a file to upload. The 'accept' attribute is set to limit file types. And
+according to its 'name' attribute, the file data will be sent in the multipart
+request in the uploadedFile part.
+    Now a method in a Controller must be created to accept the uploaded file.
+One way to do that is to add a byte array parameter that’s annotated with
+@RequestPart.
+
+    @RequestMapping(method=POST)
+    public String processRegistration(@RequestPart("file") byte[] fileInBytes) {
+        ...
+        return "redirect:/some/url";
+    }
+
+    When the registration form is submitted, the fileInBytes parameter is given
+an array of byte containing the data from the request part specified by name in
+a @RequestPart annotation. If the user submits the form without selecting a file,
+then the array will be empty (but not null). All that’s left is to save the file
+somewhere.
+
 
