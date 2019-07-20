@@ -11,7 +11,7 @@
 
 <form method="post" enctype="multipart/form-data">
     <input type="text" name="name"/>
-    <input type="file" name="file"/>
+    <input type="file" accept=".mp3" name="file"/>
     <input type="submit"/>
 </form>
 

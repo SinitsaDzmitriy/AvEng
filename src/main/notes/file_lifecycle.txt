@@ -188,7 +188,7 @@ necessary form parts:
 
             <form method="post" action="/form" enctype="multipart/form-data">
                 <input type="text" name="name"/>
-                <input type="file" name="file"/>
+                <input type="file" accept=".mp3" name="file"/>
                 <input type="submit"/>
             </form>
 
@@ -217,4 +217,36 @@ server (only for method="post").
     application/x-www-form-urlencoded
     ToDO: get more about the options
 
+    - accept
+    The accept attribute specifies a filter for what file types the user can
+pick from the file input dialog box (only for type="file").
+    The truth is that the 'accept' attribute just provides a filter in the file
+select dialog box of the OS, but doesn't prevent the user from choosing files
+of any type or extension. Therefore, it's not a validation tool. File uploads
+should be validated on the server.
+
+    to prevent from - предохранять от, препятствовать
+
+    Attribute Values
+
+    value: file_extension
+    descr: specify the file extension (.gif) the user can pick from
+
+    value: audio/*
+    descr: the user can pick all sound files
+
+    value: video/*
+    descr: the user can pick all video files
+
+    value: image/*
+    descr: the user can pick all image files
+
+    value: media_type
+    descr: a valid media type, there is alist of standard media types
+
 ===============================================================================
+
+    The enctype attribute of the <form> tag setting to multipart/form-data tells
+the browser to submit the form as multipart data instead of form data. Each
+field has its own part in the multipart request.
+
