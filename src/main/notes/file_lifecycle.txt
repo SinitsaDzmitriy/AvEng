@@ -168,3 +168,53 @@ files will be written to disk.
 
     The most common way of writing a controller method which accepts the uploaded
 file is to annotate its parameter with @RequestPart.
+    A form must be created so that the user can select a (audio) file to be
+uploaded, and the processRegistration() method must be tweaked in a controller
+to accept the uploaded file. The following snippet (plain HTML) highlights the
+necessary form parts:
+
+    so that - чтобы
+    to tweak - настроить
+    a snippet - отрывок, кусок фрагмент
+
+    <html>
+
+        <head>
+            <title>Upload a file please</title>
+        </head>
+
+        <body>
+            <h1>Please upload a file</h1>
+
+            <form method="post" action="/form" enctype="multipart/form-data">
+                <input type="text" name="name"/>
+                <input type="file" name="file"/>
+                <input type="submit"/>
+            </form>
+
+        </body>
+
+    </html>
+
+===============================================================================
+
+    The <form> tag is used to create an HTML form for user input.
+    Attributes:
+
+    - method
+    Specifies the HTTP method to use when sending form-data.
+    Values: get, post.
+
+    - action
+    Specifies (URL) where to send the form-data when a form is submitted.
+
+    - enctype
+    Specifies how the form-data should be encoded when submitting it to the
+server (only for method="post").
+    Values:
+    text/plain
+    multipart/form-data
+    application/x-www-form-urlencoded
+    ToDO: get more about the options
+
+===============================================================================
