@@ -57,6 +57,7 @@ public class SpittrWebAppInitializer
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setMultipartConfig(
-                new MultipartConfigElement("C:\\_Storage\\SinitsaDzmitry\\tmp"));
+                // ToDo: Bear this values in a property file
+                new MultipartConfigElement("C:/TestStorage/Temporary", 2097152, 4194304, 0));
     }
 }
