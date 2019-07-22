@@ -269,4 +269,44 @@ a @RequestPart annotation. If the user submits the form without selecting a file
 then the array will be empty (but not null). All that’s left is to save the file
 somewhere.
 
+    -- MultipartFile
+
+    Working with the uploaded file’s raw bytes is simple but limiting. Therefore,
+Spring also offers MultipartFile as a way to get a richer object for processing
+multipart data. The following listing shows what the MultipartFile interface
+looks like.
+
+    public interface MultipartFile {
+        String getName();
+        String getOriginalFilename();
+        String getContentType();
+        boolean isEmpty();
+        long getSize();
+        byte[] getBytes() throws IOException;
+        InputStream getInputStream() throws IOException;
+        void transferTo(File dest) throws IOException;
+    }
+
+    As you can see, MultipartFile offers a way to get at the bytes for the
+uploaded file. But it offers much more, including the original filename, size,
+and content type. It also offers an InputStream for reading the file data as
+a stream.
+    What’s more, MultipartFile offers a convenient transferTo() method to help
+you write the uploaded file to the filesystem. For example, you could add the
+following lines to write the uploaded file to the filesystem:
+
+    file.transferTo(new File("C:/tmp" + file.getOriginalFilename()));
+
+    Saving a file to the local filesystem like this is simple enough, but it
+leaves the management of the file up to developer. They’re responsible for
+ensuring that there’s plenty of space. It’s up to they to make sure the file
+is backed up in case of a hardware failure. And it’s their job to deal with
+synchronizing the files across multiple servers in a cluster.
+
+    to be up to sb - зависить от кого-либо
+    to ensure - гарнтировать
+    plenty - достаточно, довольно
+    to back up - резервно копировать
+
+
 

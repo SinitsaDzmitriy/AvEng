@@ -57,6 +57,6 @@ public class SpittrWebAppInitializer
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setMultipartConfig(
-                new MultipartConfigElement("/tmp/uploads"));
+                new MultipartConfigElement("C:\\_Storage\\SinitsaDzmitry\\tmp"));
     }
 }
