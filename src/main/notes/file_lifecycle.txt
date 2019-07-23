@@ -307,6 +307,3 @@ synchronizing the files across multiple servers in a cluster.
     to ensure - гарнтировать
     plenty - достаточно, довольно
     to back up - резервно копировать
-
-
-
