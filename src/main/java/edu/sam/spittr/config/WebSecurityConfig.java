@@ -13,22 +13,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public UserDetailsService userDetailsService() {
-        /*
-			Class InMemoryUserDetailsManager implements UserDetailsManager
-		interface that in turn extends UserDetailsService interface.
-		*/
-        InMemoryUserDetailsManager manager =
-                new InMemoryUserDetailsManager();
+//        /*
+//			Class InMemoryUserDetailsManager implements UserDetailsManager
+//		interface that in turn extends UserDetailsService interface.
+//		*/
+//        InMemoryUserDetailsManager manager =
+//                new InMemoryUserDetailsManager();
+//
+//        /*
+//			Create a new user with the supplied details.
+//		*/
+//        manager.createUser(User
+//                .withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("password")
+//                .roles("USER")
+//                .build());
 
-        /*
-			Create a new user with the supplied details.
-		*/
-        manager.createUser(User
-                .withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build());
+        User.UserBuilder users = User.withDefaultPasswordEncoder();
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(users.username("user").password("password").roles("USER").build());
+        manager.createUser(users.username("admin").password("password").roles("USER","ADMIN").build());
+
+
         return manager;
     }
 
