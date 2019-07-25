@@ -1,6 +1,6 @@
 package edu.sam.spittr.config;
 
-import org.apache.commons.lang3.CharSetUtils;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,6 +17,9 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
@@ -81,7 +84,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      servlet container’s default servlet and not to try to handle them itself
     */
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-
         configurer.enable();
     }
 
@@ -92,3 +94,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(localeChangeInterceptor());
     }
 }
+

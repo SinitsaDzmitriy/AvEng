@@ -37,7 +37,7 @@ public class SpittrWebAppInitializer
     // used to configure the application context created by ContextLoaderListener.
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class};
+        return new Class<?>[]{RootConfig.class, WebSecurityConfig.class};
     }
 
     // Defines beans represented as @Configuration annotated classes which will
