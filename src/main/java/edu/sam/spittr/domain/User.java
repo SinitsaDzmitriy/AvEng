@@ -35,7 +35,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
-    private boolean enabled;
+    private Boolean enabled;
 
     @ManyToMany (cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_authority",
