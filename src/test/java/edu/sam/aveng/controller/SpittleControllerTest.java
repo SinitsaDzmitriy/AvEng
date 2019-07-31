@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.sam.spittr.controller.SpittleController;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,8 +17,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 import edu.sam.spittr.dto.SpittleDTO;
 import edu.sam.spittr.repository.SpittleRepository;
-import edu.sam.spittr.controller.SpittleController;
-import edu.sam.spittr.controller.Constants;
+import edu.sam.spittr.util.Constants;
 
 public class SpittleControllerTest {
 

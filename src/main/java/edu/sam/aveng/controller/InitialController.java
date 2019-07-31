@@ -1,10 +1,11 @@
-package edu.sam.spittr.controller;
+package edu.sam.aveng.controller;
 
+import edu.sam.spittr.controller.SpittleController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.RequestContext;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -14,8 +15,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 // Class-level @RequestMapping.
 // Therefore it applies to all handler methods in the controller.
 // HomeController handles / and /home requests.
-@RequestMapping( {"/", "/homepage"})
-public class HomeController {
+@RequestMapping( {"/", "/initial"})
+public class InitialController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
 
@@ -24,9 +25,10 @@ public class HomeController {
     // With class-level @RequestMapping indicates that the home() method will handle GET requests for /.
     @RequestMapping(method = GET)
     public String home() {
+        boolean test = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
         LOGGER.info("Home page displaying.");
         LOGGER.debug("View name to render: viewName=\"{}\"", "home");
         // view name
-        return "home";
+        return "initial";
     }
 }

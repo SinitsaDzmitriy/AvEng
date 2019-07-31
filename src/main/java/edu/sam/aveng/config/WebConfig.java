@@ -1,16 +1,20 @@
-package edu.sam.spittr.config;
+package edu.sam.aveng.config;
 
-import org.apache.commons.lang3.CharSetUtils;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -23,12 +27,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("edu.sam.spittr.controller")
+@EnableWebSecurity
+@ComponentScan("edu.sam.aveng")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final String LOCALE_PARAM = "lang";
@@ -36,7 +40,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setPrefix("/WEB-INF/views/aveng/");
         resolver.setSuffix(".jsp");
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
@@ -85,7 +89,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.h2.Driver");
-        ds.setUrl("jdbc:h2:mem:aveng");
+        ds.setUrl("jdbc:h2:mem:aveng;DB_CLOSE_DELAY=-1");
         ds.setUsername("sa");
         ds.setPassword("");
         return ds;
@@ -102,14 +106,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     */
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
-        sfb.setDataSource(dataSource);
-        sfb.setPackagesToScan("edu.sam.spittr.domain");
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("edu.sam.aveng.domain");
         Properties props = new Properties();
         props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
-        sfb.setHibernateProperties(props);
-        return sfb;
+        props.setProperty("hibernate.hbm2ddl.auto", "create-only");
+        sessionFactory.setHibernateProperties(props);
+        return sessionFactory;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManger(LocalSessionFactoryBean sessionFactory) {
+        HibernateTransactionManager tm = new HibernateTransactionManager();
+        tm.setSessionFactory(sessionFactory.getObject());
+        return tm;
     }
 
     /*

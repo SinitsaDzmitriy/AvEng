@@ -7,7 +7,6 @@ import java.time.LocalTime;
 public class Spittle {
     private long id;
     private String message;
-    // Local DateTime
     private LocalTime time;
     private Double latitude;
     private Double longitude;

@@ -1,6 +1,5 @@
 package edu.sam.aveng.controller;
 
-import edu.sam.spittr.controller.HomeController;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -13,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
-public class HomeControllerTest {
+public class InitialControllerTest {
     @Test
     public void testHomePage() throws Exception {
         // Create an instance of HomeController
-        HomeController controller = new HomeController();
+        InitialController controller = new InitialController();
 
         // standaloneSetup(): Load the instance of HomeController to MockMvcBuilders.
         // build(): Create a MockMvc instance.

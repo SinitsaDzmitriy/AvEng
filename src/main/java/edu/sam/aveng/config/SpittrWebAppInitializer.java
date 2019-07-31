@@ -1,4 +1,4 @@
-package edu.sam.spittr.config;
+package edu.sam.aveng.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -37,7 +37,7 @@ public class SpittrWebAppInitializer
     // used to configure the application context created by ContextLoaderListener.
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class};
+        return new Class<?>[]{WebConfig.class};
     }
 
     // Defines beans represented as @Configuration annotated classes which will

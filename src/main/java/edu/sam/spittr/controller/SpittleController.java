@@ -2,6 +2,7 @@ package edu.sam.spittr.controller;
 
 import edu.sam.spittr.dto.SpittleDTO;
 import edu.sam.spittr.repository.SpittleRepository;
+import edu.sam.spittr.util.Constants;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ import javax.validation.Valid;
 public class SpittleController {
     private SpittleRepository spittleRepository;
     private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
+
+    // path parameter identifies resource
 
     @Autowired
     public SpittleController(SpittleRepository spittleRepository) {

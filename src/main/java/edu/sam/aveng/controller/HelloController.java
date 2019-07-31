@@ -1,4 +1,4 @@
-package edu.sam.spittr.controller;
+package edu.sam.aveng.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
