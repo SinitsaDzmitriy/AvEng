@@ -47,7 +47,7 @@ The marked items are fixed.
     - [ ] Add header with menu items
     - [ ] Add footer
  ___
- ### Other
+ ### Others
  ___
  - [ ] Localize enums
 
