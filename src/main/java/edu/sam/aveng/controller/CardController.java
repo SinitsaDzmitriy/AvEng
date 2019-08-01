@@ -4,7 +4,6 @@ import edu.sam.aveng.dto.CardDto;
 import edu.sam.aveng.dto.SampleDto;
 import edu.sam.aveng.service.ICardService;
 import edu.sam.aveng.util.Constants;
-import edu.sam.spittr.controller.SpittleController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class CardController {
     @Autowired
     private ICardService cardService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String displayCardCreationForm(Model model) {

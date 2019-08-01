@@ -1,6 +1,5 @@
 package edu.sam.aveng.controller;
 
-import edu.sam.spittr.controller.SpittleController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping( {"/", "/initial"})
 public class InitialController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(InitialController.class);
 
     // Method-level @RequestMapping.
     // It complements the class-level @RequestMapping.
