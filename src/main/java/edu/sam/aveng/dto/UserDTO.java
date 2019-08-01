@@ -16,7 +16,7 @@ public class UserDTO {
     private String email;
 
     @NotBlank(message = "validation.password.blank")
-    @Size(min=8, max=64, message="{validation.password.size}")
+    @Size(min = 8, max = 64, message = "{validation.password.size}")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$", message = "{validation.password.pattern}")
     private String password;
 

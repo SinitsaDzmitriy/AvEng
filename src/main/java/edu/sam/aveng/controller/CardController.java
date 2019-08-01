@@ -24,7 +24,7 @@ public class CardController {
     @Autowired
     private ICardService cardService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(CardController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String displayCardCreationForm(Model model) {

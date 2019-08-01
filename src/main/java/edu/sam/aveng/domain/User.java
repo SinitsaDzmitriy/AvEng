@@ -106,7 +106,8 @@ public class User implements UserDetails {
     }
 
     public void setLastLoggingDate(Date lastLoggingDate) {
-        this.lastLoggingDate = lastLoggingDate;
+
+        this.lastLoggingDate = new Date(lastLoggingDate.getTime());
     }
 
     public void setEnabled(Boolean enabled) {
@@ -123,7 +124,7 @@ public class User implements UserDetails {
     }
 
     public Date getLastLoggingDate() {
-        return lastLoggingDate;
+        return new Date(lastLoggingDate.getTime());
     }
 
     public Boolean getEnabled() {

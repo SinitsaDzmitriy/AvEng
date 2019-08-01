@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -33,14 +33,14 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableWebSecurity
 @ComponentScan("edu.sam.aveng")
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
 
     private static final String LOCALE_PARAM = "lang";
 
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/aveng/");
+        resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
@@ -59,7 +59,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public LocalValidatorFactoryBean getValidator(){
+    public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         return validator;
@@ -79,7 +79,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     // LocaleChangeInterceptor switches the app to a new locale
     // that is defined in a special param appended to a request.
     @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor(){
+    public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName(LOCALE_PARAM);
         return interceptor;

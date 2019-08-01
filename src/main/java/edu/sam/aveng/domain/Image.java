@@ -1,19 +1,21 @@
 package edu.sam.aveng.domain;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.engine.jdbc.BlobProxy;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Blob;
-
-// ToDo: Decide what we should do when admin deletes card.
-/*
-        Thoughts
-        One picture to many cards.
-*/
 
 @Entity
 @Table(name = "images")
-public class Image {
+public class Image implements Serializable {
     @Id
     private Long id;
 
@@ -25,6 +27,7 @@ public class Image {
     private Picture picture;
 
     public Image() {
+        content = BlobProxy.generateProxy(SerializationUtils.serialize("data"));
     }
 
     /*

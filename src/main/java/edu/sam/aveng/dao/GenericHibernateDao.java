@@ -22,6 +22,7 @@ public class GenericHibernateDao<T extends Serializable>
 
     @Autowired
     private SessionFactory sessionFactory;
+
     public void setClazz(Class<T> clazzToSet) {
         this.clazz = clazzToSet;
     }
@@ -55,14 +56,14 @@ public class GenericHibernateDao<T extends Serializable>
 
     public T findByProperty(String property, String val) {
         return (T) getCurrentSession()
-                .createQuery(String.format("from %s c join fetch c.authorities where c.%s='%s'", clazz.getName(), property, val))
+                .createQuery(String.format("from %s c "
+                                + "join fetch c.authorities "
+                                + "where c.%s='%s'",
+                        clazz.getName(), property, val))
                 .uniqueResult();
-//        return (T) getCurrentSession()
-//                .createQuery(String.format("from %s alias join fetch alias.%s where alias.%s='%s'", clazz.getName(), property, val))
-//                .uniqueResult();
     }
 
-    protected Session getCurrentSession() {
+    private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
 }

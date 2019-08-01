@@ -3,7 +3,6 @@ package edu.sam.aveng.controller;
 import edu.sam.aveng.dto.UserDTO;
 import edu.sam.aveng.service.IUserService;
 import edu.sam.aveng.util.Constants;
-import edu.sam.spittr.controller.SpittleController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(SpittleController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String displayUserRegistrationForm(Model model) {

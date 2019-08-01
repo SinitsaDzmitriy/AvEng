@@ -2,7 +2,6 @@ package edu.sam.aveng.domain;
 
 import edu.sam.aveng.domain.enumeration.StatementType;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,9 +36,10 @@ public class Card implements Serializable {
 
     private StatementType type;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "pronunciation_id",
-            foreignKey = @ForeignKey(name = "PRON_ID_FK"))
+                    foreignKey = @ForeignKey(name = "PRON_ID_FK"))
     private Pronunciation pron;
 
     private String definition;

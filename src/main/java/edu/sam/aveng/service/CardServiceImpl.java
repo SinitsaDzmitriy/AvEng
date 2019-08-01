@@ -52,11 +52,6 @@ public class CardServiceImpl implements ICardService {
     }
 
     @Override
-    public ShortCardDto findShortOne(long id) {
-        return Converter.convertToShortDto(cardDao.findOne(id));
-    }
-
-    @Override
     public CardDto findOne(long id) {
         return Converter.convertToDto(cardDao.findOne(id));
     }

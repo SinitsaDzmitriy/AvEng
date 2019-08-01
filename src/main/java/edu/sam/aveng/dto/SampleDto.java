@@ -3,7 +3,8 @@ package edu.sam.aveng.dto;
 public class SampleDto {
     private String content;
 
-    public SampleDto() {}
+    public SampleDto() {
+    }
 
     public SampleDto(String content) {
         this.content = content;

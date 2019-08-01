@@ -59,7 +59,7 @@ public class CardDto {
     }
 
     public void setSamples(Collection<SampleDto> samples) {
-        if (!this.samples.isEmpty()){
+        if (!this.samples.isEmpty()) {
             this.samples.clear();
         }
         this.samples.addAll(samples);
