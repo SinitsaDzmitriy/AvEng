@@ -3,7 +3,7 @@
 The marked items are fixed.
  ### Non-code
  ____
- - [ ] Create README file according Oleg's recommendations (e-mail)
+ - [X] Create README file according Oleg's recommendations (e-mail)
  - [ ] Set up .gitignore (The .idea folder mustn't reside in the repository)
  - [ ] Separate the main Aveng project and the Spittr educational projects
  - [ ] Fix IDE (Integrated development environment) warnings
