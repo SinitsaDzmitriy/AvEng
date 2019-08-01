@@ -5,7 +5,7 @@ The marked items are fixed.
  ____
  - [X] Create README file according Oleg's recommendations (e-mail)
  - [X] Set up .gitignore (The .idea folder mustn't reside in the repository)
- - [ ] Separate the main Aveng project and the Spittr educational projects
+ - [X] Separate the main Aveng project and the Spittr educational projects
  - [ ] Fix IDE (Integrated development environment) warnings
  List:
  - Class is a raw type. References to generic type Class<T> should be parameterized              SpittleController.java                /spittr/src/main/java/edu/sam/spittr/controller line 70   Java Problem
