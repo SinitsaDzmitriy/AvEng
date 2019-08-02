@@ -15,9 +15,9 @@ The marked items are fixed.
  - {will be used in future} The value of the field CardMapping.frequency is not used             CardMapping.java                /spittr/src/main/java/edu/sam/aveng/domain   line 11   Java Problem
  - {fixed} The value of the local variable test is not used     InitialController.java                /spittr/src/main/java/edu/sam/aveng/controller              line 28   Java Problem
  - [X] Apply check-style for the main project
- - [ ] Sort out comments
-    - [ ] Delete those that are non-required
-    - [ ] Reform the rest in javadoc
+ - [X] Sort out comments
+    - [X] Delete those that are non-required
+    - [X] Reform the rest in javadoc
  ____
  ### Configuration
  ___
