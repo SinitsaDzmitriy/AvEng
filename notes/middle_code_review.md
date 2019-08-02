@@ -22,7 +22,7 @@ The marked items are fixed.
  ### Configuration
  ___
  - [X] Use the common version for all Spring components
- - [ ] Leave a single database connection configuration (WebConfig + properties file)
+ - [X] Leave a single database connection configuration (WebConfig + properties file)
  - [ ] Move configuration values in properties file
     - [ ] db connection configuration
  ```java
