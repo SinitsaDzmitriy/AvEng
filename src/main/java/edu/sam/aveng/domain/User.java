@@ -51,11 +51,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    /*
-        Methods required by UserDetails interface.
-        start point
-    */
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -67,6 +62,7 @@ public class User implements UserDetails {
     }
 
     // ToDo: Implement the methods below
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -86,8 +82,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
-    // end point
 
     public void addAuthority(SimpleGrantedAuthority authority) {
         authorities.add(authority);

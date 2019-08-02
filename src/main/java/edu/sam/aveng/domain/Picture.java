@@ -14,17 +14,26 @@ public class Picture implements Serializable {
     @GeneratedValue
     private Long id;
 
-    /*
-    Temporary field, it will be replaced with
-
-    private List<String> associations;
-
-    Contain list of associations (words and phrases related to the bound
-image). It will help user to find image for a new card among already available.
-The card-side void addPicture(Image picture) method should also update
-association list, add a new one.
-    */
-
+    /**
+     * The value is used for the image description storage. It could be used to
+     * search pictures by associations. This temporary attribute will be replaced
+     * soon.
+     * <p>
+     * {@code private List<String> associations}
+     * <p>
+     * Contains list of  related words and phrases. That will help users to find
+     * {@code Image} among already available. The owner-side should implements
+     * {@code void addPicture(Image image)} to update list of association on the
+     * creation of relation between objects of {@link edu.sam.aveng.domain.Picture
+     * Picture} and another (owner) classes.
+     * <p>
+     * Known owners:
+     * <ul>
+     *     <li>{@link edu.sam.aveng.domain.Card Card}</li>
+     * </ul>
+     *
+     * @see edu.sam.aveng.domain.Image
+     */
     private String description;
 
     public Picture() {

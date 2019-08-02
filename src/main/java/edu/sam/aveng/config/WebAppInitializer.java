@@ -6,18 +6,21 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.Filter;
 import java.util.Properties;
 
-/*
- *  Any class that extends AbstractAnnotationConfigDispatcherServletInitializer
- *  will automatically be used to configure DispatcherServlet and the Spring
- *  application context in the application’s servlet context.
+/**
+ * Instance of that class is automatically used to configure {@code DispatcherServlet}
+ * and Spring context in the app {@code Servlet} context since it extends
+ * {@link org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer
+ * AbstractAnnotationConfigDispatcherServletInitializer}.
+ *
+ * @author Dzmitry Sinitsa
+ * @since AvEng 1.0
  */
-
-public class SpittrWebAppInitializer
+public class WebAppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     private Properties properties;
 
-    public SpittrWebAppInitializer() {
+    public WebAppInitializer() {
         super();
         try {
             properties = new Properties();
@@ -27,21 +30,16 @@ public class SpittrWebAppInitializer
         }
     }
 
-    // Identifies one or more paths that DispatcherServlet will be mapped to.
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
 
-    // Defines beans represented as @Configuration annotated classes which will be
-    // used to configure the application context created by ContextLoaderListener.
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{WebConfig.class};
     }
 
-    // Defines beans represented as @Configuration annotated classes which will
-    // be load to Dispatcher-Servlet’s application context
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{WebConfig.class};

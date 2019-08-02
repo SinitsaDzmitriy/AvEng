@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 
 public class UserDTO {
 
-    // @Size(max=254, message="{validation.message.size}")
     @NotBlank(message = "{validation.email.blank}")
     @Email(message = "{validation.email.pattern}")
     private String email;

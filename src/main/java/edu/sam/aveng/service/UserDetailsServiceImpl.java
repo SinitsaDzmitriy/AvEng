@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-// @Repository
 public class UserDetailsServiceImpl implements UserDetailsService {
-
 
     private IGenericDao<User> userDao;
 

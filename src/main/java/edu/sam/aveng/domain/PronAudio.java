@@ -15,7 +15,6 @@ public class PronAudio {
     @Id
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
-    // ToDo get more about this annotation
     @MapsId
     private Pronunciation pron;
 

@@ -34,7 +34,6 @@ import java.util.Properties;
 @EnableWebSecurity
 @ComponentScan("edu.sam.aveng")
 public class WebConfig implements WebMvcConfigurer {
-
     private static final String LOCALE_PARAM = "lang";
 
     @Bean
@@ -46,12 +45,8 @@ public class WebConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-    // Sets up message source (internationalization)
     @Bean
     public MessageSource messageSource() {
-        // ResourceBundleMessageSource implements MessageSource interface
-        // It loads messages from a properties file whose name is derived from a base name.
-        // derive - происходить, bundle - пачка
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
@@ -65,19 +60,11 @@ public class WebConfig implements WebMvcConfigurer {
         return validator;
     }
 
-    // LocalResolver object resolves messages using a specific local.
     @Bean
     public LocaleResolver localeResolver() {
-//        SessionLocaleResolver slr = new SessionLocaleResolver();
-//        slr.setDefaultLocale(Locale.ENGLISH);
-//        return slr;
         return new SessionLocaleResolver();
     }
 
-
-    // Interceptor - перехватчик, прерыватель.
-    // LocaleChangeInterceptor switches the app to a new locale
-    // that is defined in a special param appended to a request.
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -94,16 +81,6 @@ public class WebConfig implements WebMvcConfigurer {
         ds.setPassword("");
         return ds;
     }
-
-    /*
-            SessionFactory is Hibernate’s SessionFactory interface that
-        responsible for opening, closing, and managing Hibernate Sessions.
-        In Spring, a Hibernate SessionFactory could be got through one
-        of Spring’s Hibernate session-factory beans.
-            AnnotationSessionFactoryBean can be configured for either
-        XML-based mapping or annotation-based mapping. In this case,
-        preference given to annotations
-    */
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -124,30 +101,16 @@ public class WebConfig implements WebMvcConfigurer {
         return tm;
     }
 
-    /*
-            Adding exception translation:
-            PersistenceExceptionTranslationPostProcessor is a bean
-        post-processor that catches platform specific exceptions and
-        rethrow them as one of Spring’s unified unchecked exceptions.
-     */
-
     @Bean
     public BeanPostProcessor persistenceTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
     @Override
-    /*
-     Ask DispatcherServlet to forward requests for static resources to the
-     servlet container’s default servlet and not to try to handle them itself
-    */
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-
         configurer.enable();
     }
 
-    // Adds LocaleChangeInterceptor to InterceptorRegistry.
-    // registry - реестр.
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());

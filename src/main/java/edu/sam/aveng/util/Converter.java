@@ -9,6 +9,7 @@ import edu.sam.aveng.dto.PronunciationDto;
 import edu.sam.aveng.dto.SampleDto;
 import edu.sam.aveng.dto.ShortCardDto;
 import edu.sam.aveng.dto.UserDTO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,10 +58,11 @@ public class Converter {
         return dto;
     }
 
-    public static User convertToEntity(UserDTO userDTO) {
+    public static User convertToEntity(UserDTO userDto) {
         User user = new User();
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getEmail());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(new BCryptPasswordEncoder()
+                .encode(userDto.getPassword()));
         return user;
     }
 

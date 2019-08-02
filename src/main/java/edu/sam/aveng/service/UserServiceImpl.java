@@ -4,11 +4,11 @@ import edu.sam.aveng.dao.IGenericDao;
 import edu.sam.aveng.domain.SimpleGrantedAuthority;
 import edu.sam.aveng.domain.User;
 import edu.sam.aveng.dto.UserDTO;
+import edu.sam.aveng.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -30,15 +30,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     public void register(UserDTO userDto) {
-        //User newUser = Converter.convertToEntity(userDto);
-        User newUser = new User();
-        newUser.setEmail(userDto.getEmail());
-        newUser.setPassword(new BCryptPasswordEncoder()
-                .encode(userDto.getPassword()));
-        newUser.setLastLoggingDate(new Date());
-        newUser.setEnabled(true);
-        newUser.addAuthority(new SimpleGrantedAuthority("ROLE_USER"));
-        userDAO.create(newUser);
+        User user = Converter.convertToEntity(userDto);
+        user.setLastLoggingDate(new Date());
+        user.setEnabled(true);
+        user.addAuthority(new SimpleGrantedAuthority("ROLE_USER"));
+        userDAO.create(user);
     }
 
 

@@ -40,16 +40,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .formLogin();
-
-        /*
-            Test configuration:
-
-            http
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll()
-                .and()
-                .formLogin();
-        */
     }
 }
