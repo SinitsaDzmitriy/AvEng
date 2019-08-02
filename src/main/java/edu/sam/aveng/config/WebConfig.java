@@ -1,11 +1,20 @@
 package edu.sam.aveng.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -13,6 +22,7 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import org.springframework.web.servlet.LocaleResolver;
@@ -26,6 +36,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -33,8 +44,15 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableWebSecurity
 @ComponentScan("edu.sam.aveng")
+@PropertySources({
+        @PropertySource("classpath:application.properties"),
+        @PropertySource("classpath:database.properties")
+})
 public class WebConfig implements WebMvcConfigurer {
     private static final String LOCALE_PARAM = "lang";
+
+    @Autowired
+    private Environment env;
 
     @Bean
     public ViewResolver viewResolver() {
@@ -52,6 +70,13 @@ public class WebConfig implements WebMvcConfigurer {
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
         return messageSource;
     }
+
+/*    @Bean
+    public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() throws IOException {
+        PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
+        ppc.setLocation(new FileSystemResource("database.properties"));
+        return ppc;
+    }*/
 
     @Bean
     public LocalValidatorFactoryBean getValidator() {
@@ -75,10 +100,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.h2.Driver");
-        ds.setUrl("jdbc:h2:mem:aveng;DB_CLOSE_DELAY=-1");
-        ds.setUsername("sa");
-        ds.setPassword("");
+
+        ds.setDriverClassName(env.getProperty("db.driver"));
+        ds.setUrl(env.getProperty("db.url"));
+        ds.setUsername(env.getProperty("db.user"));
+        ds.setPassword(env.getProperty("db.password"));
         return ds;
     }
 
