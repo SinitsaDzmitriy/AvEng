@@ -35,7 +35,7 @@ The marked items are fixed.
  ___
  ### View
  ___
- - [ ] Configure page encoding (Test it on Russian language)
+ - [X] Configure page encoding (Test it on Russian language)
  
 | ID      | Содержимое    | Тип   | Определение      |
 | --------|:-------------:|:-----:| ----------------:|
