@@ -30,8 +30,8 @@ The marked items are fixed.
     resolver.setPrefix("/WEB-INF/views/");
     resolver.setSuffix(".jsp");
  ```
- - [ ] Create file with test properties (path: src/test/resources)
-     - [ ] Set up H2 in-memory db connection for integration tests (jdbc:h2:mem)
+ - [X] Create file with test properties (path: src/test/resources)
+     - [X] Set up H2 in-memory db connection for integration tests (jdbc:h2:mem)
  ___
  ### View
  ___
