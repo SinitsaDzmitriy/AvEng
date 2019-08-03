@@ -23,8 +23,8 @@ The marked items are fixed.
  ___
  - [X] Use the common version for all Spring components
  - [X] Leave a single database connection configuration (WebConfig + properties file)
- - [ ] Move configuration values in properties file
-    - [ ] db connection configuration
+ - [X] Move configuration values in properties file
+    - [X] db connection configuration
  ```java
     // WRONG!
     resolver.setPrefix("/WEB-INF/views/");
