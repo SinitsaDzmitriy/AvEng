@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebSecurity
 @ComponentScan("edu.sam.aveng")
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:realise.app.properties")
 public class WebConfig implements WebMvcConfigurer {
 
     private Environment env;

@@ -82,6 +82,7 @@
             <version>${hibernate.version}</version>
         </dependency>
 
+        <!-- MySQL connectivity -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
