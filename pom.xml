@@ -17,11 +17,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <h2.version>1.4.199</h2.version>
-        <hibernate.version>5.4.3.Final</hibernate.version>
         <spring.version>5.1.5.RELEASE</spring.version>
-
-
+        <hibernate.version>5.4.3.Final</hibernate.version>
+        <mysql-connector.version>8.0.17</mysql-connector.version>
+        <h2.version>1.4.199</h2.version>
     </properties>
 
     <dependencies>
@@ -81,6 +80,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
         </dependency>
 
         <!-- Logging -->
