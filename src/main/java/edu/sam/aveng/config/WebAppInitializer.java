@@ -4,7 +4,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
-import java.util.Properties;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Instance of that class is automatically used to configure {@code DispatcherServlet}
@@ -17,18 +17,6 @@ import java.util.Properties;
  */
 public class WebAppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-    private Properties properties;
-
-    public WebAppInitializer() {
-        super();
-        try {
-            properties = new Properties();
-            properties.load(getClass().getClassLoader().getResourceAsStream("application.properties"));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
     @Override
     protected String[] getServletMappings() {
@@ -47,6 +35,6 @@ public class WebAppInitializer
 
     @Override
     protected Filter[] getServletFilters() {
-        return new Filter[]{new CharacterEncodingFilter(properties.getProperty("encoding"))};
+        return new Filter[]{new CharacterEncodingFilter(StandardCharsets.UTF_8.name())};
     }
 }
