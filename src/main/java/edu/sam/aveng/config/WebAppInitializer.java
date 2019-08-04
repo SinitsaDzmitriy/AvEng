@@ -1,10 +1,6 @@
 package edu.sam.aveng.config;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.Filter;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Instance of that class is automatically used to configure {@code DispatcherServlet}
@@ -31,10 +27,5 @@ public class WebAppInitializer
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{WebConfig.class};
-    }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{new CharacterEncodingFilter(StandardCharsets.UTF_8.name())};
     }
 }

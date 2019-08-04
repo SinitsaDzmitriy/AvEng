@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page contentType="text/html; chatset=UTF-8" pageEncoding="UTF-8" %>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 <!-- -->
 <!-- JSTL tag lib is redundant -->
 
@@ -12,7 +12,6 @@ Designed to:
 
 <%@ taglib prefix="spring_form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 
 <html>
 
