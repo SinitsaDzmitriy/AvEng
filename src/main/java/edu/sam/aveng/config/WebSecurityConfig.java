@@ -17,7 +17,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
 @Configuration
-@PropertySource("classpath:realise.properties")
+@PropertySource("classpath:production.app.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Environment env;

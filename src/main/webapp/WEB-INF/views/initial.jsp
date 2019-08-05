@@ -3,16 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="jstl" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!--
-Directives contain instructions to a container
-on how to translate JSP to servlet code.
-They are denoted with %@directive_name% in <>
-Attributes:
-1. contentType: Defines the type of the doc, followed by its character encoding.
-2. [?] session: Defines whether create a session (boolean).
-3. pageEncoding: Defines the character encoding for JSP page.
--->
-
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
 <html>

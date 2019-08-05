@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:realise.app.properties")
+@PropertySource("classpath:production.app.properties")
 @TestPropertySource("classpath:test.app.properties")
 public class DataAccessLayerConfig {
 
