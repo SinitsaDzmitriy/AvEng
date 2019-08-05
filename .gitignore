@@ -1,0 +1,10 @@
+# project level gitignore
+
+# Intelij IDEA
+
+.idea/
+*.iml
+
+# Maven
+
+target/
