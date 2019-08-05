@@ -5,37 +5,37 @@ The marked items are fixed.
  ____
  - [X] Create README file according Oleg's recommendations (e-mail)
  - [X] Set up .gitignore (The .idea folder mustn't reside in the repository)
- - [ ] Separate the main Aveng project and the Spittr educational projects
- - [ ] Fix IDE (Integrated development environment) warnings
+ - [X] Separate the main Aveng project and the Spittr educational projects
+ - [X] Fix IDE (Integrated development environment) warnings
  List:
- - Class is a raw type. References to generic type Class<T> should be parameterized              SpittleController.java                /spittr/src/main/java/edu/sam/spittr/controller line 70   Java Problem
- - The method setId(long) from the type SpittleDTO is never used locally     SpittleDTO.java                /spittr/src/main/java/edu/sam/spittr/dto            line 39   Java Problem
- - The type WebMvcConfigurerAdapter is deprecated         WebConfig.java /spittr/src/main/java/edu/sam/aveng/config                line 23   Java Problem
- - The type WebMvcConfigurerAdapter is deprecated         WebConfig.java /spittr/src/main/java/edu/sam/aveng/config                line 36   Java Problem
- - The value of the field CardMapping.frequency is not used             CardMapping.java                /spittr/src/main/java/edu/sam/aveng/domain   line 11   Java Problem
- - The value of the local variable test is not used     InitialController.java                /spittr/src/main/java/edu/sam/aveng/controller              line 28   Java Problem
- - [ ] Apply check-style for the main project
- - [ ] Sort out comments
-    - [ ] Delete those that are non-required
-    - [ ] Reform the rest in javadoc
+ - {fixed} Class is a raw type. References to generic type Class<T> should be parameterized              SpittleController.java                /spittr/src/main/java/edu/sam/spittr/controller line 70   Java Problem
+ - {fixed} The method setId(long) from the type SpittleDTO is never used locally     SpittleDTO.java                /spittr/src/main/java/edu/sam/spittr/dto            line 39   Java Problem
+ - {fixed} The type WebMvcConfigurerAdapter is deprecated         WebConfig.java /spittr/src/main/java/edu/sam/aveng/config                line 23   Java Problem
+ - {fixed} The type WebMvcConfigurerAdapter is deprecated         WebConfig.java /spittr/src/main/java/edu/sam/aveng/config                line 36   Java Problem
+ - {will be used in future} The value of the field CardMapping.frequency is not used             CardMapping.java                /spittr/src/main/java/edu/sam/aveng/domain   line 11   Java Problem
+ - {fixed} The value of the local variable test is not used     InitialController.java                /spittr/src/main/java/edu/sam/aveng/controller              line 28   Java Problem
+ - [X] Apply check-style for the main project
+ - [X] Sort out comments
+    - [X] Delete those that are non-required
+    - [X] Reform the rest in javadoc
  ____
  ### Configuration
  ___
- - [ ] Use the common version for all Spring components
- - [ ] Leave a single database connection configuration (WebConfig + properties file)
- - [ ] Move configuration values in properties file
-    - [ ] db connection configuration
+ - [X] Use the common version for all Spring components
+ - [X] Leave a single database connection configuration (WebConfig + properties file)
+ - [X] Move configuration values in properties file
+    - [X] db connection configuration
  ```java
     // WRONG!
     resolver.setPrefix("/WEB-INF/views/");
     resolver.setSuffix(".jsp");
  ```
- - [ ] Create file with test properties (path: src/test/resources)
-     - [ ] Set up H2 in-memory db connection for integration tests (jdbc:h2:mem)
+ - [X] Create file with test properties (path: src/test/resources)
+     - [X] Set up H2 in-memory db connection for integration tests (jdbc:h2:mem)
  ___
  ### View
  ___
- - [ ] Configure page encoding (Test it on Russian language)
+ - [X] Configure page encoding (Test it on Russian language)
  
 | ID      | Содержимое    | Тип   | Определение      |
 | --------|:-------------:|:-----:| ----------------:|
@@ -43,9 +43,9 @@ The marked items are fixed.
 
  - [ ] Set up a tool to check POST request and hidden problems on user side
     - [ ] Fix hidden 404 favicon.ico exception
- - [ ] Settle global page structure
-    - [ ] Add header with menu items
-    - [ ] Add footer
+ - [X] Settle global page structure
+    - [X] Add header with menu items
+    - [X] Add footer
  ___
  ### Others
  ___
