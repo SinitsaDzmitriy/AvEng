@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
-<mytags:overallPageBase>
+<mytags:overallBasePage>
 
     <jsp:body>
 
@@ -45,4 +45,4 @@
 
     </jsp:body>
 
-</mytags:overallPageBase>
+</mytags:overallBasePage>

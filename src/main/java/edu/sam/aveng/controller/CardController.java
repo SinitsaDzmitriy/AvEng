@@ -59,8 +59,7 @@ public class CardController {
     public String spittle(Model model, @PathVariable long cardId) {
         LOGGER.info("Displaying card with id={}.", cardId);
         model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
-        return "newCard";
-        // return "card";
+         return "card";
     }
 
     @RequestMapping(value = "/update/{cardId}", method = RequestMethod.GET)

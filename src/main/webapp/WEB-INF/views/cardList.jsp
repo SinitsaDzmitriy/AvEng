@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
 <!-- JSTL tag lib connection -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="jstl" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
@@ -17,7 +17,7 @@
     }
 </style>
 
-<mytags:overallPageBase>
+<mytags:overallBasePage>
     <jsp:body>
 
         <h1><spring:message code="card.list.headline"/></h1>
@@ -56,4 +56,4 @@
         </button>
 
     </jsp:body>
-</mytags:overallPageBase>
+</mytags:overallBasePage>

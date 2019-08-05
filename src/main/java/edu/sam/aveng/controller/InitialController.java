@@ -2,6 +2,7 @@ package edu.sam.aveng.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +16,7 @@ public class InitialController {
 
     @RequestMapping(method = GET)
     public String home() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         LOGGER.info("Home page displaying.");
         LOGGER.debug("View name to render: viewName=\"{}\"", "home");
         return "initial";

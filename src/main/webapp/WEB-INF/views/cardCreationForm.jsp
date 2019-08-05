@@ -26,7 +26,7 @@
     }
 </style>
 
-<mytags:overallPageBase>
+<mytags:overallBasePage>
     <jsp:body>
 
         <h1><spring:message code="card.create.headline"/></h1>
@@ -63,4 +63,4 @@
         </spring_form:form>
 
     </jsp:body>
-</mytags:overallPageBase>
+</mytags:overallBasePage>

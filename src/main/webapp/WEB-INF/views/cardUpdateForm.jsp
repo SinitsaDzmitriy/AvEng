@@ -25,7 +25,7 @@
     }
 </style>
 
-<mytags:overallPageBase>
+<mytags:overallBasePage>
     <jsp:body>
 
         <body>
@@ -65,4 +65,4 @@
         </spring_form:form>
 
     </jsp:body>
-</mytags:overallPageBase>
+</mytags:overallBasePage>
