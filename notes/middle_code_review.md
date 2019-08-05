@@ -43,9 +43,9 @@ The marked items are fixed.
 
  - [ ] Set up a tool to check POST request and hidden problems on user side
     - [ ] Fix hidden 404 favicon.ico exception
- - [ ] Settle global page structure
-    - [ ] Add header with menu items
-    - [ ] Add footer
+ - [X] Settle global page structure
+    - [X] Add header with menu items
+    - [X] Add footer
  ___
  ### Others
  ___
