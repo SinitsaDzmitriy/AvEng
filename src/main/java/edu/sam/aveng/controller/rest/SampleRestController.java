@@ -2,6 +2,8 @@ package edu.sam.aveng.controller.rest;
 
 import edu.sam.aveng.dto.SampleDto;
 
+import edu.sam.aveng.service.ISampleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sample")
 public class SampleRestController {
 
+    @Autowired
+    ISampleService sampleService;
 
-
-    @PostMapping
+    @PostMapping("/")
     public void create(@RequestBody SampleDto sampleDto) {
+        sampleService.create(sampleDto);
     }
+
 }
 
