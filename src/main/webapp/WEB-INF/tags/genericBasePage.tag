@@ -2,10 +2,10 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%@attribute name="baseHeader" fragment="true" %>
 <%@attribute name="baseNav" fragment="true" %>
 <%@attribute name="baseSidebar" fragment="true" %>
 <%@attribute name="baseFooter" fragment="true" %>
+
 
 <%@attribute name="appName" required="true"%>
 
@@ -17,25 +17,21 @@
 
 <body>
 
-<header>
-    <jsp:invoke fragment="baseHeader"/>
-</header>
-
 <nav id="baseNav">
     <jsp:invoke fragment="baseNav"/>
 </nav>
 
-<aside id="sidebar">
+<aside id="baseSidebar">
     <jsp:invoke fragment="baseSidebar"/>
 </aside>
 
-<main id="pageContent">
-    <jsp:doBody/>
-</main>
-
-<footer>
+<footer id="baseFooter">
     <jsp:invoke fragment="baseFooter"/>
 </footer>
+
+<div id="pageContent">
+    <jsp:doBody/>
+</div>
 
 </body>
 
