@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @EnableTransactionManagement
@@ -26,5 +27,26 @@ public class SampleService implements ISampleService {
     @Override
     public void create(SampleDto sampleDto) {
         sampleDao.create(Converter.convertToEntity(sampleDto));
+    }
+
+    @Override
+    public List<Sample> findAll() {
+        return sampleDao.findAll();
+    }
+
+    @Override
+    public SampleDto findOne(long id) {
+        return Converter.convertToDto(sampleDao.findOne(id));
+    }
+
+    @Override
+    public void update(long id, SampleDto sampleDto) {
+        sampleDto.setId(id);
+        sampleDao.update(Converter.convertToEntity(sampleDto));
+    }
+
+    @Override
+    public void delete(long id) {
+        sampleDao.delete(sampleDao.findOne(id));
     }
 }
