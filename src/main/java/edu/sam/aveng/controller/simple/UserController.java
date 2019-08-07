@@ -1,4 +1,4 @@
-package edu.sam.aveng.controller;
+package edu.sam.aveng.controller.simple;
 
 import edu.sam.aveng.dto.UserDTO;
 import edu.sam.aveng.service.IUserService;

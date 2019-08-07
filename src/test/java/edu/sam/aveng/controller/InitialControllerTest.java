@@ -1,5 +1,6 @@
 package edu.sam.aveng.controller;
 
+import edu.sam.aveng.controller.simple.InitialController;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 

@@ -1,4 +1,4 @@
-package edu.sam.aveng.controller;
+package edu.sam.aveng.controller.simple;
 
 import edu.sam.aveng.dto.CardDto;
 import edu.sam.aveng.dto.SampleDto;
