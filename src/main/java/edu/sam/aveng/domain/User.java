@@ -12,11 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,6 +49,11 @@ public class User implements UserDetails {
 
     @Column(name = "last_logging_date", nullable = false)
     private Date lastLoggingDate;
+
+    @OneToMany(mappedBy = "owner",
+            cascade = {CascadeType.PERSIST},
+            orphanRemoval = true)
+    private List<UserToCard> cardMappings = new ArrayList<>();
 
     public Long getId() {
         return id;
