@@ -1,6 +1,8 @@
 package edu.sam.aveng.dto;
 
-public class SampleDto {
+import java.io.Serializable;
+
+public class SampleDto implements Serializable {
 
     private long id;
 

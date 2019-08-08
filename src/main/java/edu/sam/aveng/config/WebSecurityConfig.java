@@ -17,7 +17,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
 @Configuration
-@PropertySource("classpath:realise.properties")
+@PropertySource("classpath:realise.app.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Environment env;
@@ -61,11 +61,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/card/**")
-                .hasRole("USER")
-                .antMatchers("/", "/initial", "/login", "/registration")
+//                .antMatchers("/card/**")
+//                .hasRole("USER")
+//                .antMatchers("/", "/initial", "/login", "/registration")
+//                .permitAll()
+//                .and()
+//                .formLogin();
+                .anyRequest()
                 .permitAll()
                 .and()
-                .formLogin();
+                .csrf()
+                .disable();
+                /*
+                        Disable csrf protection (enabled by default in Spring
+                    Security) to test REST controller with Postman.
+                */
     }
 }

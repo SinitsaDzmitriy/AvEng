@@ -31,12 +31,14 @@ public class Converter {
     public static Sample convertToEntity(SampleDto sampleDto) {
         Sample sample = new Sample();
         sample.setContent(sampleDto.getContent());
+        sample.setId(sampleDto.getId());
         return sample;
     }
 
     public static SampleDto convertToDto(Sample sample) {
         SampleDto sampleDto = new SampleDto();
         sampleDto.setContent(sample.getContent());
+        sampleDto.setId(sample.getId());
         return sampleDto;
     }
 

@@ -23,7 +23,7 @@ public class SampleRestController {
     @Autowired
     private ISampleService sampleService;
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create")
     public void create(@RequestBody SampleDto sampleDto) {
         sampleService.create(sampleDto);
     }
