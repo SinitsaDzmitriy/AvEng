@@ -32,7 +32,7 @@ Attributes:
 <h1><spring:message code="initial.welcome"/></h1>
 
 <button type="button" onclick="location.href='login'"><spring:message code="button.authorise"/></button>
-<button type="button" onclick="location.href='register'"><spring:message code="button.register"/></button>
+<button type="button" onclick="location.href='create'"><spring:message code="button.register"/></button>
 <button type="button" onclick="location.href='card/list'"><spring:message code="button.cards"/></button>
 
 </body>

@@ -3,6 +3,7 @@
 # Intelij IDEA
 
 .idea/
+out/
 *.iml
 
 # Maven

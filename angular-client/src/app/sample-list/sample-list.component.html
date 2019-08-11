@@ -1,0 +1,29 @@
+<button (click)="refesh()" class='btn btn-primary'>
+  <i class="c0">Refresh</i>
+</button>
+
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Content</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sample of samples">
+        <td>{{ sample.id }}</td>
+        <td>{{ sample.content }}</td>
+        <td>
+          <button (click)="view(sample.id)" class='btn btn-info'
+                  data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-futboll-0">View</i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

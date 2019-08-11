@@ -31,7 +31,7 @@
         </Root>
 
         <!-- default attribute: additivity="true" -->
-        <Logger name="edu.sam.aveng.controller" level="DEBUG">
+        <Logger name="edu.sam.aveng.base.controller" level="DEBUG">
             <AppenderRef ref="Logbook"/>
         </Logger>
 
