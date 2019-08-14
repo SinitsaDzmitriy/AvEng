@@ -51,6 +51,7 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
     }
 
 
+
     @Override
     public List<T> findAllEagerlyByProperty(String property, String value) {
         return (List<T>) getCurrentSession()
@@ -102,12 +103,13 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
     }
 
     public T findByProperty(String property, String val) {
-        return (T) getCurrentSession()
+         T response =(T) getCurrentSession()
                 .createQuery(String.format("from %s c "
                                 + "join fetch c.authorities "
                                 + "where c.%s='%s'",
                         clazz.getName(), property, val))
                 .uniqueResult();
+        return response;
     }
 
     @Override

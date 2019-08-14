@@ -2,8 +2,6 @@ package edu.sam.aveng.base.model.transfer.user;
 
 public abstract class AbstractUserCredentials {
 
-//    private long id;
-
     protected String email;
     protected String password;
 

@@ -1,6 +1,7 @@
 package edu.sam.aveng.base.controller.simple;
 
 import edu.sam.aveng.base.model.transfer.dto.UserDto;
+import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import edu.sam.aveng.base.service.user.IUserService;
 import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class UserController {
     public String displayUserRegistrationForm(Model model) {
         LOGGER.info("User registration form displaying.");
         LOGGER.debug("Initial state of params: model={}", model);
-        model.addAttribute(Constants.Model.USER_DTO_KEY, new UserDto());
+        model.addAttribute(Constants.Model.USER_REG_CREDENTIALS, new UserRegCredentials());
         LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.USER_REGISTRATION_FORM);
         return Constants.View.USER_REGISTRATION_FORM;
@@ -36,12 +37,12 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerUser(
             @Valid
-            @ModelAttribute(Constants.Model.USER_DTO_KEY)
-                    UserDto spittleToPersist, Errors errors) {
+            @ModelAttribute(Constants.Model.USER_REG_CREDENTIALS)
+                    UserRegCredentials regCredentials, Errors errors) {
         if (errors.hasErrors()) {
             return Constants.View.USER_REGISTRATION_FORM;
         }
-//        userService.create(spittleToPersist);
+        userService.create(regCredentials);
         return "redirect:/login";
     }
 }

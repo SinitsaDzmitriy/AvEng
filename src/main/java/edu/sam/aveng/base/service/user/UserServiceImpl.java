@@ -65,6 +65,9 @@ public class UserServiceImpl implements IUserService {
         // Encode user password
         credentials.setPassword(passEncoder.encode(credentials.getPassword()));
 
+        String test = passEncoder.encode("admin");
+        System.out.println(test);
+
         User user = Converter.convertToEntity(credentials);
 
         user.setLastLoggingDate(new Date());

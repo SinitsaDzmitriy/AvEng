@@ -40,7 +40,7 @@ Designed to:
 <body>
 <h1><spring:message code="user.registration.headline" /></h1>
 
-<spring_form:form method="POST" modelAttribute="userDTO">
+<spring_form:form method="POST" modelAttribute="userRegCredentials">
     <!-- element attribute: Defines a HTML tag in which errors are rendered -->
     <spring_form:errors path="*" element="div" cssClass="errors" />
     <spring_form:label path="email" cssErrorClass="error"><spring:message code="user.email" /></spring_form:label><br>

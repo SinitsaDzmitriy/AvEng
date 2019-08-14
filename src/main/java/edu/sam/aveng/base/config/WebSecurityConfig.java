@@ -63,17 +63,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
 
         http.authorizeRequests()
-//                .antMatchers("/card/**")
-//                .hasRole("USER")
-//                .antMatchers("/", "/initial", "/login", "/registration")
-//                .permitAll()
-//                .and()
-//                .formLogin();
-                .anyRequest()
+                .antMatchers("/card/**")
+                .hasRole("USER")
+                .antMatchers("/", "/initial", "/login", "/registration")
                 .permitAll()
                 .and()
-                .csrf()
-                .disable();
+                .formLogin();
+//                .anyRequest()
+//                .permitAll()
+//                .and()
+//                .csrf()
+//                .disable();
                 /*
                         Disable csrf protection (enabled by default in Spring
                     Security) to test REST controller with Postman.
