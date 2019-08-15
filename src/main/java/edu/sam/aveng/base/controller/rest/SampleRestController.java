@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/samples")
+@RequestMapping("/api/samples")
 public class SampleRestController
         extends AbstractCrudRestController<Sample,
         SampleDto,

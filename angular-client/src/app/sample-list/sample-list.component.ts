@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Sample} from "../model/sample";
-import {SampleService} from "../services/sample.service";
+import {Sample} from '../model/sample';
+import {SampleService} from '../services/sample.service';
 
 @Component({
   selector: 'app-sample-list',
@@ -19,7 +19,7 @@ export class SampleListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refesh();
+    this.refresh();
   }
 
 /*  deleteUser(id: number) {
@@ -34,7 +34,7 @@ export class SampleListComponent implements OnInit {
         },
         error => console.log(error));
   }*/
-  refesh () {
+  refresh() {
     this.service.listAll().subscribe(data => {
       this.samples = data;
     });

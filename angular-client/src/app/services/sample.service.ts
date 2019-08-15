@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Sample} from "../model/sample";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Sample} from '../model/sample';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class SampleService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = '/samples';
+    this.url = '/api/samples';
   }
 
   public listAll(): Observable<Sample[]> {

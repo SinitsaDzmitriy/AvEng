@@ -4,7 +4,7 @@ import edu.sam.aveng.base.contract.converter.IShortConverter;
 import edu.sam.aveng.base.contract.service.SmartGenericCrudService;
 import edu.sam.aveng.base.model.domain.Card;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.ShortCardDto;
+import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

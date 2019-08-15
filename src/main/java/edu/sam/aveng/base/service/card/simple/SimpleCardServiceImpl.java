@@ -1,10 +1,12 @@
-package edu.sam.aveng.base.service;
+package edu.sam.aveng.base.service.card.simple;
 
 import edu.sam.aveng.base.contract.dao.IGenericDao;
 import edu.sam.aveng.base.model.domain.Card;
+import edu.sam.aveng.base.model.domain.Pronunciation;
 import edu.sam.aveng.base.model.domain.Sample;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.ShortCardDto;
+import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
+import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import edu.sam.aveng.base.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @EnableTransactionManagement
 @Transactional
-public class OldCardServiceImpl implements IOldCardService {
+public class SimpleCardServiceImpl implements ISimpleCardService {
 
     private IGenericDao<Card> cardDao;
 
@@ -39,8 +41,15 @@ public class OldCardServiceImpl implements IOldCardService {
 
         newCard.setContent(cardDto.getContent());
         newCard.setType(cardDto.getType());
+
+        PronunciationDto tempPronDto = cardDto.getPron();
+
         newCard.setPron(Converter.convertToEntity(cardDto.getPron()));
+
         newCard.setDefinition(cardDto.getDefinition());
+
+        sampleList.remove(new Sample(""));
+
         newCard.addSamples(sampleList);
 
         cardDao.create(newCard);

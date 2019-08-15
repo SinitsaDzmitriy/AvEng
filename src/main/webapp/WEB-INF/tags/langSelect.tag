@@ -3,7 +3,7 @@
 
 <%@ tag description="select element on enum values" pageEncoding="UTF-8" %>
 
-<%@ tag import="edu.sam.aveng.domain.enumeration.Lang" %>
+<%@ tag import="edu.sam.aveng.base.model.domain.enumeration.Lang" %>
 
 <script>
     function changeLang(value) {

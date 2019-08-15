@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/dictionary")
+@RequestMapping("/api/user-cards")
 public class UserCardRestController extends AbstractCrudRestController<UserCard,
         UserCardDto,
         UserCardDto,

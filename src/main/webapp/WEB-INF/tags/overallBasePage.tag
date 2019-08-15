@@ -31,8 +31,10 @@
     }
 
     #pageContent {
-        margin-top: 110px;
-        margin-left: 200px;
+        top: 110px;
+        left: 200px;
+        margin: 10px;
+        position: fixed;
     }
 
     #baseFooter {
@@ -63,12 +65,12 @@
 
             <spring:url value="/login" var="loginLink"/>
             <a href=${loginLink}>
-                <spring:message code="link.login"/>
+                <spring:message code="nav.login"/>
             </a>
-
+                &nbsp;
             <spring:url value="/register" var="registerLink"/>
             <a href=${registerLink}>
-                <spring:message code="link.register"/>
+                <spring:message code="nav.register"/>
             </a>
 
             </security:authorize>
@@ -77,7 +79,7 @@
 
             <spring:url value="/logout" var="logoutLink"/>
             <a href=${logoutLink}>
-                <spring:message code="link.logout"/>
+                <spring:message code="nav.logout"/>
             </a>
 
             </security:authorize>
@@ -90,19 +92,34 @@
             <!-- Some overall logic here (navigation) -->
 
             <h2>
-                <spring:message code="menu.headline"/>
+                <spring:message code="headline.menu"/>
             </h2>
+
+            <security:authorize access="hasRole('USER')">
 
             <spring:url value="/card/list" var="cardListLink"/>
             <a href=${cardListLink}>
-                <spring:message code="button.cards"/>
+                <spring:message code="menu.cards.list"/>
             </a>
 
             <br>
 
-            <spring:url value="/card/create" var="createCardLink"/>
-            <a href=${createCardLink}>
-                <spring:message code="button.create"/>
+            </security:authorize>
+
+            <security:authorize access="hasRole('ADMIN')">
+
+                <spring:url value="/card/create" var="createCardLink"/>
+                <a href=${createCardLink}>
+                    <spring:message code="menu.cards.create"/>
+                </a>
+
+                <br>
+
+            </security:authorize>
+
+            <spring:url value="/" var="homepage"/>
+            <a href=${homepage}>
+                <spring:message code="menu.homepage"/>
             </a>
 
         </div>

@@ -7,7 +7,7 @@ import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
-import edu.sam.aveng.base.model.transfer.ShortCardDto;
+import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import edu.sam.aveng.base.model.transfer.dto.UserDto;
 import edu.sam.aveng.base.model.transfer.user.AbstractUserCredentials;
 import edu.sam.aveng.base.model.transfer.user.UserCredentials;

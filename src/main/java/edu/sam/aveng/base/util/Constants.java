@@ -7,7 +7,6 @@ public final class Constants {
 
     public static final class Model {
         public static final String CARD_DTO_KEY = "cardDto";
-        public static final String USER_DTO_KEY = "userDTO";
         public static final String USER_REG_CREDENTIALS = "userRegCredentials";
     }
 

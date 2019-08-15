@@ -1,11 +1,10 @@
 package edu.sam.aveng.base.controller.rest;
 
 import edu.sam.aveng.base.model.transfer.user.UserCredentials;
-import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import edu.sam.aveng.base.model.transfer.user.UserTableItem;
 import edu.sam.aveng.base.util.Converter;
 import edu.sam.aveng.temp.service.IPopUserService;
-
+import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     private IPopUserService userService;

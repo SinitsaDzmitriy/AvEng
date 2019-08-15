@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { SampleListComponent } from './sample-list/sample-list.component';
 import { PlayBoardComponent } from './play-board/play-board.component';
 
-import {SampleService} from "./services/sample.service";
+import {SampleService} from './services/sample.service';
 
 @NgModule({
   declarations: [

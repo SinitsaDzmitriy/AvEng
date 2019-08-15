@@ -182,7 +182,7 @@
     </dependencies>
 
     <build>
-        <finalName>spittr</finalName>
+        <finalName>aveng</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

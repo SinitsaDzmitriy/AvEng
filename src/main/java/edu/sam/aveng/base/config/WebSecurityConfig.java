@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -63,20 +64,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
 
         http.authorizeRequests()
+                .antMatchers("/card/create/**", "/card/update/**", "/card/delete")
+                .hasRole("ADMIN")
                 .antMatchers("/card/**")
                 .hasRole("USER")
-                .antMatchers("/", "/initial", "/login", "/registration")
+                .antMatchers("/", "/initial", "/login", "/register")
                 .permitAll()
+                .antMatchers("/api/**")
+                .permitAll()
+                .anyRequest()
+                .hasRole("ADMIN")
                 .and()
+                // REST api demo via Postman
+                .csrf().disable()
                 .formLogin();
-//                .anyRequest()
-//                .permitAll()
-//                .and()
-//                .csrf()
-//                .disable();
-                /*
-                        Disable csrf protection (enabled by default in Spring
-                    Security) to test REST controller with Postman.
-                */
     }
 }

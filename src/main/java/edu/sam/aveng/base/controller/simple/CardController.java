@@ -2,7 +2,7 @@ package edu.sam.aveng.base.controller.simple;
 
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
-import edu.sam.aveng.base.service.IOldCardService;
+import edu.sam.aveng.base.service.card.simple.ISimpleCardService;
 import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 public class CardController {
 
     @Autowired
-    private IOldCardService cardService;
+    private ISimpleCardService cardService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
@@ -45,6 +45,9 @@ public class CardController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("cardDto") CardDto cardDto, Errors errors) {
+            if (errors.hasErrors()) {
+                return Constants.View.CARD_CREATION_FORM;
+            }
         cardService.create(cardDto);
         return "redirect: list";
     }
@@ -55,7 +58,7 @@ public class CardController {
         return "cardList";
     }
 
-    @RequestMapping(value = "/{cardId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{cardId}", method = RequestMethod.GET)
     public String spittle(Model model, @PathVariable long cardId) {
         LOGGER.info("Displaying card with id={}.", cardId);
         model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));

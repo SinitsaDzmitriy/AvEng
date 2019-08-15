@@ -1,11 +1,11 @@
-package edu.sam.aveng.base.service;
+package edu.sam.aveng.base.service.card.simple;
 
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.ShortCardDto;
+import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 
 import java.util.List;
 
-public interface IOldCardService {
+public interface ISimpleCardService {
     void create(CardDto cardDto);
 
     List<ShortCardDto> findAll();

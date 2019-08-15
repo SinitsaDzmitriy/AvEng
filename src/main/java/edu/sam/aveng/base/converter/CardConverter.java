@@ -9,7 +9,7 @@ import edu.sam.aveng.base.model.domain.Sample;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
-import edu.sam.aveng.base.model.transfer.ShortCardDto;
+import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

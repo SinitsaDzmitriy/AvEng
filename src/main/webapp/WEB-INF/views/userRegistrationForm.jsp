@@ -38,18 +38,18 @@ Designed to:
 </head>
 
 <body>
-<h1><spring:message code="user.registration.headline" /></h1>
+<h1><spring:message code="headline.user.register" /></h1>
 
 <spring_form:form method="POST" modelAttribute="userRegCredentials">
     <!-- element attribute: Defines a HTML tag in which errors are rendered -->
     <spring_form:errors path="*" element="div" cssClass="errors" />
-    <spring_form:label path="email" cssErrorClass="error"><spring:message code="user.email" /></spring_form:label><br>
+    <spring_form:label path="email" cssErrorClass="error"><spring:message code="user.enter.email" /></spring_form:label><br>
     <spring_form:input path="email" cssErrorClass="error"/><br>
-    <spring_form:label path="password" cssErrorClass="error"><spring:message code="user.password.primary" /></spring_form:label><br>
+    <spring_form:label path="password" cssErrorClass="error"><spring:message code="user.enter.password.primary" /></spring_form:label><br>
     <spring_form:password path="password" cssErrorClass="error"/><br>
-    <spring_form:label path="retypedPassword" cssErrorClass="error"><spring:message code="user.password.confirmatory" /></spring_form:label><br>
+    <spring_form:label path="retypedPassword" cssErrorClass="error"><spring:message code="user.enter.password.confirmatory" /></spring_form:label><br>
     <spring_form:password path="retypedPassword" cssErrorClass="error"/><br>
-    <input type="submit" value=<spring:message code="button.create" /> />
+    <input type="submit" value=<spring:message code="button.user.register" /> />
 </spring_form:form>
 
 </body>
