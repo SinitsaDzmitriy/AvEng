@@ -1,0 +1,11 @@
+<%@ page contentType="text/html; chatset=UTF-8" pageEncoding="UTF-8" %>
+
+<%@taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+<mytags:overallPageBase>
+    <jsp:body>
+
+    </jsp:body>
+</mytags:overallPageBase>
