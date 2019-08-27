@@ -1,146 +1,262 @@
-<%@tag description="common page base" pageEncoding="UTF-8" %>
+<%@ tag description="generic page base" pageEncoding="UTF-8" %>
 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<style>
-    .inside {
-        margin: 10px;
-    }
+<jsp:useBean id="date" class="java.util.Date" />
 
-    #baseNav {
-        top: 0;
-        left: 0;
-        height: 110px;
-        width: 100%;
-        position: fixed;
-        border-bottom-style: solid;
-    }
+<html>
 
-    #baseSidebar {
-        top: 110px;
-        left: 0;
-        margin: 10px;
-        width: 200px;
-        height: 400px;
-        background-color: #f1f1f1;
-        position: fixed;
-        overflow: auto;
-    }
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    #pageContent {
-        top: 110px;
-        left: 200px;
-        margin: 10px;
-        position: fixed;
-    }
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    #baseFooter {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        height: 50px;
-        width: 100%;
-        border-top-style: solid;
-    }
-</style>
+    <title><spring:message code="app.name"/></title>
+</head>
 
-<mytags:genericBasePage appName="aveng">
+<body>
 
-    <jsp:attribute name="baseNav">
-        <div class="inside">
+<div class="container-fluid d-flex h-100 flex-column">
+    <!-- I want this container to stretch to the height of the parent -->
+    <header class="row border-bottom border-secondary">
+        <div class="col-1 d-md-none d-flex justify-content-center align-items-center px-0">
 
-            <h1>
-                <spring:url value="/" var="initialPage"/>
-                <a href=${initialPage}>
-                    <spring:message code="app.name"/>
-                </a>
-            </h1>
+            <div class="dropdown">
 
-            <mytags:langSelect/>
+                <div class="media" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <spring:url value="/resources/images/menu.svg" var="menuIconPath"/>
+                    <img src="${menuIconPath}" width="30" height="30" class="d-inline-block align-top" alt="">
+                </div>
 
-            <security:authorize access="isAnonymous()">
+                <div class="dropdown-menu mt-4" aria-labelledby="dropdownMenuButton">
 
-            <spring:url value="/login" var="loginLink"/>
-            <a href=${loginLink}>
-                <spring:message code="nav.login"/>
-            </a>
-                &nbsp;
-            <spring:url value="/register" var="registerLink"/>
-            <a href=${registerLink}>
-                <spring:message code="nav.register"/>
-            </a>
+                    <h5 class="dropdown-header">
+                        <spring:message code="headline.menu.main"/>
+                    </h5>
 
-            </security:authorize>
+                    <spring:url value="/" var="homePagePath"/>
+                    <a class="dropdown-item" href="${homePagePath}">
+                        <spring:message code="menu.homepage"/>
+                    </a>
 
-            <security:authorize access="hasRole('USER')">
+                    <div class="dropdown-divider"></div>
 
-            <spring:url value="/logout" var="logoutLink"/>
-            <a href=${logoutLink}>
-                <spring:message code="nav.logout"/>
-            </a>
+                    <h5 class="dropdown-header">
+                        <spring:message code="headline.menu.cards"/>
+                    </h5>
 
-            </security:authorize>
+                    <spring:url value="/card/list" var="cardListPagePath"/>
+                    <a class="dropdown-item" href="${cardListPagePath}">
+                        <spring:message code="menu.cards.list"/>
+                    </a>
+
+                    <spring:url value="/card/create" var="cardCreatePagePath"/>
+                    <a class="dropdown-item" href="${cardCreatePagePath}">
+                        <spring:message code="menu.cards.create"/>
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
-    </jsp:attribute>
 
-    <jsp:attribute name="baseSidebar">
-        <div class="inside">
-            <!-- Some overall logic here (navigation) -->
+        <div class="col-1 col-md-2 text-center px-0">
 
-            <h2>
-                <spring:message code="headline.menu"/>
-            </h2>
-
-            <security:authorize access="hasRole('USER')">
-
-            <spring:url value="/card/list" var="cardListLink"/>
-            <a href=${cardListLink}>
-                <spring:message code="menu.cards.list"/>
+            <spring:url value="/initial" var="initialPagePath"/>
+            <a class="navbar-brand nav-link h-100 w-100 mx-0 my-1 py-2" href="${initialPagePath}">
+                <div class="media d-flex justify-content-center">
+                    <spring:url value="/resources/images/logo.svg" var="logoPath"/>
+                    <img src="${logoPath}" width="32" height="30" class="d-inline-block align-top" alt="">
+                    <div class="d-none d-md-flex">
+                        <div class="media-body w-auto text-secondary">AvEng</div>
+                    </div>
+                </div>
             </a>
 
-            <br>
+        </div>
 
-            </security:authorize>
+        <div class="col-auto pl-4 pr-0">
 
-            <security:authorize access="hasRole('ADMIN')">
+            <div class="dropdown mx-1 my-2">
 
-                <spring:url value="/card/create" var="createCardLink"/>
-                <a href=${createCardLink}>
+                <button class="btn btn-outline-secondary dropdown-toggle"
+                        type="button"
+                        id="navbarLangDropdown"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    Language
+                </button>
+
+                <div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-item" onclick="location.href='?lang=rus'">Русский</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="location.href='?lang=eng'">English</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col px-0">
+
+            <div class="d-none d-md-flex w-100">
+                <div class="input-group mx-1 my-2">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Search</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-auto d-flex align-items-center position-static px-0">
+
+            <div class="dropdown d-md-none position-static my-1 mx-1">
+
+                <div class="media"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <spring:url value="/resources/images/search.svg" var="searchIconPath"/>
+                    <img src="${searchIconPath}" width="30" height="30" class="d-inline-block align-top" alt="">
+                </div>
+
+                <div class="dropdown-menu w-75 mt-4 p-0" aria-labelledby="dLabel">
+                    <div class="drop-item">
+                        <div class="input-group">
+                            <input class="form-control" type="search" placeholder="Search"
+                                   aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-auto position-static pl-0 pr-4">
+
+            <div class="nav justify-content-end mx-1 my-2">
+                <div class="nav-item">
+
+                </div>
+
+                <security:authorize access="isAnonymous()">
+
+                    <div class="nav-item">
+                        <spring:url value="/login" var="loginLink"/>
+                        <a href="${loginLink}" class="btn btn-light text-nowrap mx-1">
+                            <spring:message code="nav.login"/>
+                        </a>
+                    </div>
+
+                    <div class="nav-item">
+                        <spring:url value="/register" var="registerLink"/>
+                        <a href="${registerLink}" class="btn btn-primary text-nowrap mx-1">
+                            <spring:message code="nav.register"/>
+                        </a>
+                    </div>
+
+                </security:authorize>
+
+                <security:authorize access="isFullyAuthenticated()">
+
+                    <div class="nav-item">
+                        <spring:url value="/logout" var="logoutLink"/>
+                        <a href="${logoutLink}" class="btn btn-secondary text-nowrap">
+                            <spring:message code="nav.logout"/>
+                        </a>
+                    </div>
+
+                </security:authorize>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <div class="row flex-grow-1">
+
+        <div class="col-2 d-none d-md-block border-right border-secondary h-100 px-0">
+
+            <nav class="nav flex-column ml-4 mt-3">
+
+                <div class="nav-item d-flex align-items-center py-2">
+                    <h6 class="text-secondary mx-2 my-0">
+                        <spring:message code="headline.menu.main"/>
+                    </h6>
+                </div>
+
+                <spring:url value="/" var="homePagePath"/>
+                <a class="nav-link text-secondary" href="${homePagePath}">
+                    <spring:message code="menu.homepage"/>
+                </a>
+
+                <div class="nav-item d-flex align-items-center py-2">
+                    <h6 class="text-secondary mx-2 my-0">
+                        <spring:message code="headline.menu.cards"/>
+                    </h6>
+                </div>
+
+                <spring:url value="/card/list" var="cardListPagePath"/>
+                <a class="nav-link text-secondary" href="${cardListPagePath}">
+                    <spring:message code="menu.cards.list"/>
+                </a>
+
+                <spring:url value="/card/create" var="cardCreatePagePath"/>
+                <a class="nav-link text-secondary" href="${cardCreatePagePath}">
                     <spring:message code="menu.cards.create"/>
                 </a>
 
-                <br>
-
-            </security:authorize>
-
-            <spring:url value="/" var="homepage"/>
-            <a href=${homepage}>
-                <spring:message code="menu.homepage"/>
-            </a>
+            </nav>
 
         </div>
-    </jsp:attribute>
 
-    <jsp:attribute name="baseFooter">
-        <div class="inside">
+        <div class="col-12 col-md-10 p-0">
+            <main class="p-3 h-100">
+                <jsp:doBody/>
+            </main>
+        </div>
 
-            <!-- Some overall data here -->
+    </div>
 
-            <p id="copyright">
-                <spring:message code="footer.copyright"/>
+    <footer class="row border-top border-secondary">
+        <div class="column w-100 my-2 d-flex justify-content-center align-items-center">
+            <p class="text-secondary m-0">
+                <spring:message code="footer.copyright"/><fmt:formatDate value="${date}" pattern="yyyy"/>
             </p>
-
         </div>
-    </jsp:attribute>
+    </footer>
 
-    <jsp:body>
-        <div class="inside">
-            <jsp:doBody/>
-        </div>
-    </jsp:body>
+</div>
 
-</mytags:genericBasePage>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

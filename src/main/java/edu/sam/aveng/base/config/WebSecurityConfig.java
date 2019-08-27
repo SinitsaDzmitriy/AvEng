@@ -63,6 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
+        // ToDo: assign parts of api to different roles
+
         http.authorizeRequests()
                 .antMatchers("/card/create/**", "/card/update/**", "/card/delete")
                 .hasRole("ADMIN")
@@ -71,11 +73,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/initial", "/login", "/register")
                 .permitAll()
                 .antMatchers("/api/**")
+                .hasRole("ADMIN")
+                .antMatchers("/test/**")
+                .permitAll()
+                .antMatchers("/resources/**")
                 .permitAll()
                 .anyRequest()
                 .hasRole("ADMIN")
                 .and()
-                // REST api demo via Postman
                 .csrf().disable()
                 .formLogin();
     }
