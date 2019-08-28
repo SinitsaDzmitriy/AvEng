@@ -102,13 +102,14 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
         delete(entity);
     }
 
-    public T findByProperty(String property, String val) {
-         T response =(T) getCurrentSession()
-                .createQuery(String.format("from %s c "
-                                + "join fetch c.authorities "
-                                + "where c.%s='%s'",
-                        clazz.getName(), property, val))
+    public T findByProperty(String property, String value) {
+
+        T response =(T) getCurrentSession()
+                .createQuery(String.format("from %s c ", clazz.getName())
+                                + String.format("where c.%s=:value", property))
+                .setParameter("value", value)
                 .uniqueResult();
+
         return response;
     }
 

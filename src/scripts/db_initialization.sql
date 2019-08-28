@@ -1,4 +1,4 @@
-﻿CREATE DATABASE aveng;
+﻿﻿﻿CREATE DATABASE aveng;
 
 USE aveng;
 

@@ -40,15 +40,19 @@ public class CardController {
         LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.CARD_CREATION_FORM);
 
-        return Constants.View.CARD_CREATION_FORM;
+        // ToDo: Temp view for test purposes only
+        return "temp";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("cardDto") CardDto cardDto, Errors errors) {
-            if (errors.hasErrors()) {
-                return Constants.View.CARD_CREATION_FORM;
-            }
+
+        if (errors.hasErrors()) {
+            return Constants.View.CARD_CREATION_FORM;
+        }
+
         cardService.create(cardDto);
+
         return "redirect: list";
     }
 
@@ -80,7 +84,7 @@ public class CardController {
     @RequestMapping(value = "/update/{cardId}", method = RequestMethod.POST)
     public String update(@PathVariable long cardId, CardDto cardDto) {
         LOGGER.info("Updating Card with id={}.", cardId);
-        LOGGER.debug("Updated Card: updatedCard={}",  cardDto);
+        LOGGER.debug("Updated Card: updatedCard={}", cardDto);
         cardService.update(cardId, cardDto);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
         return "redirect:/card/list";

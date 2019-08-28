@@ -9,8 +9,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping({"/test"})
 public class TestController {
 
-    @RequestMapping(method = GET)
+    @RequestMapping(value = "/main", method = GET)
     public String test() {
         return "test";
     }
+
+    @RequestMapping(value = "/temp", method = GET)
+    public String temp() {
+        return "temp";
+    }
+
 }

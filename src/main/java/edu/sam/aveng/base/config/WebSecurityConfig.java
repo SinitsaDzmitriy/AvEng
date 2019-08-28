@@ -65,6 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // ToDo: assign parts of api to different roles
 
+        /*
+
         http.authorizeRequests()
                 .antMatchers("/card/create/**", "/card/update/**", "/card/delete")
                 .hasRole("ADMIN")
@@ -83,5 +85,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin();
+
+         */
+
+        // ToDo: Remove temporary config
+        http.authorizeRequests()
+                .anyRequest()
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 }

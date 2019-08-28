@@ -1,21 +1,26 @@
 package edu.sam.aveng.base.service.card.simple;
 
+import edu.sam.aveng.base.contract.converter.ICollectionConverter;
 import edu.sam.aveng.base.contract.dao.IGenericDao;
+import edu.sam.aveng.base.converter.SampleConverter;
 import edu.sam.aveng.base.model.domain.Card;
 import edu.sam.aveng.base.model.domain.Pronunciation;
 import edu.sam.aveng.base.model.domain.Sample;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
+import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import edu.sam.aveng.base.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @EnableTransactionManagement
@@ -23,33 +28,45 @@ import java.util.stream.Collectors;
 public class SimpleCardServiceImpl implements ISimpleCardService {
 
     private IGenericDao<Card> cardDao;
+    private IGenericDao<Sample> sampleDao;
+
+    private ICollectionConverter<Sample, SampleDto> sampleConverter;
 
     @Autowired
     @Qualifier("genericHiberDao")
-    public void setDao(IGenericDao<Card> daoToSet) {
-        cardDao = daoToSet;
+    public void setDaos(IGenericDao<Card> cardDao, IGenericDao<Sample> sampleDao) {
         cardDao.setClazz(Card.class);
+        this.cardDao = cardDao;
+
+        sampleDao.setClazz(Sample.class);
+        this.sampleDao = sampleDao;
+    }
+
+    @Autowired
+    public void setSampleConverter(ICollectionConverter<Sample, SampleDto> sampleConverter) {
+        this.sampleConverter = sampleConverter;
     }
 
     @Override
     public void create(CardDto cardDto) {
+
         Card newCard = new Card();
 
         List<Sample> sampleList = cardDto.getSamples().stream()
-                .map(Converter::convertToEntity)
+                .filter(sampleDto -> !sampleDto.getContent().isEmpty())
+                .flatMap(sampleDto -> {
+                    Sample sample = sampleDao.findByProperty("content", sampleDto.getContent());
+                    if(sample == null) {
+                        sample = sampleConverter.convertToEntity(sampleDto);
+                    }
+                    return Stream.of(sample);
+                })
                 .collect(Collectors.toList());
 
         newCard.setContent(cardDto.getContent());
         newCard.setType(cardDto.getType());
-
-        PronunciationDto tempPronDto = cardDto.getPron();
-
         newCard.setPron(Converter.convertToEntity(cardDto.getPron()));
-
         newCard.setDefinition(cardDto.getDefinition());
-
-        sampleList.remove(new Sample(""));
-
         newCard.addSamples(sampleList);
 
         cardDao.create(newCard);

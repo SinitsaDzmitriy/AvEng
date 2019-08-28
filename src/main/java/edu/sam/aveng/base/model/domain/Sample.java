@@ -6,11 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "samples")
+@Table(name = "samples",
+        uniqueConstraints =
+        @UniqueConstraint(columnNames = "content", name = "uq_content"))
 public class Sample implements Serializable, Identifiable {
     @Id
     @GeneratedValue
