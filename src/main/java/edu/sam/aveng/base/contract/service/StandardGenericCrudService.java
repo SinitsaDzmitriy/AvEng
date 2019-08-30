@@ -20,7 +20,7 @@ public abstract class StandardGenericCrudService<E extends Serializable & Identi
         D>
         implements ICrudService<E, D, D, ICollectionConverter<E, D>> {
 
-    private ICollectionConverter<E, D> converter;
+    protected ICollectionConverter<E, D> converter;
     protected IGenericDao<E> dao;
 
     @Autowired

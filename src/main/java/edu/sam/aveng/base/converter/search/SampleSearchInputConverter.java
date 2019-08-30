@@ -5,10 +5,13 @@ package edu.sam.aveng.base.converter.search;
     ToDo: Cover other important test cases in future
 */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SampleSearchInputConverter implements ISearchInputConverter {
 
     @Override
-    public String convertToCriteria(String searchInput) {
+    public List<String> convertToLikeCriterias(String searchInput) {
 
         String[] searchInputParts = searchInput.trim().toLowerCase()
                 .replaceAll("[%_]+", "").split("\\p{Blank}+");
@@ -36,12 +39,11 @@ public class SampleSearchInputConverter implements ISearchInputConverter {
 
         criteriaCommonPart.append("'");
 
-        return new StringBuilder()
-                .append(criteriaToMatchStringBeginningBuilder)
-                .append(criteriaCommonPart)
-                .append(" OR ")
-                .append(criteriaToMatchOtherPositionsBuilder)
-                .append(criteriaCommonPart)
-                .toString();
+        List<String> likeCriterias = new ArrayList<>(2);
+
+        likeCriterias.add(criteriaToMatchStringBeginningBuilder.append(criteriaCommonPart).toString());
+        likeCriterias.add(criteriaToMatchOtherPositionsBuilder.append(criteriaCommonPart).toString());
+
+        return likeCriterias;
     }
 }

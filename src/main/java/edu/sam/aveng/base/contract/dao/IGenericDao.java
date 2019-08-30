@@ -30,4 +30,6 @@ public interface IGenericDao<T extends Serializable> {
 
     void deleteByProperty(String property, Object value);
 
+    List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias);
+
 }

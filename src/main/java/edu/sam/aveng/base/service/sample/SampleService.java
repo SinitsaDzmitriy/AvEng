@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -32,7 +33,15 @@ public class SampleService
     }
 
     @Override
-    public List<SampleDto> search(String input) {
-        return null;
+    public List<SampleDto> search(String searchInput) {
+
+        List<Sample> selection = dao
+                .findWithLikeCriterias("content", searchInputConverter.convertToLikeCriterias(searchInput));
+
+        if (selection == null) {
+            return null;
+        } else {
+            return converter.convertToDto(selection).collect(Collectors.toList());
+        }
     }
 }

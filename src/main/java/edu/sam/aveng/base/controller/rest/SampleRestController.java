@@ -6,7 +6,10 @@ import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.service.sample.ISampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/samples")
@@ -25,6 +28,11 @@ public class SampleRestController
     @Override
     protected Class<Sample> entityType() {
         return Sample.class;
+    }
+
+    @RequestMapping("/search")
+    public List<SampleDto> search(@RequestParam String searchQuery) {
+        return service.search(searchQuery);
     }
 
 }

@@ -51,7 +51,6 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
     }
 
 
-
     @Override
     public List<T> findAllEagerlyByProperty(String property, String value) {
         return (List<T>) getCurrentSession()
@@ -104,13 +103,11 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
 
     public T findByProperty(String property, String value) {
 
-        T response =(T) getCurrentSession()
+        return (T) getCurrentSession()
                 .createQuery(String.format("from %s c ", clazz.getName())
-                                + String.format("where c.%s=:value", property))
+                        + String.format("where c.%s=:value", property))
                 .setParameter("value", value)
                 .uniqueResult();
-
-        return response;
     }
 
     @Override
@@ -125,4 +122,31 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
+
+    @Override
+    public List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias) {
+
+        /*
+            ToDo: Add check if target field is textual
+            This trouble is gone if we follow single responsibility principle
+         */
+
+
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append(String.format("from %s c", clazz.getName()));
+
+        if (likeCriterias != null && likeCriterias.size() > 0) {
+
+            queryBuilder.append(String.format(" where c.%s like %s", targetProperty, likeCriterias.get(0)));
+
+            for(int i = 1; i < likeCriterias.size(); i++) {
+                queryBuilder.append(String.format(" or c.%s like %s", targetProperty, likeCriterias.get(i)));
+            }
+        }
+
+        return (List<T>) getCurrentSession()
+                .createQuery(queryBuilder.toString())
+                .list();
+    }
+
 }

@@ -20,7 +20,7 @@ public abstract class SmartGenericCrudService<E extends Serializable & Identifia
         D, M>
         implements ICrudService<E, D, M, IShortConverter<E, D, M>> {
 
-    private IShortConverter<E, D, M> converter;
+    protected IShortConverter<E, D, M> converter;
     protected IGenericDao<E> dao;
 
     @Override
