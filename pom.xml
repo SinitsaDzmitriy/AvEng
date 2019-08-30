@@ -22,6 +22,7 @@
         <mysql-connector.version>8.0.17</mysql-connector.version>
         <h2.version>1.4.199</h2.version>
         <jackson.version>2.9.9</jackson.version>
+        <junit.version></junit.version>
     </properties>
 
     <dependencies>
@@ -139,9 +140,10 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.5.1</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Others -->
