@@ -1,7 +1,10 @@
 package edu.sam.aveng.base.contract.dao;
 
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
+
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface IGenericDao<T extends Serializable> {
     void setClazz(Class<T> clazzToSet);
@@ -31,5 +34,8 @@ public interface IGenericDao<T extends Serializable> {
     void deleteByProperty(String property, Object value);
 
     List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias);
+
+    // ToDo: Move this method to CardDao (single responsibility)
+    public List<Map> search(Lang usedLang, Lang desiredLang, String formattedSearchInput);
 
 }

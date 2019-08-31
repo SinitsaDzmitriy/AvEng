@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.controller.simple;
 
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.service.card.simple.ISimpleCardService;
@@ -10,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -42,7 +45,7 @@ public class CardController {
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.CARD_CREATION_FORM);
 
         // ToDo: Temp view for test purposes only
-        return "temp";
+        return Constants.View.CARD_CREATION_FORM;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -101,6 +104,15 @@ public class CardController {
         cardService.delete(cardId);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
         return "redirect:/card/list";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("from") Lang usedLang,
+                         @RequestParam("to") Lang desiredLang, @RequestParam String userInput) {
+
+        cardService.search(usedLang, desiredLang, userInput);
+
+        return Constants.View.INITIAL;
     }
 
 }

@@ -9,4 +9,7 @@ import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 public interface ICardService
         extends ICrudService<Card, CardDto, ShortCardDto,
         IShortConverter<Card, CardDto, ShortCardDto>> {
+
+
+
 }

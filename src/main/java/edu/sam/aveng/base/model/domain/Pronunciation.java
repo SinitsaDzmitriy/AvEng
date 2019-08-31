@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.model.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +10,10 @@ import java.io.Serializable;
 public class Pronunciation implements Serializable {
     @Id
     @GeneratedValue
+    @Column(nullable = false)
     private Long id;
+
+    @Column(nullable = false)
     private String transcription;
 
     public Pronunciation() {

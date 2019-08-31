@@ -5,6 +5,7 @@ import edu.sam.aveng.base.contract.converter.IShortConverter;
 import edu.sam.aveng.base.contract.dao.IGenericDao;
 import edu.sam.aveng.base.model.domain.Card;
 import edu.sam.aveng.base.model.domain.Sample;
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -69,6 +71,9 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
                 })
                 .collect(Collectors.toList());
 
+        // ToDo: Bear the conversion in another place!
+
+        newCard.setLang(cardDto.getLang());
         newCard.setContent(cardDto.getContent());
         newCard.setType(cardDto.getType());
         newCard.setPron(Converter.convertToEntity(cardDto.getPron()));
@@ -80,14 +85,13 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
 
     @Override
     public List<ShortCardDto> findAll() {
-        return cardDao.findAll().stream()
-                .map(Converter::convertToShortDto)
+        return  cardConverter.convertToShortDto(cardDao.findAll())
                 .collect(Collectors.toList());
     }
 
     @Override
     public CardDto findOne(long id) {
-        return Converter.convertToDto(cardDao.findOne(id));
+        return cardConverter.convertToDto(cardDao.findOne(id));
     }
 
     @Override
@@ -119,4 +123,10 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
         Card card = cardDao.findOne(cardId);
         cardDao.delete(card);
     }
+
+    @Override
+    public List<Map> search(Lang usedLang, Lang desiredLang, String userInput) {
+        return cardDao.search(usedLang, desiredLang, userInput);
+    }
+
 }

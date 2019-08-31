@@ -1,9 +1,11 @@
 package edu.sam.aveng.base.model.transfer.dto;
 
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import edu.sam.aveng.base.model.domain.enumeration.StatementType;
 
 public class ShortCardDto {
     private Long id;
+    private Lang lang;
     private String content;
     private StatementType type;
     private String definition;
@@ -14,6 +16,14 @@ public class ShortCardDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Lang getLang() {
+        return lang;
+    }
+
+    public void setLang(Lang lang) {
+        this.lang = lang;
     }
 
     public String getContent() {

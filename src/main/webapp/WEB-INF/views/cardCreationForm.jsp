@@ -33,6 +33,13 @@
     <spring_form:form method="POST" modelAttribute="cardDto">
         <!-- element attribute: Defines a HTML tag in which errors are rendered -->
         <spring_form:errors path="*" element="div" cssClass="errors"/>
+
+        <spring:message code="card.attribute.lang"/><br>
+        <spring_form:select path="lang" cssErrorClass="errors">
+            <spring_form:option value="" selected="true"></spring_form:option>
+            <spring_form:options/>
+        </spring_form:select><br>
+
         <spring_form:label path="content" cssErrorClass="error">
             <spring:message code="card.attribute.content"/>
         </spring_form:label><br>

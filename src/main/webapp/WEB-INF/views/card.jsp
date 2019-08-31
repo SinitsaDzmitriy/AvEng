@@ -9,6 +9,7 @@
 <h2><spring:message code="headline.card.read" arguments="${cardDto.id}" /></h2>
 
 <div>
+    <spring:message code="card.attribute.lang" />: <jstl:out value="${cardDto.lang}"/><br>
     <spring:message code="card.attribute.content" />: <jstl:out value="${cardDto.content}"/><br>
     <spring:message code="card.attribute.type" />: <jstl:out value="${cardDto.type}"/><br>
     <spring:message code="card.attribute.transcription" />: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>

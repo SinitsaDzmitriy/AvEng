@@ -1,6 +1,7 @@
 package edu.sam.aveng.base.contract.dao;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -135,7 +137,7 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
 
             queryBuilder.append(String.format(" where c.%s like %s", targetProperty, likeCriterias.get(0)));
 
-            for(int i = 1; i < likeCriterias.size(); i++) {
+            for (int i = 1; i < likeCriterias.size(); i++) {
                 queryBuilder.append(String.format(" or c.%s like %s", targetProperty, likeCriterias.get(i)));
             }
         }
@@ -144,6 +146,46 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
                 .createQuery(queryBuilder.toString())
                 .list();
     }
+
+    // ToDo: Move this method to CardDao (single responsibility)
+    public List<Map> search(Lang usedLang, Lang desiredLang, String formattedSearchInput) {
+
+        Session currentSession =  getCurrentSession();
+
+        List<Map> cardSearchResults = currentSession.createQuery(
+                "select new map(" +
+                        "c.id as id, " +
+                        "c.content as content, " +
+                        "c.type as type, " +
+                        "p.transcription as transcription, " +
+                        "c.definition as definition" +
+                        ") from Card c " +
+                        "join c.pron p " +
+                        "where c.content=:input" +
+                        " and c.lang=:inputLang", Map.class)
+                .setParameter("input", formattedSearchInput)
+                .setParameter("inputLang", usedLang)
+                .list();
+
+        for(Map singleResult : cardSearchResults) {
+
+            List<String> translations = currentSession.createQuery(
+                    "select dc.content " +
+                            "from Card c " +
+                            "join c.cardMappings cms " +
+                            "join cms.destCard dc " +
+                            "where c.id=:id and dc.lang=:desiredLang", String.class)
+                    .setParameter("id", singleResult.get("id"))
+                    .setParameter("desiredLang", desiredLang)
+                    .list();
+
+            singleResult.put("translations", translations);
+
+        }
+
+        return cardSearchResults;
+    }
+
 
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();

@@ -34,6 +34,12 @@
 
                                 <div class="form-group">
 
+                                    <spring:message code="card.attribute.lang"/><br>
+                                    <spring_form:select path="lang" cssErrorClass="errors">
+                                        <spring_form:option value="" selected="true"></spring_form:option>
+                                        <spring_form:options/>
+                                    </spring_form:select><br>
+
                                     <spring_form:label for="enabledContentInput"
                                                        path="content"
                                                        cssErrorClass="error">

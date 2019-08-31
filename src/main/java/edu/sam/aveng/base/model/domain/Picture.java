@@ -21,7 +21,7 @@ public class Picture implements Serializable {
      * <p>
      * {@code private List<String> associations}
      * <p>
-     * Contains list of  related words and phrases. That will help users to find
+     * Contains list of  related words and phrases. That will help users to search
      * {@code Image} among already available. The owner-side should implements
      * {@code void addPicture(Image image)} to update list of association on the
      * creation of relation between objects of {@link edu.sam.aveng.base.model.domain.Picture
