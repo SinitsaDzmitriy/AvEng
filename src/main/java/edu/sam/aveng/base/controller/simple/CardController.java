@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -81,13 +82,17 @@ public class CardController {
         return Constants.View.CARD_UPDATE_FORM;
     }
 
-    @RequestMapping(value = "/update/{cardId}", method = RequestMethod.POST)
+    @PostMapping("/update/{cardId}")
     public String update(@PathVariable long cardId, CardDto cardDto) {
+
+        // ToDo: Fix logging
+
         LOGGER.info("Updating Card with id={}.", cardId);
         LOGGER.debug("Updated Card: updatedCard={}", cardDto);
         cardService.update(cardId, cardDto);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
-        return "redirect:/card/list";
+
+        return "redirect:/card/read/" + cardId;
     }
 
     @RequestMapping(value = "/delete/{cardId}", method = RequestMethod.GET)

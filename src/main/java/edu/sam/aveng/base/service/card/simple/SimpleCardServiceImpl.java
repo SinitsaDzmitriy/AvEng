@@ -1,26 +1,26 @@
 package edu.sam.aveng.base.service.card.simple;
 
 import edu.sam.aveng.base.contract.converter.ICollectionConverter;
+import edu.sam.aveng.base.contract.converter.IShortConverter;
 import edu.sam.aveng.base.contract.dao.IGenericDao;
-import edu.sam.aveng.base.converter.SampleConverter;
 import edu.sam.aveng.base.model.domain.Card;
-import edu.sam.aveng.base.model.domain.Pronunciation;
 import edu.sam.aveng.base.model.domain.Sample;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
 import edu.sam.aveng.base.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+// ToDo: Bear checking of uq Sample constraint in SampleDao class (single-responsibility)
 
 @Service
 @EnableTransactionManagement
@@ -31,6 +31,8 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
     private IGenericDao<Sample> sampleDao;
 
     private ICollectionConverter<Sample, SampleDto> sampleConverter;
+    private IShortConverter<Card, CardDto, ShortCardDto> cardConverter;
+
 
     @Autowired
     @Qualifier("genericHiberDao")
@@ -43,8 +45,12 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
     }
 
     @Autowired
-    public void setSampleConverter(ICollectionConverter<Sample, SampleDto> sampleConverter) {
+    public void setConverters(IShortConverter<Card, CardDto, ShortCardDto> cardConverter,
+                              ICollectionConverter<Sample, SampleDto> sampleConverter) {
+
+        this.cardConverter = cardConverter;
         this.sampleConverter = sampleConverter;
+
     }
 
     @Override
@@ -85,9 +91,27 @@ public class SimpleCardServiceImpl implements ISimpleCardService {
     }
 
     @Override
-    public void update(long cardId, CardDto cardDto) {
-        cardDto.setId(cardId);
-        cardDao.update(Converter.convertToEntity(cardDto));
+    public void update(long cardId, CardDto updatedCardDto) {
+
+        Card updatedCard = cardConverter.convertToEntity(updatedCardDto);
+
+        Set<Sample> preparedSamples = updatedCard.getSamples().stream()
+                .filter(sample -> !sample.getContent().isEmpty())
+                .map(sample -> {
+                    Sample sampleFromDatabase = sampleDao.findByProperty("content", sample.getContent());
+                    if(sampleFromDatabase != null) {
+                        sample = sampleFromDatabase;
+                    }
+                    return sample;
+                })
+                .collect(Collectors.toSet());
+
+
+
+        updatedCard.setId(cardId);
+        updatedCard.setSamples(preparedSamples);
+
+        cardDao.update(updatedCard);
     }
 
     @Override

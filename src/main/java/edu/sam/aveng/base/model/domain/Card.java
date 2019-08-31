@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.model.domain;
 
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import edu.sam.aveng.base.model.domain.enumeration.StatementType;
 import edu.sam.aveng.base.contract.model.Identifiable;
 
@@ -33,6 +34,8 @@ public class Card implements Identifiable, Serializable {
     @Column(nullable = false)
     private Long id;
 
+    private Lang lang;
+
     private String content;
 
     private StatementType type;
@@ -45,7 +48,7 @@ public class Card implements Identifiable, Serializable {
 
     private String definition;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Sample> samples = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -133,6 +136,14 @@ public class Card implements Identifiable, Serializable {
 
     public String getDefinition() {
         return definition;
+    }
+
+    public Lang getLang() {
+        return lang;
+    }
+
+    public void setLang(Lang lang) {
+        this.lang = lang;
     }
 
     public List<Card> getRelatedCards() {

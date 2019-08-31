@@ -119,10 +119,6 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
                 .executeUpdate();
     }
 
-    protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
-
     @Override
     public List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias) {
 
@@ -147,6 +143,10 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
         return (List<T>) getCurrentSession()
                 .createQuery(queryBuilder.toString())
                 .list();
+    }
+
+    protected Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 
 }
