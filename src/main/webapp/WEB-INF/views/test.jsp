@@ -1,203 +1,58 @@
-<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@ taglib prefix="spring_security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<style>
-    .w-10 {
-        width: 10% !important;
-    }
+<html>
 
-    .w-80 {
-        width: 80% !important;
-    }
-</style>
+<head>
+    <meta charset="utf-8">
 
-<mytags:overallBasePage>
+    <style>
+        a.bold {
+            font-weight: bold;
+        }
+    </style>
 
-    <%--    <div class="h-100 w-100 d-flex align-items-center justify-content-center">--%>
-    <%--        <div class="h-75 w-75 bg-light">--%>
+    <title>Demo</title>
+</head>
 
-    <%--    <div id="tempCarouselId" class="carousel slide w-75 h-75" data-ride="carousel">--%>
+<body>
 
-    <%--        <div class="carousel-inner">--%>
+<spring_security:authentication property="principal.id" var="currentUserId"/>
 
-    <%--            <div class="carousel-item active">--%>
-    <%--                <spring:url value="/resources/images/temp.jpg" var="tempImgPath"/>--%>
-    <%--                <img src="${tempImgPath}" class="d-block w-100" alt="...">--%>
-    <%--            </div>--%>
+<a href="http://jquery.com/">jQuery</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <%--            <div class="carousel-item">--%>
-    <%--                <spring:url value="/resources/images/temp.jpg" var="tempImgPath"/>--%>
-    <%--                <img src="${tempImgPath}" class="d-block w-100" alt="...">--%>
-    <%--            </div>--%>
+<%--<spring:url value="/resources/js/test.js" var="testScript"/>--%>
+<%--<script src="${testScript}"></script>--%>
 
-    <%--        </div>--%>
+<script>
 
-    <%--        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-    <%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-    <%--            <span class="sr-only">Previous</span>--%>
-    <%--        </a>--%>
+    links = $("a");
 
-    <%--        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">--%>
-    <%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-    <%--            <span class="sr-only">Next</span>--%>
-    <%--        </a>--%>
+    $(document).ready(function () {
 
-    <%--    </div>--%>
+        links.click(function(event) {
 
-    <div class="bg-secondary">
-        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
+            event.preventDefault();
 
-            <div class="carousel-inner w-80 m-auto">
+            if($(this).hasClass("bold")) {
+                links.removeClass("bold");
 
-                <form>
+            } else {
+                links.addClass("bold");
+            }
 
-                    <div class="carousel-item active">
+            $(this).hide("slow");
 
-                        <div class="h-100 w-100 bg-light d-flex align-items-center justify-content-center">
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="Enter email">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                        anyone
-                                        else.
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
+        });
 
-                    </div>
+    });
 
-                    <div class="carousel-item">
+    // Your code goes here.
 
-                        <div class="h-100 w-100 bg-light d-flex align-items-center justify-content-center">
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1"
-                                           placeholder="Password">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        </div>
-                    </div>
+</script>
 
-                </form>
+</body>
 
-            </div>
-
-            <a class="carousel-control-prev w-10" href="#carouselExampleControls" role="button"
-               data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-
-            <a class="carousel-control-next w-10" href="#carouselExampleControls" role="button"
-               data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-
-
-        </div>
-            <%--    <div id="carouselExampleControls d-flex justify-content-center" class="carousel slide" data-ride="carousel">--%>
-
-            <%--        <div class="carousel-inner w-50 m-auto">--%>
-
-            <%--            <div class="carousel-item active h-100 w-100 bg-light d-flex justify-content-center" >--%>
-
-            <%--                <div class="form-group w-75">--%>
-            <%--                    <label for="exampleInputEmail1">Email address</label>--%>
-            <%--                    <input type="email" class="form-control" id="exampleInputEmail1"--%>
-            <%--                           aria-describedby="emailHelp"--%>
-            <%--                           placeholder="Enter email">--%>
-            <%--                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone--%>
-            <%--                        else.--%>
-            <%--                    </small>--%>
-            <%--                </div>--%>
-
-            <%--            </div>--%>
-
-            <%--            <div class="carousel-item h-100 w-100 bg-light">--%>
-
-            <%--                <div class="form-group">--%>
-            <%--                    <label for="exampleInputPassword1">Password</label>--%>
-            <%--                    <input type="password" class="form-control" id="exampleInputPassword1"--%>
-            <%--                           placeholder="Password">--%>
-            <%--                </div>--%>
-            <%--                <div class="form-group form-check">--%>
-            <%--                    <input type="checkbox" class="form-check-input" id="exampleCheck1">--%>
-            <%--                    <label class="form-check-label" for="exampleCheck1">Check me out</label>--%>
-            <%--                </div>--%>
-            <%--                <button type="submit" class="btn btn-primary">Submit</button>--%>
-
-            <%--            </div>--%>
-
-            <%--        </div>--%>
-            <%--        <a class="carousel-control-prev w-25" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-            <%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-            <%--            <span class="sr-only">Previous</span>--%>
-            <%--        </a>--%>
-            <%--        <a class="carousel-control-next w-25" href="#carouselExampleControls" role="button" data-slide="next">--%>
-            <%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-            <%--            <span class="sr-only">Next</span>--%>
-            <%--        </a>--%>
-
-            <%--    </div>--%>
-
-            <%--    <div class="h-100 w-100 bg-light d-flex align-items-stretch">--%>
-
-
-            <%--        <form id="carouselExampleControls w-100 m-0" class="carousel slide" data-ride="carousel">--%>
-
-            <%--            <div class="carousel-inner">--%>
-
-            <%--                <div class="carousel-item active">--%>
-
-            <%--                    <div class="form-group">--%>
-            <%--                        <label for="exampleInputEmail1">Email address</label>--%>
-            <%--                        <input type="email" class="form-control" id="exampleInputEmail1"--%>
-            <%--                               aria-describedby="emailHelp"--%>
-            <%--                               placeholder="Enter email">--%>
-            <%--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone--%>
-            <%--                            else.--%>
-            <%--                        </small>--%>
-            <%--                    </div>--%>
-
-            <%--                </div>--%>
-
-            <%--                <div class="carousel-item">--%>
-
-            <%--                    <div class="form-group">--%>
-            <%--                        <label for="exampleInputPassword1">Password</label>--%>
-            <%--                        <input type="password" class="form-control" id="exampleInputPassword1"--%>
-            <%--                               placeholder="Password">--%>
-            <%--                    </div>--%>
-            <%--                    <div class="form-group form-check">--%>
-            <%--                        <input type="checkbox" class="form-check-input" id="exampleCheck1">--%>
-            <%--                        <label class="form-check-label" for="exampleCheck1">Check me out</label>--%>
-            <%--                    </div>--%>
-            <%--                    <button type="submit" class="btn btn-primary">Submit</button>--%>
-
-            <%--                </div>--%>
-
-            <%--            </div>--%>
-            <%--            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-            <%--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-            <%--                <span class="sr-only">Previous</span>--%>
-            <%--            </a>--%>
-            <%--            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">--%>
-            <%--                <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-            <%--                <span class="sr-only">Next</span>--%>
-            <%--            </a>--%>
-
-            <%--        </form>--%>
-
-            <%--    </div>--%>
-            <%--        </div>--%>
-            <%--    </div>--%>
-
-</mytags:overallBasePage>
+</html>

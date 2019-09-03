@@ -11,6 +11,8 @@ public interface IUserCardService extends ICrudService<UserCard,
         UserCardDto,
         ICollectionConverter<UserCard, UserCardDto>> {
 
+    void create(long userId, long cardId, UserCardDto userCardDto);
+
     void swapFavorite(long id);
 
     void changeStatus(long id, Status status);

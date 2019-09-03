@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.controller.simple;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,6 +17,12 @@ public class TestController {
 
     @RequestMapping(value = "/temp", method = GET)
     public String temp() {
+
+        Object principal = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
         return "temp";
     }
 

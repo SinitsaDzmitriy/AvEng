@@ -19,7 +19,7 @@ public class PopGenericHiberDao<T extends Identifiable & Serializable>
                         + " select :user, c , :status"
                         + " from Card c")
                 .setParameter("user", findOne(id))
-                .setParameter("status", Status.DEFAULT)
+                .setParameter("status", Status.NEW)
                 .executeUpdate();
     }
 
