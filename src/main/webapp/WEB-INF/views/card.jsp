@@ -121,11 +121,11 @@
 
                 $.ajax({
                     type: "POST",
-                    url: location.origin + "/api/user-cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
+                    url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
                     // data: { test: "test "}
                     data: JSON.stringify(formData),
                     // ToDo: understand what this line change?
-                    contentType: "application/json",
+                    contentType: "application/json"
                     // dataType: "json"
                     // application/
                 })

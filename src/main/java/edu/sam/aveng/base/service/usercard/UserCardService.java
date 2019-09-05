@@ -1,15 +1,14 @@
 package edu.sam.aveng.base.service.usercard;
 
-import edu.sam.aveng.base.contract.converter.ICollectionConverter;
+import edu.sam.aveng.base.contract.converter.IShortConverter;
 import edu.sam.aveng.base.contract.dao.IGenericDao;
-import edu.sam.aveng.base.contract.service.StandardGenericCrudService;
+import edu.sam.aveng.base.contract.service.SmartGenericCrudService;
 import edu.sam.aveng.base.model.domain.Card;
 import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.domain.UserCard;
 import edu.sam.aveng.base.model.domain.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.service.card.ICardService;
-import edu.sam.aveng.base.service.user.IUserService;
+import edu.sam.aveng.base.model.transfer.dto.UserCardTableItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
 @Transactional
 public class UserCardService
-        extends StandardGenericCrudService<UserCard, UserCardDto>
+        extends SmartGenericCrudService<UserCard, UserCardDto, UserCardTableItem>
         implements IUserCardService {
 
     private IGenericDao<User> userDao;
@@ -31,7 +32,7 @@ public class UserCardService
     @Override
     @Autowired
     @Qualifier("userCardConverter")
-    public void converter(ICollectionConverter<UserCard, UserCardDto> converter) {
+    public void converter(IShortConverter<UserCard, UserCardDto, UserCardTableItem> converter) {
         setConverter(converter);
     }
 
@@ -49,6 +50,7 @@ public class UserCardService
         this.cardDao = cardDao;
     }
 
+    @Override
     public void create(long userId, long cardId, UserCardDto draft) {
 
         User currentUser = (User) SecurityContextHolder
@@ -58,12 +60,12 @@ public class UserCardService
 
         // Such check is unacceptable for real REST api
 
-        if(currentUser.getId() == userId) {
+        if (currentUser.getId() == userId) {
 
             User owner = userDao.findOne(userId);
             Card baseCard = cardDao.findOne(cardId);
 
-            if(owner != null && baseCard != null) {
+            if (owner != null && baseCard != null) {
 
                 UserCard userCard = new UserCard();
 
@@ -82,6 +84,61 @@ public class UserCardService
             // ToDo: handle this exception!
         }
 
+    }
+
+    @Override
+    public UserCardDto findOne(long id) {
+
+        // ToDo: Rewrite awful cast
+        User currentUser = (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UserCard userCard = dao.findOne(id);
+
+        if (!userCard.getOwner().getId().equals(currentUser.getId())) {
+            System.out.println("You don't have enough permissions");
+            // ToDo: Throw proper type exception
+            // throw new Exception();
+            return null;
+        }
+        return converter.convertToDto(userCard);
+    }
+
+    @Override
+    public List<UserCardTableItem> findAll() {
+
+        // ToDo: Move user check in separate method (duplication)
+        // ToDo: Rewrite awful cast
+        User currentUser = (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return converter
+                .convertToShortDto(dao.findAllEagerlyByProperty("owner.id", currentUser.getId()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(long id) {
+
+        // ToDo: Rewrite awful cast
+        User currentUser = (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        UserCard userCardToDelete = dao.findOne(id);
+
+        if (userCardToDelete.getOwner().getId().equals(currentUser.getId())) {
+            dao.delete(userCardToDelete);
+        } else {
+            System.out.println("You don't have enough permissions");
+            // ToDo: Throw proper type exception
+            // throw new Exception();
+        }
     }
 
     @Override

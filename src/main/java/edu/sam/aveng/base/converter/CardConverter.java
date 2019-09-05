@@ -24,22 +24,22 @@ public class CardConverter
         implements IShortConverter<Card, CardDto, ShortCardDto> {
 
     private ICollectionConverter<Sample,
-                    SampleDto> sampleConverter;
+            SampleDto> sampleConverter;
 
     private IBaseConverter<Pronunciation,
-                PronunciationDto> pronConverter;
+            PronunciationDto> pronConverter;
 
     @Autowired
     @Qualifier("sampleConverter")
     public void setSampleConverter(ICollectionConverter<Sample,
-                    SampleDto> sampleConverter) {
+            SampleDto> sampleConverter) {
         this.sampleConverter = sampleConverter;
     }
 
     @Autowired
     @Qualifier("pronConverter")
     public void setPronConverterConverter(IBaseConverter<Pronunciation,
-                PronunciationDto> pronConverter) {
+            PronunciationDto> pronConverter) {
         this.pronConverter = pronConverter;
     }
 
@@ -53,6 +53,7 @@ public class CardConverter
         CardDto dto = new CardDto();
 
         dto.setId(card.getId());
+        dto.setLang(card.getLang());
         dto.setContent(card.getContent());
         dto.setType(card.getType());
         dto.setPron(pronConverter.convertToDto(card.getPron()));
@@ -66,7 +67,7 @@ public class CardConverter
     public Card convertToEntity(CardDto cardDto) {
         Card card = new Card();
 
-        List<Sample> samples  = sampleConverter
+        List<Sample> samples = sampleConverter
                 .convertToEntity(cardDto.getSamples())
                 .collect(Collectors.toList());
 
@@ -91,7 +92,8 @@ public class CardConverter
                     shortCardDto.setType(card.getType());
                     shortCardDto.setDefinition(card.getDefinition());
 
-                    return shortCardDto; });
+                    return shortCardDto;
+                });
     }
 
     @Override

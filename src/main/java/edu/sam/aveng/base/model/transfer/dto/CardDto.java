@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.model.transfer.dto;
 
+import edu.sam.aveng.base.model.domain.enumeration.Lang;
 import edu.sam.aveng.base.model.domain.enumeration.StatementType;
 
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class CardDto {
     private Long id;
+
+    private Lang lang;
 
     @NotBlank(message = "{validation.card.content.blank}")
     private String content;
@@ -50,6 +53,14 @@ public class CardDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Lang getLang() {
+        return lang;
+    }
+
+    public void setLang(Lang lang) {
+        this.lang = lang;
     }
 
     public void setPron(PronunciationDto pron) {

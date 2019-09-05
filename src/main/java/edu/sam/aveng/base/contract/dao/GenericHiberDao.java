@@ -52,10 +52,10 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
 
 
     @Override
-    public List<T> findAllEagerlyByProperty(String property, String value) {
+    public List<T> findAllEagerlyByProperty(String property, Object value) {
         return (List<T>) getCurrentSession()
                 .createQuery(String.format("from %s c "
-                                + "join fetch "
+                                + "fetch all properties "
                                 + "where c.%s='%s'",
                         clazz.getName(), property, value))
                 .list();

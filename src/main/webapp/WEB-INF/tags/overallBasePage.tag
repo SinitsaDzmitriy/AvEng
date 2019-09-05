@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<jsp:useBean id="date" class="java.util.Date" />
+<jsp:useBean id="date" class="java.util.Date"/>
 
 <html>
 
@@ -37,7 +37,7 @@
                 <div class="dropdown-menu mt-4" aria-labelledby="dropdownMenuButton">
 
                     <h5 class="dropdown-header">
-                        <spring:message code="headline.menu.main"/>
+                        <spring:message code="menu.panel.student"/>
                     </h5>
 
                     <spring:url value="/" var="homePagePath"/>
@@ -45,21 +45,34 @@
                         <spring:message code="menu.homepage"/>
                     </a>
 
-                    <div class="dropdown-divider"></div>
+                    <security:authorize access="isFullyAuthenticated()">
 
-                    <h5 class="dropdown-header">
-                        <spring:message code="headline.menu.cards"/>
-                    </h5>
+                        <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
+                        <a class="dropdown-item" href="${personalDictionaryPath}">
+                            <spring:message code="menu.personal-dictionary"/>
+                        </a>
 
-                    <spring:url value="/card/list" var="cardListPagePath"/>
-                    <a class="dropdown-item" href="${cardListPagePath}">
-                        <spring:message code="menu.cards.list"/>
-                    </a>
+                    </security:authorize>
 
-                    <spring:url value="/card/create" var="cardCreatePagePath"/>
-                    <a class="dropdown-item" href="${cardCreatePagePath}">
-                        <spring:message code="menu.cards.create"/>
-                    </a>
+                    <security:authorize access="hasRole('ADMIN')">
+
+                        <div class="dropdown-divider"></div>
+
+                        <h5 class="dropdown-header">
+                            <spring:message code="menu.panel.teacher"/>
+                        </h5>
+
+                        <spring:url value="/card/list" var="cardListPagePath"/>
+                        <a class="dropdown-item" href="${cardListPagePath}">
+                            <spring:message code="menu.cards.list"/>
+                        </a>
+
+                        <spring:url value="/card/create" var="cardCreatePagePath"/>
+                        <a class="dropdown-item" href="${cardCreatePagePath}">
+                            <spring:message code="menu.cards.create"/>
+                        </a>
+
+                    </security:authorize>
 
                 </div>
 
@@ -96,9 +109,9 @@
                 </button>
 
                 <div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-item" onclick="location.href='?lang=rus'">Русский</div>
+                    <div class="dropdown-item" onclick="location.href='?lang=ru'">Русский</div>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" onclick="location.href='?lang=eng'">English</div>
+                    <div class="dropdown-item" onclick="location.href='?lang=en'">English</div>
                 </div>
 
             </div>
@@ -193,7 +206,7 @@
 
                 <div class="nav-item d-flex align-items-center py-2">
                     <h6 class="text-secondary mx-2 my-0">
-                        <spring:message code="headline.menu.main"/>
+                        <spring:message code="menu.panel.student"/>
                     </h6>
                 </div>
 
@@ -202,21 +215,34 @@
                     <spring:message code="menu.homepage"/>
                 </a>
 
-                <div class="nav-item d-flex align-items-center py-2">
-                    <h6 class="text-secondary mx-2 my-0">
-                        <spring:message code="headline.menu.cards"/>
-                    </h6>
-                </div>
+                <security:authorize access="isFullyAuthenticated()">
 
-                <spring:url value="/card/list" var="cardListPagePath"/>
-                <a class="nav-link text-secondary" href="${cardListPagePath}">
-                    <spring:message code="menu.cards.list"/>
-                </a>
+                    <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
+                    <a class="nav-link text-secondary" href="${personalDictionaryPath}">
+                        <spring:message code="menu.personal-dictionary"/>
+                    </a>
 
-                <spring:url value="/card/create" var="cardCreatePagePath"/>
-                <a class="nav-link text-secondary" href="${cardCreatePagePath}">
-                    <spring:message code="menu.cards.create"/>
-                </a>
+                </security:authorize>
+
+                <security:authorize access="hasRole('ADMIN')">
+
+                    <div class="nav-item d-flex align-items-center py-2">
+                        <h6 class="text-secondary mx-2 my-0">
+                            <spring:message code="menu.panel.teacher"/>
+                        </h6>
+                    </div>
+
+                    <spring:url value="/card/list" var="cardListPagePath"/>
+                    <a class="nav-link text-secondary" href="${cardListPagePath}">
+                        <spring:message code="menu.cards.list"/>
+                    </a>
+
+                    <spring:url value="/card/create" var="cardCreatePagePath"/>
+                    <a class="nav-link text-secondary" href="${cardCreatePagePath}">
+                        <spring:message code="menu.cards.create"/>
+                    </a>
+
+                </security:authorize>
 
             </nav>
 

@@ -2,9 +2,9 @@ package edu.sam.aveng.base.model.domain.enumeration;
 
 public enum Lang {
 
-    ENGLISH("English", "eng"),
-    RUSSIAN("Russian", "rus"),
-    GERMAN("German", "ger");
+    ENGLISH("English", "en"),
+    RUSSIAN("Russian", "ru"),
+    GERMAN("German", "de");
 
     private String name;
     private String code;

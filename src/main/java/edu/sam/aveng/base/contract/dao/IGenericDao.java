@@ -20,7 +20,7 @@ public interface IGenericDao<T extends Serializable> {
 
     List<T> findAll();
 
-    List<T> findAllEagerlyByProperty(String property, String value);
+    List<T> findAllEagerlyByProperty(String property, Object value);
 
     T update(final T entity);
 
