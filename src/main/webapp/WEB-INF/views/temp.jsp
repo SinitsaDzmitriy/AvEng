@@ -9,94 +9,41 @@
 
     <div class="container-fluid">
 
+        <div class="input-group">
 
-        <div class="row">
+            <input class="form-control rounded-left border-secondary shadow-none" type="search" placeholder="Search"
+                   aria-label="Search">
 
-            <div class="col-2">
-            <span class="text-secondary">
-                English
-            </span>
-            </div>
+            <div class="input-group-append">
 
-            <div class="col-8">
+                <select class="form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+                    <option disabled selected value>from</option>
+                    <option>en</option>
+                    <option>ru</option>
+                    <option>de</option>
+                </select>
 
-                <div class="row">
-
-                    <b class="text-primary">desertification</b>
-                    &nbsp;
-                    <i>noun</i>
-
+                <div class="d-flex align-items-center border border-secondary">
+                    <spring:url value="/resources/images/swapLangsIcon.svg" var="swapLangsIconPath"/>
+                    <img class="mx-1" src="${swapLangsIconPath}" width="30" height="30" alt="swapLangsIconPath">
                 </div>
 
-                <div class="row">
-                    <p>
-                        the process by which land changes into desert, for example because there has been too
-                        much
-                        farming
-                        activity on it or because a lot of trees have been cut down
-                    </p>
-                </div>
+                <select class="form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+                    <option disabled selected value>to</option>
+                    <option>en</option>
+                    <option>ru</option>
+                    <option>de</option>
+                </select>
 
-            </div>
-
-            <div class="col-2">
-
-                <spring:url value="/resources/images/playPronIcon.svg" var="playPronIconPath"/>
-                <img src="${playPronIconPath}" width="28" height="28" alt="playPronIcon">
-
-                <h6 class="d-inline-block">|</h6>
-
-                <spring:url value="/resources/images/deleteIcon.svg" var="deleteIconPath"/>
-                <img src="${deleteIconPath}" width="28" height="28" alt="deleteIcon">
-
-            </div>
-
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-2">
-            <span class="text-secondary">
-                English
-            </span>
-            </div>
-
-            <div class="col-8">
-
-                <div class="row">
-
-                    <b class="text-primary">desertification</b>
-                    &nbsp;
-                    <i>noun</i>
-
-                </div>
-
-                <div class="row">
-                    <p>
-                        the process by which land changes into desert, for example because there has been too
-                        much
-                        farming
-                        activity on it or because a lot of trees have been cut down
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="col-2">
-
-                <spring:url value="/resources/images/playPronIcon.svg" var="playPronIconPath"/>
-                <img src="${playPronIconPath}" width="28" height="28" alt="playPronIcon">
-
-                <h6 class="d-inline-block">|</h6>
-
-                <spring:url value="/resources/images/deleteIcon.svg" var="deleteIconPath"/>
-                <img src="${deleteIconPath}" width="28" height="28" alt="deleteIcon">
+                <button class="btn btn-outline-secondary shadow-none rounded-right" type="button">
+                    Search
+                </button>
 
             </div>
 
         </div>
 
     </div>
+
 
 </mytags:overallBasePage>

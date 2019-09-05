@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <style>
+        .lang-select {
+            width: 5em;
+        }
+    </style>
+
     <title><spring:message code="app.name"/></title>
 </head>
 
@@ -121,12 +127,48 @@
         <div class="col px-0">
 
             <div class="d-none d-md-flex w-100">
+
                 <div class="input-group mx-1 my-2">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+
+                    <input class="form-control rounded-left border-secondary shadow-none" type="search" placeholder="Search"
+                           aria-label="Search">
+
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
+
+                        <select class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+                            <option disabled selected value>from</option>
+                            <option>en</option>
+                            <option>ru</option>
+                            <option>de</option>
+                        </select>
+
+                        <div class="d-flex align-items-center border border-secondary">
+                            <spring:url value="/resources/images/swapLangsIcon.svg" var="swapLangsIconPath"/>
+                            <img class="mx-1" src="${swapLangsIconPath}" width="30" height="30" alt="swapLangsIconPath">
+                        </div>
+
+                        <select class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+                            <option disabled selected value>to</option>
+                            <option>en</option>
+                            <option>ru</option>
+                            <option>de</option>
+                        </select>
+
+                        <button class="btn btn-outline-secondary shadow-none rounded-right" type="button">
+                            Search
+                        </button>
+
                     </div>
+
                 </div>
+
+<%--                <div class="input-group mx-1 my-2">--%>
+<%--                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">--%>
+<%--                    <div class="input-group-append">--%>
+<%--                        <button class="btn btn-outline-secondary" type="button">Search</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+
             </div>
 
         </div>
