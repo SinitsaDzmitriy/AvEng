@@ -52,6 +52,7 @@ public class CardConverter
 
         CardDto dto = new CardDto();
 
+        dto.setLang(card.getLang());
         dto.setId(card.getId());
         dto.setLang(card.getLang());
         dto.setContent(card.getContent());
@@ -71,6 +72,7 @@ public class CardConverter
                 .convertToEntity(cardDto.getSamples())
                 .collect(Collectors.toList());
 
+        card.setLang(cardDto.getLang());
         card.setId(cardDto.getId());
         card.setContent(cardDto.getContent());
         card.setType(cardDto.getType());
@@ -88,6 +90,7 @@ public class CardConverter
                     ShortCardDto shortCardDto = new ShortCardDto();
 
                     shortCardDto.setId(card.getId());
+                    shortCardDto.setLang(card.getLang());
                     shortCardDto.setContent(card.getContent());
                     shortCardDto.setType(card.getType());
                     shortCardDto.setDefinition(card.getDefinition());

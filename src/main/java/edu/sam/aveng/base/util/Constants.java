@@ -16,6 +16,8 @@ public final class Constants {
         public static final String USER_REGISTRATION_FORM = "userRegistrationForm";
         public static final String CARD_CREATION_FORM = "cardCreationForm";
         public static final String CARD_UPDATE_FORM = "cardUpdateForm";
+
+        public static final String INITIAL = "initial";
         public static final String USER_CARD = "userCard";
         public static final String PERSONAL_DICTIONARY = "personalDictionary";
     }

@@ -12,6 +12,8 @@ import java.util.List;
 public class CardDto {
     private Long id;
 
+    // ToDo: Add costume validation message
+    @NotNull()
     private Lang lang;
 
     @NotBlank(message = "{validation.card.content.blank}")

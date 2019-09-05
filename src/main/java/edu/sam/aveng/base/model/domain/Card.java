@@ -34,10 +34,13 @@ public class Card implements Identifiable, Serializable {
     @Column(nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private Lang lang;
 
+    @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private StatementType type;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
@@ -46,6 +49,7 @@ public class Card implements Identifiable, Serializable {
                     foreignKey = @ForeignKey(name = "PRON_ID_FK"))
     private Pronunciation pron;
 
+    @Column(nullable = false)
     private String definition;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

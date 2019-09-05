@@ -30,6 +30,7 @@
     <table>
         <tr class="boldTableHeader">
             <td>ID</td>
+            <td><spring:message code="card.attribute.lang"/></td>
             <td><spring:message code="card.attribute.content"/></td>
             <td><spring:message code="card.attribute.type"/></td>
             <td><spring:message code="card.attribute.definition"/></td>
@@ -40,6 +41,7 @@
                 <td>
                     <a href="<jstl:url value="/card/read/${cardDto.id}" />">${cardDto.id}</a>
                 </td>
+                <td>${cardDto.lang}</td>
                 <td>${cardDto.content}</td>
                 <td>${cardDto.type}</td>
                 <td>${cardDto.definition}</td>
