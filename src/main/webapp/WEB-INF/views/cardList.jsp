@@ -23,7 +23,7 @@
     }
 </style>
 
-<mytags:overallBasePage>
+<mytags:overallBasePage pageHeadline="List of Cards">
 
     <h1><spring:message code="headline.card.read.all"/></h1>
 
@@ -34,12 +34,16 @@
             <td><spring:message code="card.attribute.content"/></td>
             <td><spring:message code="card.attribute.type"/></td>
             <td><spring:message code="card.attribute.definition"/></td>
-            <td colspan="2"><spring:message code="headline.actions"/></td>
+
+            <security:authorize access="hasRole('ADMIN')">
+                <td colspan="2"><spring:message code="headline.actions"/></td>
+            </security:authorize>
+
         </tr>
         <jstl:forEach items="${shortCardDtoList}" var="cardDto">
             <tr>
                 <td>
-                    <a href="<jstl:url value="/card/read/${cardDto.id}" />">${cardDto.id}</a>
+                    <a href="<jstl:url value="/cards/display/${cardDto.id}" />">${cardDto.id}</a>
                 </td>
                 <td>${cardDto.lang}</td>
                 <td>${cardDto.content}</td>

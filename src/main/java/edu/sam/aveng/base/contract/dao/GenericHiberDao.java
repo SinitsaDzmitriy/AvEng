@@ -169,17 +169,19 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
 
         for(Map singleResult : cardSearchResults) {
 
-            List<String> translations = currentSession.createQuery(
-                    "select dc.content " +
-                            "from Card c " +
+            List<Map> coupledCards = currentSession.createQuery(
+                    "select new map(" +
+                            "dc.id as id, " +
+                            "dc.content as content" +
+                            ") from Card c " +
                             "join c.cardMappings cms " +
                             "join cms.destCard dc " +
-                            "where c.id=:id and dc.lang=:desiredLang", String.class)
+                            "where c.id=:id and dc.lang=:desiredLang", Map.class)
                     .setParameter("id", singleResult.get("id"))
                     .setParameter("desiredLang", desiredLang)
                     .list();
 
-            singleResult.put("translations", translations);
+            singleResult.put("coupledCards", coupledCards);
 
         }
 

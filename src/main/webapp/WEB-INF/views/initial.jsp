@@ -5,7 +5,7 @@
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<mytags:overallBasePage>
+<mytags:overallBasePage pageHeadline="AvEng">
 
     <h1><spring:message code="headline.initial"/></h1>
 

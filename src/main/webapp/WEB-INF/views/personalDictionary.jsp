@@ -7,9 +7,25 @@
 
 <%@ page import="edu.sam.aveng.base.model.domain.enumeration.Status" %>
 
-<mytags:overallBasePage>
+<mytags:overallBasePage pageHeadline="Personal Dictionary">
 
     <div class="container-fluid w-75">
+
+        <jstl:if test="${userCardTableItems.size() == 0}">
+
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success" role="alert">
+
+                    <spring:url value="/resources/images/addIcon.svg" var="addIcon"/>
+                    <jstl:set var="img" value="<img src='${addIcon}' width='28' height='28' alt='addIcon' style='margin-left: 0.2rem; margin-right: 0.2rem; background-color: white; border-radius: 50%;'>"/>
+                    <spring:message code="alert.user-cards.empty" arguments="${img}"/>
+
+                </div>
+            </div>
+        </div>
+
+        </jstl:if>
 
         <jstl:forEach items="${userCardTableItems}" var="userCardItem">
 
@@ -37,9 +53,9 @@
                             </span>
                         </jstl:when>
 
-                        <jstl:when test="${userCardItem.status == Status.FAVOURITE}">
+                        <jstl:when test="${userCardItem.status == Status.KNOWN}">
                             <span class="badge badge-success">
-                                FAVOURITE
+                                KNOWN
                             </span>
                         </jstl:when>
 

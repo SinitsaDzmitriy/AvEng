@@ -26,11 +26,11 @@
     }
 </style>
 
-<mytags:overallBasePage>
+<mytags:overallBasePage pageHeadline="Card Creation Form">
 
     <h1><spring:message code="headline.card.create"/></h1>
 
-    <spring_form:form method="POST" modelAttribute="cardDto">
+    <spring_form:form method="POST" modelAttribute="cardDto" autocomplete="off">
         <!-- element attribute: Defines a HTML tag in which errors are rendered -->
         <spring_form:errors path="*" element="div" cssClass="errors"/>
 

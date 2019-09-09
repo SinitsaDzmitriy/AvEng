@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -63,30 +62,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
-        // ToDo: assign parts of api to different roles
+        String[] publicUrls = {
+                "/",
+                "/initial",
+                "/cards/search",
+                "/cards/display/**"
+        };
 
-//        /*
+        String[] additionalUserUrls = {
+                "/user_cards/**",
+                "/api/user_cards/**"
+        };
 
         http.authorizeRequests()
-                .antMatchers("/card/create/**", "/card/update/**", "/card/delete")
-                .hasRole("ADMIN")
-                .antMatchers("/card/**")
+                .antMatchers(publicUrls)
+                .permitAll()
+                .antMatchers(additionalUserUrls)
                 .hasRole("USER")
-                .antMatchers("/", "/initial", "/login", "/register")
-                .permitAll()
-                .antMatchers("/api/**")
-                .hasRole("ADMIN")
-                .antMatchers("/test/**")
-                .permitAll()
-                .antMatchers("/resources/**")
-                .permitAll()
                 .anyRequest()
                 .hasRole("ADMIN")
                 .and()
                 .csrf().disable()
                 .formLogin();
-
-//         */
 
 //        // ToDo: Remove temporary config
 //        http.authorizeRequests()
@@ -94,5 +91,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()
 //                .and()
 //                .csrf().disable();
+
     }
 }

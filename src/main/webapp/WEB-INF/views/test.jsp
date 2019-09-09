@@ -3,6 +3,9 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page import="org.springframework.context.i18n.LocaleContextHolder" %>
 
 <jsp:useBean id="date" class="java.util.Date"/>
 
@@ -22,163 +25,25 @@
 
 <body>
 
-<div class="container-fluid d-flex h-100 flex-column">
 
-    <header class="row border-bottom border-secondary">
-        <div class="col-1 d-md-none d-flex justify-content-center align-items-center px-0">
+    <div class="container-fluid">
 
-            <div class="dropdown">
+        <button id="searchButton" class="btn btn-primary">search</button>
 
-                <div class="media" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <spring:url value="/resources/images/menu.svg" var="menuIconPath"/>
-                    <img src="${menuIconPath}" width="30" height="30" class="d-inline-block align-top" alt="">
-                </div>
+        <select id="sourceLangSelect"
+                name="usedLang"
+                class="form-control my-2">
+        </select>
 
-            </div>
+        <select id="destinationLangSelect"
+                name="desiredLang"
+                class="form-control my-2">
+        </select>
 
-        </div>
-
-        <div class="col-1 col-md-2 text-center px-0">
-
-            <spring:url value="/initial" var="initialPagePath"/>
-            <a class="navbar-brand nav-link h-100 w-100 mx-0 my-1 py-2" href="${initialPagePath}">
-                <div class="media d-flex justify-content-center">
-                    <spring:url value="/resources/images/logo.svg" var="logoPath"/>
-                    <img src="${logoPath}" width="32" height="30" class="d-inline-block align-top" alt="">
-                    <div class="d-none d-md-flex">
-                        <div class="media-body w-auto text-secondary">AvEng</div>
-                    </div>
-                </div>
-            </a>
-
-        </div>
-
-        <div class="col-auto pl-4 pr-0">
-
-            <div class="dropdown mx-1 my-2">
-
-                <button class="btn btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        id="navbarLangDropdown"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Language
-                </button>
-
-                <div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-item" onclick="location.href='?lang=ru'">Русский</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" onclick="location.href='?lang=en'">English</div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col px-0">
-
-            <div class="d-none d-md-flex w-100">
-                <div class="input-group mx-1 my-2">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-
-                    <div class="input-group-append">
+    </div>
 
 
 
-                        <div class="btn-group btn-group-toggle input-group-append" data-toggle="buttons">
-
-                            <select class="form-control">
-                                <option disabled selected value>from</option>
-                                <option>en</option>
-                                <option>ru</option>
-                                <option>de</option>
-                            </select>
-
-                            <div>
-                                <button class="btn btn-outline-secondary rounded-right" type="button">Search</button>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="col-auto d-flex align-items-center position-static px-0">
-
-                <div class="dropdown d-md-none position-static my-1 mx-1">
-
-                    <div class="media"
-                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <spring:url value="/resources/images/search.svg" var="searchIconPath"/>
-                        <img src="${searchIconPath}" width="30" height="30" class="d-inline-block align-top" alt="">
-                    </div>
-
-                    <div class="dropdown-menu w-75 mt-4 p-0" aria-labelledby="dLabel">
-                        <div class="drop-item">
-                            <div class="input-group">
-                                <input class="form-control" type="search" placeholder="Search"
-                                       aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button">Search</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-auto position-static pl-0 pr-4">
-
-                <div class="nav justify-content-end mx-1 my-2">
-                    <div class="nav-item">
-
-                    </div>
-
-                    <security:authorize access="isAnonymous()">
-
-                        <div class="nav-item">
-                            <spring:url value="/login" var="loginLink"/>
-                            <a href="${loginLink}" class="btn btn-light text-nowrap mx-1">
-                                <spring:message code="nav.login"/>
-                            </a>
-                        </div>
-
-                        <div class="nav-item">
-                            <spring:url value="/register" var="registerLink"/>
-                            <a href="${registerLink}" class="btn btn-primary text-nowrap mx-1">
-                                <spring:message code="nav.register"/>
-                            </a>
-                        </div>
-
-                    </security:authorize>
-
-                    <security:authorize access="isFullyAuthenticated()">
-
-                        <div class="nav-item">
-                            <spring:url value="/logout" var="logoutLink"/>
-                            <a href="${logoutLink}" class="btn btn-secondary text-nowrap">
-                                <spring:message code="nav.logout"/>
-                            </a>
-                        </div>
-
-                    </security:authorize>
-
-                </div>
-
-            </div>
-
-    </header>
-
-</div>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -196,6 +61,87 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+<script>
+
+    $(document).ready(function() {
+
+        var isSourceLangSelectChanged = false;
+        var isDestinationLangSelectChanged = false;
+
+        var supportedCardLangs =
+            [
+                "English",
+                "Russian",
+                "German"
+            ];
+
+        if(localStorage.getItem("lastUsedSourceLang") == null) {
+            localStorage.setItem("lastUsedSourceLang",
+                "${LocaleContextHolder.getLocale().getDisplayLanguage()}");
+        }
+
+        if(localStorage.getItem("lastUsedDestinationLang") == null) {
+            localStorage.setItem("lastUsedDestinationLang", "English");
+        }
+
+        // ToDo: create js func to avoid duplication
+
+        supportedCardLangs.forEach(function (lang) {
+            var htmlLangOption = "<option " + "id='langSourceOption" + lang + "'>"
+                + lang + "</option>";
+            $("#sourceLangSelect").append(htmlLangOption);
+        });
+
+        supportedCardLangs.forEach(function (lang) {
+            var htmlLangOption = "<option " + "id='langDestinationOption" + lang + "'>"
+                + lang + "</option>";
+            $("#destinationLangSelect").append(htmlLangOption);
+        });
+
+        $("#langSourceOption" + localStorage.getItem("lastUsedSourceLang")).attr("selected", true);
+        $("#langDestinationOption" + localStorage.getItem("lastUsedDestinationLang")).attr("selected", true);
+
+        $("#sourceLangSelect").change(function() {
+            isSourceLangSelectChanged = true;
+        });
+
+        $("#destinationLangSelect").change(function() {
+            isDestinationLangSelectChanged = true;
+        });
+
+        $("#searchButton").click(function () {
+
+            if (isSourceLangSelectChanged) {
+                localStorage.setItem("lastUsedSourceLang",
+                    $("#sourceLangSelect").children("option:selected").val());
+            }
+
+            if (isDestinationLangSelectChanged) {
+                localStorage.setItem("lastUsedDestinationLang",
+                    $("#destinationLangSelect").children("option:selected").val());
+            }
+
+        })
+
+    });
+
+</script>
+
 </body>
 
 </html>
+
+
+
+<!--
+
+// var idOfLangDestinationOptionToActivate = "#langSourceOption" + localStorage.getItem("lastUsedSourceLang");
+// $(idOfLangSourceOptionToActivate).attr("selected", true);
+
+// alert(localStorage.getItem("lastUsedSourceLang"));
+// alert(localStorage.getItem("lastUsedDestinationLang"));
+
+
+
+-->
+

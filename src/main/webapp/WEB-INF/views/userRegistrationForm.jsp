@@ -40,7 +40,7 @@ Designed to:
 <body>
 <h1><spring:message code="headline.user.register" /></h1>
 
-<spring_form:form method="POST" modelAttribute="userRegCredentials">
+<spring_form:form method="POST" modelAttribute="userRegCredentials" autocomplete="off">
     <!-- element attribute: Defines a HTML tag in which errors are rendered -->
     <spring_form:errors path="*" element="div" cssClass="errors" />
     <spring_form:label path="email" cssErrorClass="error"><spring:message code="user.enter.email" /></spring_form:label><br>

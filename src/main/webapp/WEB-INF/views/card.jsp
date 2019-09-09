@@ -5,35 +5,33 @@
 
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
-<mytags:overallBasePage>
-
-    <!-- Vars -->
-
-    <spring_security:authentication property="principal.id" var="currentUserId"/>
+<mytags:overallBasePage pageHeadline="${cardDto.content} Card">
 
     <h2><spring:message code="headline.card.read" arguments="${cardDto.id}"/></h2>
 
-<div>
-    <spring:message code="card.attribute.lang" />: <jstl:out value="${cardDto.lang}"/><br>
-    <spring:message code="card.attribute.content" />: <jstl:out value="${cardDto.content}"/><br>
-    <spring:message code="card.attribute.type" />: <jstl:out value="${cardDto.type}"/><br>
-    <spring:message code="card.attribute.transcription" />: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>
-    <spring:message code="card.attribute.definition" />: <jstl:out value="${cardDto.definition}"/><br>
-    <spring:message code="card.attribute.samples" />:<br>
+    <div>
+    <spring:message code="card.attribute.lang"/>: <jstl:out value="${cardDto.lang}"/><br>
+    <spring:message code="card.attribute.content"/>: <jstl:out value="${cardDto.content}"/><br>
+    <spring:message code="card.attribute.type"/>: <jstl:out value="${cardDto.type}"/><br>
+    <spring:message code="card.attribute.transcription"/>: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>
+    <spring:message code="card.attribute.definition"/>: <jstl:out value="${cardDto.definition}"/><br>
+    <spring:message code="card.attribute.samples"/>:<br>
     <jstl:forEach items="${cardDto.samples}" var="sample">
         ${sample.content}<br>
     </jstl:forEach>
 
+    <spring_security:authorize access="isFullyAuthenticated()">
+
         <button type="button"
                 class="btn btn-secondary"
                 data-toggle="modal"
-                data-target="#userCardCreationPopup">
+                data-target="#userCardCreationModal">
 
-            Add To Favourites
+            Add To My Dictionary
         </button>
 
         <div class="modal fade"
-             id="userCardCreationPopup"
+             id="userCardCreationModal"
              tabindex="-1"
              role="dialog"
              aria-labelledby="userCardCreationFormLabel"
@@ -42,7 +40,9 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userCardCreationFormLabel">Adding the Card to your favourites</h5>
+                        <h5 class="modal-title" id="userCardCreationFormLabel">
+                            <spring:message code="user-card.adding-form.headline"/>
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -50,34 +50,44 @@
 
                     <div class="modal-body">
 
-                        <form id="userCardCreationForm">
+                        <form id="userCardCreationForm" autocomplete="off">
 
                             <div class="form-group">
 
-                                <label for="additionalSample">Additional Sample</label>
-                                <input id="additionalSample"
-                                       class="form-control"
-                                       name="userSample"
-                                       type="text"
-                                       aria-describedby="emailHelp"
-                                       placeholder="Enter your own Sample ...">
-
-                                <small id="emailHelp" class="form-text text-muted">
-                                    We recommend you to
-                                    <ul>
-                                        <li>add statement where word ot phrase was found</li>
-                                        <li>read our Samples and come up with one more on the spot</li>
-                                    </ul>
-                                </small>
+                                <label for="userCardStatusSelect">
+                                    <spring:message code="user-card.adding-form.attribute.status.caption"/>
+                                </label>
+                                <div id="userCardStatusSelect">
+                                    <mytags:statusSelect/>
+                                </div>
 
                             </div>
 
                             <div class="form-group">
 
-                                <label for="userCardStatusSelect">Status</label>
-                                <div id="userCardStatusSelect">
-                                    <mytags:statusSelect/>
-                                </div>
+                                <label for="additionalSample">
+                                    <spring:message code="user-card.adding-form.attribute.additional-sample.caption"/>
+                                </label>
+
+                                <spring:message var="additionalSamplePlaceholder"
+                                                code="common.placeholder.input"/>
+                                <input id="additionalSample"
+                                       class="form-control"
+                                       name="userSample"
+                                       type="text"
+                                       aria-describedby="emailHelp"
+                                       placeholder="${additionalSamplePlaceholder}">
+
+                                <small id="emailHelp" class="form-text text-muted">
+                                    <spring:message
+                                            code="user-card.adding-form.attribute.additional-sample.recommendation.intro"/>
+                                    <ul>
+                                        <li><spring:message
+                                                code="user-card.adding-form.attribute.additional-sample.recommendation.source"/></li>
+                                        <li><spring:message
+                                                code="user-card.adding-form.attribute.additional-sample.recommendation.new"/></li>
+                                    </ul>
+                                </small>
 
                             </div>
 
@@ -92,7 +102,57 @@
             </div>
         </div>
 
-    </div>
+
+        <div class="modal fade" id="successfulCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Result</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        Card was added successfully! You will find it when checks your dictionary next time.
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="failedCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Result</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div id="failModalBody" class="modal-body">
+                        Error is occurred. Card wasn't added.
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+    </spring_security:authorize>
 
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
@@ -100,71 +160,64 @@
             crossorigin="anonymous">
     </script>
 
-    <script>
 
-        function objectifyForm(formArray) {
+    <spring_security:authorize access="isFullyAuthenticated()">
 
-            var returnArray = {};
-            for (var i = 0; i < formArray.length; i++) {
-                returnArray[formArray[i]['name']] = formArray[i]['value'];
+        <spring_security:authentication property="principal.id" var="currentUserId"/>
+
+        <script>
+
+            function objectifyForm(formArray) {
+
+                var returnArray = {};
+                for (var i = 0; i < formArray.length; i++) {
+                    returnArray[formArray[i]['name']] = formArray[i]['value'];
+                }
+                return returnArray;
             }
-            return returnArray;
-        }
 
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            $("#btn-create-user-card").click(function (event) {
+                $("#btn-create-user-card").click(function (event) {
 
-                event.preventDefault();
-                var formData = objectifyForm($("#userCardCreationForm").serializeArray());
+                    event.preventDefault();
+                    var formData = objectifyForm($("#userCardCreationForm").serializeArray());
 
-                console.log(formData);
+                    console.log(formData);
 
-                $.ajax({
-                    type: "POST",
-                    url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
-                    // data: { test: "test "}
-                    data: JSON.stringify(formData),
-                    // ToDo: understand what this line change?
-                    contentType: "application/json"
-                    // dataType: "json"
-                    // application/
-                })
-
-                /*
-                        Code to run if the request succeeds (is done). The response is
-                    passed to the function.
-                */
-
-                    .done(function () {
-                        $('#userCardCreationPopup').modal('hide');
-                        alert("Card was added!");
+                    $.ajax({
+                        type: "POST",
+                        url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
+                        // data: { test: "test "}
+                        data: JSON.stringify(formData),
+                        // ToDo: understand what this line change?
+                        contentType: "application/json"
+                        // dataType: "json"
+                        // application/
                     })
 
-                    /*
-                            Code to run if the request fails; the raw request and status
-                        codes are passed to the function
-                    */
+                        .done(function () {
+                            $('#userCardCreationModal').modal('hide');
+                            $('#successfulCardAddingModal').modal('show');
+                        })
 
-                    .fail(function (xhr, status, errorThrown) {
-                        $('#userCardCreationPopup').modal('hide');
-                        alert("Error!");
-                        console.log("Error: " + errorThrown);
-                        console.log("Status: " + status);
-                        console.dir(xhr);
-                    })
+                        .fail(function (response) {
 
-                /*
-                    Code to run regardless of success or failure;
+                            var failModalBodyId = "#failModalBody";
 
-                    .always(function(xhr, status) {
-                       alert("The request is complete!");
-                    });
+                            $(failModalBodyId).append("<br>HTTP status: " + response.status
+                                + " (" + response.statusText + ")");
 
-                */
+                            $('#userCardCreationModal').modal('hide');
+                            $('#failedCardAddingModal').modal('show');
+
+                        })
+
+                });
             });
-        });
 
-    </script>
+        </script>
+
+    </spring_security:authorize>
 
 </mytags:overallBasePage>

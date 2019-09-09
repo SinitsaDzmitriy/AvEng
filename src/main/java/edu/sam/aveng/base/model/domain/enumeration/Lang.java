@@ -31,22 +31,20 @@ public enum Lang {
             case "German":
                 return Lang.GERMAN;
             default:
-                // ToDo handle exception in a proper way and log it
-                throw new IllegalArgumentException();
+                return null;
         }
     }
 
     public static Lang fromCode(String code) {
         switch (code) {
-            case "eng":
+            case "en":
                 return Lang.ENGLISH;
-            case "rus":
+            case "ru":
                 return Lang.RUSSIAN;
-            case "ger":
+            case "de":
                 return Lang.GERMAN;
             default:
-                // ToDo handle exception in a proper way and log it
-                throw new IllegalArgumentException();
+                return null;
         }
     }
 }

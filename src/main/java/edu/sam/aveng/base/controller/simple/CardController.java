@@ -8,9 +8,11 @@ import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/card")
+@RequestMapping(value = "/cards")
 public class CardController {
 
     @Autowired
@@ -58,16 +63,16 @@ public class CardController {
 
         cardService.create(cardDto);
 
-        return "redirect: list";
+        return "redirect:/cards/display/list";
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/display/list", method = RequestMethod.GET)
     public String create(Model model) {
         model.addAttribute(cardService.findAll());
         return "cardList";
     }
 
-    @RequestMapping(value = "/read/{cardId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/display/{cardId}", method = RequestMethod.GET)
     public String spittle(Model model, @PathVariable long cardId) {
         LOGGER.info("Displaying card with id={}.", cardId);
         model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
@@ -96,7 +101,7 @@ public class CardController {
         cardService.update(cardId, cardDto);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
 
-        return "redirect:/card/read/" + cardId;
+        return "redirect:/cards/display/list";
     }
 
     @RequestMapping(value = "/delete/{cardId}", method = RequestMethod.GET)
@@ -104,16 +109,32 @@ public class CardController {
         LOGGER.info("Deletion card with id={}.", cardId);
         cardService.delete(cardId);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
-        return "redirect:/card/list";
+        return "redirect:/cards/display/list";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("from") Lang usedLang,
-                         @RequestParam("to") Lang desiredLang, @RequestParam String userInput) {
+    public String search(Model model, @RequestParam(value = "usedLang", required = false) String usedLangStr,
+                         @RequestParam(value = "desiredLang", required = false) String desiredLangStr, @RequestParam String userInput) throws MethodArgumentNotValidException {
 
-        cardService.search(usedLang, desiredLang, userInput);
+        Lang usedLang = null;
+        Lang desiredLang = null;
 
-        return Constants.View.INITIAL;
+        if(usedLangStr != null && !usedLangStr.isEmpty()) {
+            usedLang = Lang.fromName(usedLangStr);
+        }
+
+        if(desiredLangStr != null && !desiredLangStr.isEmpty()) {
+            desiredLang = Lang.fromName(desiredLangStr);
+        }
+
+        if(usedLang == null || desiredLang == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Provide correct supported languages", new IllegalArgumentException());
+        } else {
+            List<Map> searchOutput = cardService.search(usedLang, desiredLang, userInput);
+            model.addAttribute(Constants.Model.SEARCH_OUTPUT, searchOutput);
+            model.addAttribute(Constants.Model.SEARCH_INPUT, userInput);
+        }
+        return Constants.View.SEARCH_OUTPUT;
     }
 
 }

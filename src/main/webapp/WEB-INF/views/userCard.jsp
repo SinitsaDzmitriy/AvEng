@@ -7,7 +7,13 @@
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<mytags:overallBasePage>
+<style>
+    .text-orangered {
+        color: orangered;
+    }
+</style>
+
+<mytags:overallBasePage pageHeadline="${userCardDto.card.content} UserCard">
 
     <div class="d-flex justify-content-center align-items-center">
         <div class="card" style="width: 30rem;">
@@ -32,7 +38,7 @@
                 <spring:url value="/resources/images/playPronIcon.svg" var="playPronIcon"/>
                 <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
 
-                <span id="cardTranscription" class="text-primary">[${userCardDto.card.pron.transcription}]</span>
+                <span id="cardTranscription" class="text-orangered">[${userCardDto.card.pron.transcription}]</span>
 
                 <br>
 
@@ -40,7 +46,9 @@
 
                 <br>
 
-                <h6 class="card-subtitle my-2">Samples:</h6>
+                <h6 class="card-subtitle my-2">
+                    <spring:message code="card.attribute.samples"/>:
+                </h6>
 
                 <ul class="list-group" id="cardSamples">
 
@@ -50,9 +58,11 @@
 
                 </ul>
 
-                <h6 class="card-subtitle my-2">Your Sample:</h6>
+                <h6 class="card-subtitle my-2">
+                    <spring:message code="user-card.adding-form.attribute.additional-sample.caption"/>:
+                </h6>
 
-                <span id="userSample" class="list-group-item">${userCardDto.userSample}</span>
+                <input id="userSample" name="updatedSample" class="list-group-item w-100 rounded" autocomplete="off"/>
 
                 <br>
 
@@ -60,7 +70,7 @@
 
                     <jstl:choose>
 
-                        <jstl:when test = "${userCardDto.status == Status.NEW}">
+                        <jstl:when test="${userCardDto.status == Status.NEW}">
 
                             <button class="btn btn-secondary btn-sm" type="button" disabled>
                                 new
@@ -70,15 +80,14 @@
                                 dubious
                             </button>
 
-                            <button class="btn btn-secondary btn-sm make-status-favourite" type="button">
-                                favourite
+                            <button class="btn btn-secondary btn-sm make-status-known" type="button">
+                                known
                             </button>
 
                         </jstl:when>
 
 
-
-                        <jstl:when test = "${userCardDto.status == Status.DUBIOUS}">
+                        <jstl:when test="${userCardDto.status == Status.DUBIOUS}">
 
                             <button class="btn btn-secondary btn-sm make-status-new" type="button">
                                 new
@@ -88,15 +97,14 @@
                                 dubious
                             </button>
 
-                            <button class="btn btn-secondary btn-sm make-status-favourite" type="button">
-                                favourite
+                            <button class="btn btn-secondary btn-sm make-status-known" type="button">
+                                known
                             </button>
 
                         </jstl:when>
 
 
-
-                        <jstl:when test = "${userCardDto.status == Status.FAVOURITE}">
+                        <jstl:when test="${userCardDto.status == Status.KNOWN}">
 
                             <button class="btn btn-secondary btn-sm make-status-new" type="button">
                                 new
@@ -107,7 +115,7 @@
                             </button>
 
                             <button class="btn btn-secondary btn-sm" type="button" disabled>
-                                favourite
+                                known
                             </button>
 
                         </jstl:when>
@@ -133,6 +141,10 @@
     <script>
 
         $(document).ready(function () {
+
+            var userSampleId = "#userSample";
+
+            $(userSampleId).val("${userCardDto.userSample}");
 
             $(".make-status-new").click(function (event) {
 
@@ -176,13 +188,13 @@
                     })
             });
 
-            $(".make-status-favourite").click(function (event) {
+            $(".make-status-known").click(function (event) {
 
                 event.preventDefault();
 
                 $.ajax({
                     type: "PATCH",
-                    url: location.origin + "/api/user_cards/update/${userCardDto.id}/change-status?status=FAVOURITE",
+                    url: location.origin + "/api/user_cards/update/${userCardDto.id}/change-status?status=KNOWN",
                     contentType: "application/json"
                 })
                     .done(function () {
@@ -210,6 +222,22 @@
                         location.reload();
                     })
 
+                    .fail(function (xhr, status, errorThrown) {
+                        alert("Error has been occurred!");
+                        console.log("Error: " + errorThrown);
+                        console.log("Status: " + status);
+                        console.dir(xhr);
+                    })
+            });
+
+            $(userSampleId).change(function () {
+
+                $.ajax({
+                    type: "PATCH",
+                    url: location.origin + "/api/user_cards/update/${userCardDto.id}/change-user-sample",
+                    contentType: "application/json",
+                    data: $(userSampleId).val()
+                })
                     .fail(function (xhr, status, errorThrown) {
                         alert("Error has been occurred!");
                         console.log("Error: " + errorThrown);

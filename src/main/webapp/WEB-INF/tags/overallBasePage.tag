@@ -1,8 +1,12 @@
 <%@ tag description="generic page base" pageEncoding="UTF-8" %>
 
+<%@attribute name="pageHeadline" required="true" %>
+
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ tag import="org.springframework.context.i18n.LocaleContextHolder" %>
 
 <jsp:useBean id="date" class="java.util.Date"/>
 
@@ -17,13 +21,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
     <style>
         .lang-select {
-            width: 5em;
+            width: 7em;
         }
     </style>
 
-    <title><spring:message code="app.name"/></title>
+    <title>${pageHeadline}</title>
 </head>
 
 <body>
@@ -43,19 +49,19 @@
                 <div class="dropdown-menu mt-4" aria-labelledby="dropdownMenuButton">
 
                     <h5 class="dropdown-header">
-                        <spring:message code="menu.panel.student"/>
+                        <spring:message code="sidebar.header.public"/>
                     </h5>
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="dropdown-item" href="${homePagePath}">
-                        <spring:message code="menu.homepage"/>
+                        <spring:message code="sidebar.anchor.homepage"/>
                     </a>
 
                     <security:authorize access="isFullyAuthenticated()">
 
                         <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
                         <a class="dropdown-item" href="${personalDictionaryPath}">
-                            <spring:message code="menu.personal-dictionary"/>
+                            <spring:message code="sidebar.anchor.user-cards"/>
                         </a>
 
                     </security:authorize>
@@ -65,17 +71,17 @@
                         <div class="dropdown-divider"></div>
 
                         <h5 class="dropdown-header">
-                            <spring:message code="menu.panel.teacher"/>
+                            <spring:message code="sidebar.header.admin"/>
                         </h5>
 
-                        <spring:url value="/card/list" var="cardListPagePath"/>
+                        <spring:url value="/cards/list" var="cardListPagePath"/>
                         <a class="dropdown-item" href="${cardListPagePath}">
-                            <spring:message code="menu.cards.list"/>
+                            <spring:message code="sidebar.anchor.cards"/>
                         </a>
 
-                        <spring:url value="/card/create" var="cardCreatePagePath"/>
+                        <spring:url value="/cards/create" var="cardCreatePagePath"/>
                         <a class="dropdown-item" href="${cardCreatePagePath}">
-                            <spring:message code="menu.cards.create"/>
+                            <spring:message code="sidebar.anchor.cards.create"/>
                         </a>
 
                     </security:authorize>
@@ -105,20 +111,19 @@
 
             <div class="dropdown mx-1 my-2">
 
-                <button class="btn btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        id="navbarLangDropdown"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Language
-                </button>
+<%--                <button class="btn btn-outline-secondary dropdown-toggle"--%>
+<%--                        type="button"--%>
+<%--                        id="navbarLangDropdown"--%>
+<%--                        data-toggle="dropdown"--%>
+<%--                        aria-haspopup="true"--%>
+<%--                        aria-expanded="false">--%>
+<%--                    Language--%>
+<%--                </button>--%>
 
-                <div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-item" onclick="location.href='?lang=ru'">Русский</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" onclick="location.href='?lang=en'">English</div>
-                </div>
+                <select title="Language" id="siteLang" class="selectpicker">
+                    <option>Русский</option>
+                    <option>English</option>
+                </select>
 
             </div>
 
@@ -126,50 +131,49 @@
 
         <div class="col px-0">
 
-            <div class="d-none d-md-flex w-100">
+            <form id="searchForm" class="d-none d-md-flex w-100 m-0" method="get" action="/cards/search" autocomplete="off">
 
                 <div class="input-group mx-1 my-2">
 
-                    <input class="form-control rounded-left border-secondary shadow-none" type="search" placeholder="Search"
+                    <spring:message code="nav.search.placeholder" var="searchPlaceholder"/>
+                    <input id="searchInput"
+                           value=""
+                           name="userInput"
+                           class="form-control rounded-left border-secondary shadow-none"
+                           type="search"
+                           placeholder="${searchPlaceholder}"
                            aria-label="Search">
 
                     <div class="input-group-append">
 
-                        <select class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
-                            <option disabled selected value>from</option>
-                            <option>en</option>
-                            <option>ru</option>
-                            <option>de</option>
+                        <select id="sourceLangSelect"
+                                name="usedLang"
+                                class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+
                         </select>
 
                         <div class="d-flex align-items-center border border-secondary">
                             <spring:url value="/resources/images/swapLangsIcon.svg" var="swapLangsIconPath"/>
-                            <img class="mx-1" src="${swapLangsIconPath}" width="30" height="30" alt="swapLangsIconPath">
+                            <img class="mx-1" src="${swapLangsIconPath}" width="30" height="30"
+                                 alt="swapLangsIconPath">
                         </div>
 
-                        <select class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
-                            <option disabled selected value>to</option>
-                            <option>en</option>
-                            <option>ru</option>
-                            <option>de</option>
+                        <select id="destinationLangSelect"
+                                name="desiredLang"
+                                class="lang-select form-control border-left-0 border-right-0 border-secondary shadow-none rounded-0">
+
                         </select>
 
-                        <button class="btn btn-outline-secondary shadow-none rounded-right" type="button">
-                            Search
+                        <button id="searchButton" class="btn btn-warning border-secondary shadow-none rounded-right"
+                                type="submit">
+                            <spring:message code="nav.search.button"/>
                         </button>
 
                     </div>
 
                 </div>
 
-<%--                <div class="input-group mx-1 my-2">--%>
-<%--                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">--%>
-<%--                    <div class="input-group-append">--%>
-<%--                        <button class="btn btn-outline-secondary" type="button">Search</button>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-
-            </div>
+            </form>
 
         </div>
 
@@ -189,7 +193,7 @@
                             <input class="form-control" type="search" placeholder="Search"
                                    aria-label="Search">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                                <button class="btn btn-warning" type="button">Search</button>
                             </div>
                         </div>
                     </div>
@@ -227,7 +231,7 @@
 
                     <div class="nav-item">
                         <spring:url value="/logout" var="logoutLink"/>
-                        <a href="${logoutLink}" class="btn btn-secondary text-nowrap">
+                        <a href="${logoutLink}" class="btn btn-light text-primary text-nowrap">
                             <spring:message code="nav.logout"/>
                         </a>
                     </div>
@@ -244,45 +248,70 @@
 
         <div class="col-2 d-none d-md-block border-right border-secondary h-100 px-0">
 
-            <nav class="nav flex-column ml-4 mt-3">
+            <nav id="sidebar" class="nav flex-column mx-5 my-3">
 
-                <div class="nav-item d-flex align-items-center py-2">
-                    <h6 class="text-secondary mx-2 my-0">
-                        <spring:message code="menu.panel.student"/>
-                    </h6>
-                </div>
+                <div id="publicPanel">
 
-                <spring:url value="/" var="homePagePath"/>
-                <a class="nav-link text-secondary" href="${homePagePath}">
-                    <spring:message code="menu.homepage"/>
-                </a>
+                    <div class="nav-item d-flex align-items-center py-2">
+                        <small class="text-secondary">
+                            <spring:message code="sidebar.header.public"/>
+                        </small>
+                    </div>
 
-                <security:authorize access="isFullyAuthenticated()">
-
-                    <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
-                    <a class="nav-link text-secondary" href="${personalDictionaryPath}">
-                        <spring:message code="menu.personal-dictionary"/>
+                    <spring:url value="/" var="homePagePath"/>
+                    <a class="nav-link px-4 py-1 text-secondary" href="${homePagePath}">
+                        <spring:message code="sidebar.anchor.homepage"/>
                     </a>
 
-                </security:authorize>
+                    <spring:url value="/display/list" var="displayCardsPagePath"/>
+                    <a class="nav-link px-4 py-1 text-secondary" href="${displayCardsPagePath}">
+                        <spring:message code="sidebar.anchor.cards"/>
+                    </a>
+
+                    <security:authorize access="isFullyAuthenticated()">
+
+                        <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
+                        <a class="nav-link px-4 py-1 text-secondary" href="${personalDictionaryPath}">
+                            <spring:message code="sidebar.anchor.user-cards"/>
+                        </a>
+
+                    </security:authorize>
+
+                </div>
 
                 <security:authorize access="hasRole('ADMIN')">
 
                     <div class="nav-item d-flex align-items-center py-2">
-                        <h6 class="text-secondary mx-2 my-0">
-                            <spring:message code="menu.panel.teacher"/>
-                        </h6>
+                        <small class="text-secondary">
+                            <spring:message code="sidebar.header.admin"/>
+                        </small>
                     </div>
 
-                    <spring:url value="/card/list" var="cardListPagePath"/>
-                    <a class="nav-link text-secondary" href="${cardListPagePath}">
-                        <spring:message code="menu.cards.list"/>
-                    </a>
+                    <ul class="pl-4 text-secondary">
 
-                    <spring:url value="/card/create" var="cardCreatePagePath"/>
-                    <a class="nav-link text-secondary" href="${cardCreatePagePath}">
-                        <spring:message code="menu.cards.create"/>
-                    </a>
+                        <li>
+                            <b>
+                                <spring:message code="sidebar.sub-header.users"/>
+                            </b>
+                        </li>
+
+                        <a class="nav-link text-secondary px-0 py-1" href="...">
+                            <span>list</span>
+                        </a>
+
+
+                        <li>
+                            <b>
+                                <spring:message code="sidebar.sub-header.cards"/>
+                            </b>
+                        </li>
+
+                        <spring:url value="/cards/create" var="cardCreatePagePath"/>
+                        <a class="nav-link text-secondary px-0 py-1" href="${cardCreatePagePath}">
+                            <spring:message code="sidebar.anchor.cards.create"/>
+                        </a>
+
+                    </ul>
 
                 </security:authorize>
 
@@ -326,6 +355,120 @@
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        var isSourceLangSelectChanged = false;
+        var isDestinationLangSelectChanged = false;
+
+        var supportedCardLangs =
+            [
+                "English",
+                "Russian",
+                "German"
+            ];
+
+        if (localStorage.getItem("lastUsedSourceLang") == null) {
+            localStorage.setItem("lastUsedSourceLang",
+                "${LocaleContextHolder.getLocale().getDisplayLanguage()}");
+        }
+
+        if (localStorage.getItem("lastUsedDestinationLang") == null) {
+            localStorage.setItem("lastUsedDestinationLang", "English");
+        }
+
+        // ToDo: create js func to avoid duplication
+
+        supportedCardLangs.forEach(function (lang) {
+            var htmlLangOption = "<option " + "id='langSourceOption" + lang + "'>"
+                + lang + "</option>";
+            $("#sourceLangSelect").append(htmlLangOption);
+        });
+
+        supportedCardLangs.forEach(function (lang) {
+            var htmlLangOption = "<option " + "id='langDestinationOption" + lang + "'>"
+                + lang + "</option>";
+            $("#destinationLangSelect").append(htmlLangOption);
+        });
+
+        $("#langSourceOption" + localStorage.getItem("lastUsedSourceLang")).attr("selected", true);
+        $("#langDestinationOption" + localStorage.getItem("lastUsedDestinationLang")).attr("selected", true);
+
+        $("#sourceLangSelect").change(function () {
+            isSourceLangSelectChanged = true;
+        });
+
+        $("#destinationLangSelect").change(function () {
+            isDestinationLangSelectChanged = true;
+        });
+
+        // $("#searchButton").click(function (event) {
+        //
+        //     console.log($("#searchInput").val);
+        //     console.log("hello");
+        //
+        //     if($("#searchInput").val) {
+        //
+        //         if (isSourceLangSelectChanged) {
+        //             localStorage.setItem("lastUsedSourceLang",
+        //                 $("#sourceLangSelect").children("option:selected").val());
+        //         }
+        //
+        //         if (isDestinationLangSelectChanged) {
+        //             localStorage.setItem("lastUsedDestinationLang",
+        //                 $("#destinationLangSelect").children("option:selected").val());
+        //         }
+        //
+        //     } else {
+        //         event.preventDefault();
+        //     }
+        //
+        // });
+
+        $("#searchForm").submit(function(event) {
+
+            if($("#searchInput").val().trim()) {
+
+                if (isSourceLangSelectChanged) {
+                    localStorage.setItem("lastUsedSourceLang",
+                        $("#sourceLangSelect").children("option:selected").val());
+                }
+
+                if (isDestinationLangSelectChanged) {
+                    localStorage.setItem("lastUsedDestinationLang",
+                        $("#destinationLangSelect").children("option:selected").val());
+                }
+
+            } else {
+                event.preventDefault();
+            }
+
+        });
+
+        $("#siteLang").change(function () {
+
+            var searchParams = new URLSearchParams(location.search);
+            var langParamVal;
+
+            switch($(this).val()) {
+                case "Русский":
+                    langParamVal = "ru";
+                    break;
+                default:
+                    langParamVal = "en";
+            }
+
+            searchParams.set("lang", langParamVal);
+            location.search = searchParams.toString();
+        });
+
+    });
+
+</script>
 
 </body>
 

@@ -9,9 +9,13 @@ import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
 import edu.sam.aveng.base.service.usercard.IUserCardService;
 import edu.sam.aveng.base.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Locale;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -29,6 +33,9 @@ public class TestController {
 
     @RequestMapping(value = "/temp", method = GET)
     public String temp(Model model) {
+
+        Locale userLocale = LocaleContextHolder.getLocale();
+        String userLocaleAsString = userLocale.getLanguage();
 
 //        UserCardDto tempUserCard = new UserCardDto();
 //

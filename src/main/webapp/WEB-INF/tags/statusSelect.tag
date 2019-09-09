@@ -5,10 +5,8 @@
 
 <%@ tag import="edu.sam.aveng.base.model.domain.enumeration.Status" %>
 
-
 <label>
     <select class="form-control" id="statusSelect" name="status">
-        <option selected disabled> -- select Card status --</option>
         <jstl:forEach items="${Status.values()}" var="status">
             <option>${status.name()}</option>
         </jstl:forEach>
