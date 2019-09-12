@@ -670,11 +670,34 @@
 
     $(cardCreationFormId).submit(function(event) {
 
-        alert("stub");
+        var card = '{'
+            + '"content" : "' + $(enabledContentInputId).val() + '",'
+            + '"type" : "' + $("#type").val() + '",'
+            + '"pron" : {'
+            + '"transcription" : "' + $("#transcription").val() + '"'
+            + '},'
+            + '"definition" : "' + $("#definition").val() + '",'
+            + '"samples" : ' + $(sampleInputClass).val().serializeArray()
+            + '}';
 
-        //ajax call here
+        $.ajax({
+            url: "/api/cards/create",
+            data: {
+                id: 123
+            },
+            type: "POST",
+            contentType: "json",
+            dataType : "html"
+        })
 
-        //stop form submission
+            .done(function() {
+                alert("OK!");
+            })
+
+            .fail(function() {
+                alert("Error!");
+            });
+
         event.preventDefault();
 
     });
