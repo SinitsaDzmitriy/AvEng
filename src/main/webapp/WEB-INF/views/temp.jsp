@@ -214,6 +214,10 @@
         </div>
     </div>
 
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
 </mytags:overallBasePage>
 
 <script>
@@ -670,6 +674,11 @@
 
     $(cardCreationFormId).submit(function(event) {
 
+        event.preventDefault();
+
+        alert("I'm here");
+        console.log("I'm here");
+
         var card = '{'
             + '"content" : "' + $(enabledContentInputId).val() + '",'
             + '"type" : "' + $("#type").val() + '",'
@@ -677,17 +686,15 @@
             + '"transcription" : "' + $("#transcription").val() + '"'
             + '},'
             + '"definition" : "' + $("#definition").val() + '",'
-            + '"samples" : ' + $(sampleInputClass).val().serializeArray()
+            + '"samples" : ' + $(sampleInputClass).serializeArray()
             + '}';
 
         $.ajax({
-            url: "/api/cards/create",
-            data: {
-                id: 123
-            },
+            url: location.origin + "/api/cards/create",
+            async: false,
+            data: card,
             type: "POST",
-            contentType: "json",
-            dataType : "html"
+            contentType: "application/json"
         })
 
             .done(function() {
@@ -698,9 +705,10 @@
                 alert("Error!");
             });
 
-        event.preventDefault();
+
 
     });
 
-</script>
 
+
+</script>
