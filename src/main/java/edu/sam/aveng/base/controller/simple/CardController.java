@@ -41,7 +41,7 @@ public class CardController {
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.CARD_CREATION_FORM);
 
         // ToDo: Temp view for test purposes only
-        return "temp";
+        return "cardCreationForm";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

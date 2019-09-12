@@ -9,11 +9,11 @@
 <h2><spring:message code="headline.card.read" arguments="${cardDto.id}" /></h2>
 
 <div>
-    <spring:message code="card.attribute.content" />: <jstl:out value="${cardDto.content}"/><br>
-    <spring:message code="card.attribute.type" />: <jstl:out value="${cardDto.type}"/><br>
-    <spring:message code="card.attribute.transcription" />: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>
-    <spring:message code="card.attribute.definition" />: <jstl:out value="${cardDto.definition}"/><br>
-    <spring:message code="card.attribute.samples" />:<br>
+    <spring:message code="card.attribute.label.content" />: <jstl:out value="${cardDto.content}"/><br>
+    <spring:message code="card.attribute.label.type" />: <jstl:out value="${cardDto.type}"/><br>
+    <spring:message code="card.attribute.label.transcription" />: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>
+    <spring:message code="card.attribute.label.definition" />: <jstl:out value="${cardDto.definition}"/><br>
+    <spring:message code="card.attribute.label.samples" />:<br>
     <jstl:forEach items="${cardDto.samples}" var="sample">
         ${sample.content}<br>
     </jstl:forEach>

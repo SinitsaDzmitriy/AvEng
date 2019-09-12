@@ -34,26 +34,26 @@
         <!-- element attribute: Defines a HTML tag in which errors are rendered -->
         <spring_form:errors path="*" element="div" cssClass="errors"/>
         <spring_form:label path="content" cssErrorClass="error">
-            <spring:message code="card.attribute.content"/>
+            <spring:message code="card.attribute.label.content"/>
         </spring_form:label><br>
         <spring_form:input path="content" cssErrorClass="error"/><br>
 
-        <spring:message code="card.attribute.type"/><br>
+        <spring:message code="card.attribute.label.type"/><br>
         <spring_form:select path="type" cssErrorClass="errors">
             <spring_form:options/>
         </spring_form:select><br>
 
         <spring_form:label path="pron.transcription" cssErrorClass="error">
-            <spring:message code="card.attribute.transcription"/>
+            <spring:message code="card.attribute.label.transcription"/>
         </spring_form:label><br>
         <spring_form:input path="pron.transcription" cssErrorClass="error"/><br>
 
         <spring_form:label path="definition" cssErrorClass="error">
-            <spring:message code="card.attribute.definition"/>
+            <spring:message code="card.attribute.label.definition"/>
         </spring_form:label><br>
         <spring_form:input path="definition" cssErrorClass="error"/><br>
 
-        <spring:message code="card.attribute.samples"/><br>
+        <spring:message code="card.attribute.label.samples"/><br>
 
         <jstl:forEach items="${cardDto.samples}" varStatus="status">
             <spring_form:input path="samples[${status.index}].content"/><br>
