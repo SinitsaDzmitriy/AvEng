@@ -3,201 +3,173 @@
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<style>
-    .w-10 {
-        width: 10% !important;
-    }
-
-    .w-80 {
-        width: 80% !important;
-    }
-</style>
 
 <mytags:overallBasePage>
 
-    <%--    <div class="h-100 w-100 d-flex align-items-center justify-content-center">--%>
-    <%--        <div class="h-75 w-75 bg-light">--%>
+    <form>
 
-    <%--    <div id="tempCarouselId" class="carousel slide w-75 h-75" data-ride="carousel">--%>
+        <div class="form-row">
 
-    <%--        <div class="carousel-inner">--%>
+            <div class="col-md-4 mb-3">
 
-    <%--            <div class="carousel-item active">--%>
-    <%--                <spring:url value="/resources/images/temp.jpg" var="tempImgPath"/>--%>
-    <%--                <img src="${tempImgPath}" class="d-block w-100" alt="...">--%>
-    <%--            </div>--%>
+                <label for="validationServer01">
+                    First name
+                </label>
+                <input id="validationServer01"
+                       class="form-control"
+                       type="text"
+                       placeholder="First name"
+                       invalid
+                       required>
 
-    <%--            <div class="carousel-item">--%>
-    <%--                <spring:url value="/resources/images/temp.jpg" var="tempImgPath"/>--%>
-    <%--                <img src="${tempImgPath}" class="d-block w-100" alt="...">--%>
-    <%--            </div>--%>
+                <!-- ToDo: Check "required" attribute for "input" tag -->
 
-    <%--        </div>--%>
-
-    <%--        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-    <%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-    <%--            <span class="sr-only">Previous</span>--%>
-    <%--        </a>--%>
-
-    <%--        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">--%>
-    <%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-    <%--            <span class="sr-only">Next</span>--%>
-    <%--        </a>--%>
-
-    <%--    </div>--%>
-
-    <div class="bg-secondary">
-        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
-
-            <div class="carousel-inner w-80 m-auto">
-
-                <form>
-
-                    <div class="carousel-item active">
-
-                        <div class="h-100 w-100 bg-light d-flex align-items-center justify-content-center">
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="Enter email">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                        anyone
-                                        else.
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="carousel-item">
-
-                        <div class="h-100 w-100 bg-light d-flex align-items-center justify-content-center">
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1"
-                                           placeholder="Password">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
 
             </div>
 
-            <a class="carousel-control-prev w-10" href="#carouselExampleControls" role="button"
-               data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
+            <div class="col-md-4 mb-3">
 
-            <a class="carousel-control-next w-10" href="#carouselExampleControls" role="button"
-               data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+                <label for="validationServer02">
+                    Last name
+                </label>
+                <input id="validationServer02"
+                       class="form-control is-valid"
+                       type="text"
+                       placeholder="Last name"
+                       value="Otto" required>
 
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label for="validationServerUsername">
+                    Username
+                </label>
+
+                <div class="input-group">
+
+                    <div class="input-group-prepend">
+                        <span id="inputGroupPrepend3" class="input-group-text">@</span>
+                    </div>
+                    <input id="validationServerUsername"
+                           class="form-control is-invalid"
+                           type="text"
+                           placeholder="Username"
+                           aria-describedby="inputGroupPrepend3" required>
+
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
-            <%--    <div id="carouselExampleControls d-flex justify-content-center" class="carousel slide" data-ride="carousel">--%>
 
-            <%--        <div class="carousel-inner w-50 m-auto">--%>
+        <div class="form-row">
 
-            <%--            <div class="carousel-item active h-100 w-100 bg-light d-flex justify-content-center" >--%>
+            <div class="col-md-6 mb-3">
 
-            <%--                <div class="form-group w-75">--%>
-            <%--                    <label for="exampleInputEmail1">Email address</label>--%>
-            <%--                    <input type="email" class="form-control" id="exampleInputEmail1"--%>
-            <%--                           aria-describedby="emailHelp"--%>
-            <%--                           placeholder="Enter email">--%>
-            <%--                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone--%>
-            <%--                        else.--%>
-            <%--                    </small>--%>
-            <%--                </div>--%>
+                <label for="validationServer03">
+                    City
+                </label>
+                <input id="validationServer03"
+                       class="form-control is-invalid"
+                       type="text"
+                       placeholder="City" required>
 
-            <%--            </div>--%>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
 
-            <%--            <div class="carousel-item h-100 w-100 bg-light">--%>
+            </div>
 
-            <%--                <div class="form-group">--%>
-            <%--                    <label for="exampleInputPassword1">Password</label>--%>
-            <%--                    <input type="password" class="form-control" id="exampleInputPassword1"--%>
-            <%--                           placeholder="Password">--%>
-            <%--                </div>--%>
-            <%--                <div class="form-group form-check">--%>
-            <%--                    <input type="checkbox" class="form-check-input" id="exampleCheck1">--%>
-            <%--                    <label class="form-check-label" for="exampleCheck1">Check me out</label>--%>
-            <%--                </div>--%>
-            <%--                <button type="submit" class="btn btn-primary">Submit</button>--%>
+            <div class="col-md-3 mb-3">
 
-            <%--            </div>--%>
+                <label for="validationServer04">
+                    State
+                </label>
+                <input id="validationServer04"
+                       class="form-control is-invalid"
+                       type="text"
+                       placeholder="State" required>
 
-            <%--        </div>--%>
-            <%--        <a class="carousel-control-prev w-25" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-            <%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-            <%--            <span class="sr-only">Previous</span>--%>
-            <%--        </a>--%>
-            <%--        <a class="carousel-control-next w-25" href="#carouselExampleControls" role="button" data-slide="next">--%>
-            <%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-            <%--            <span class="sr-only">Next</span>--%>
-            <%--        </a>--%>
+                <div class="invalid-feedback">
+                    Please provide a valid state.
+                </div>
 
-            <%--    </div>--%>
+            </div>
 
-            <%--    <div class="h-100 w-100 bg-light d-flex align-items-stretch">--%>
+            <div class="col-md-3 mb-3">
 
+                <label for="validationServer05">
+                    Zip
+                </label>
+                <input id="validationServer05"
+                       class="form-control is-invalid"
+                       type="text"
+                       placeholder="Zip" required>
 
-            <%--        <form id="carouselExampleControls w-100 m-0" class="carousel slide" data-ride="carousel">--%>
+                <div class="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
 
-            <%--            <div class="carousel-inner">--%>
+            </div>
 
-            <%--                <div class="carousel-item active">--%>
+        </div>
 
-            <%--                    <div class="form-group">--%>
-            <%--                        <label for="exampleInputEmail1">Email address</label>--%>
-            <%--                        <input type="email" class="form-control" id="exampleInputEmail1"--%>
-            <%--                               aria-describedby="emailHelp"--%>
-            <%--                               placeholder="Enter email">--%>
-            <%--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone--%>
-            <%--                            else.--%>
-            <%--                        </small>--%>
-            <%--                    </div>--%>
+        <div class="form-group">
 
-            <%--                </div>--%>
+            <div class="form-check">
 
-            <%--                <div class="carousel-item">--%>
+                <input id="invalidCheck3"
+                       class="form-check-input is-invalid"
+                       type="checkbox"
+                       value="" required>
 
-            <%--                    <div class="form-group">--%>
-            <%--                        <label for="exampleInputPassword1">Password</label>--%>
-            <%--                        <input type="password" class="form-control" id="exampleInputPassword1"--%>
-            <%--                               placeholder="Password">--%>
-            <%--                    </div>--%>
-            <%--                    <div class="form-group form-check">--%>
-            <%--                        <input type="checkbox" class="form-check-input" id="exampleCheck1">--%>
-            <%--                        <label class="form-check-label" for="exampleCheck1">Check me out</label>--%>
-            <%--                    </div>--%>
-            <%--                    <button type="submit" class="btn btn-primary">Submit</button>--%>
+                <label class="form-check-label" for="invalidCheck3">
+                    Agree to terms and conditions
+                </label>
 
-            <%--                </div>--%>
+                <div class="invalid-feedback">
+                    You must agree before submitting.
+                </div>
 
-            <%--            </div>--%>
-            <%--            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">--%>
-            <%--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-            <%--                <span class="sr-only">Previous</span>--%>
-            <%--            </a>--%>
-            <%--            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">--%>
-            <%--                <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-            <%--                <span class="sr-only">Next</span>--%>
-            <%--            </a>--%>
+            </div>
 
-            <%--        </form>--%>
+        </div>
 
-            <%--    </div>--%>
-            <%--        </div>--%>
-            <%--    </div>--%>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+
+    </form>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 
 </mytags:overallBasePage>
