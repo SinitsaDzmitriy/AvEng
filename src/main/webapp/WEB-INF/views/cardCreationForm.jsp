@@ -41,27 +41,27 @@
         </spring_form:select><br>
 
         <spring_form:label path="content" cssErrorClass="error">
-            <spring:message code="card.attribute.content"/>
+            <spring:message code="card.attribute.label.content"/>
         </spring_form:label><br>
         <spring_form:input path="content" cssErrorClass="error"/><br>
 
-        <spring:message code="card.attribute.type"/><br>
+        <spring:message code="card.attribute.label.type"/><br>
         <spring_form:select path="type" cssErrorClass="errors">
             <spring_form:option value="" selected="true"></spring_form:option>
             <spring_form:options/>
         </spring_form:select><br>
 
         <spring_form:label path="pron.transcription" cssErrorClass="error">
-            <spring:message code="card.attribute.transcription"/>
+            <spring:message code="card.attribute.label.transcription"/>
         </spring_form:label><br>
         <spring_form:input path="pron.transcription" cssErrorClass="error"/><br>
 
         <spring_form:label path="definition" cssErrorClass="error">
-            <spring:message code="card.attribute.definition"/>
+            <spring:message code="card.attribute.label.definition"/>
         </spring_form:label><br>
         <spring_form:input path="definition" cssErrorClass="error"/><br>
 
-        <spring:message code="card.attribute.samples"/><br>
+        <spring:message code="card.attribute.label.samples"/><br>
         <spring_form:input path="samples[0].content"/><br>
 
         <input type="submit" value=<spring:message code="button.user.register"/>>

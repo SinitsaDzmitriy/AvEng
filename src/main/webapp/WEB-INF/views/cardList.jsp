@@ -30,10 +30,10 @@
     <table>
         <tr class="boldTableHeader">
             <td>ID</td>
-            <td><spring:message code="card.attribute.lang"/></td>
-            <td><spring:message code="card.attribute.content"/></td>
-            <td><spring:message code="card.attribute.type"/></td>
-            <td><spring:message code="card.attribute.definition"/></td>
+            <td><spring:message code="card.attribute.label.lang"/></td>
+            <td><spring:message code="card.attribute.label.content"/></td>
+            <td><spring:message code="card.attribute.label.type"/></td>
+            <td><spring:message code="card.attribute.label.definition"/></td>
 
             <security:authorize access="hasRole('ADMIN')">
                 <td colspan="2"><spring:message code="headline.actions"/></td>
