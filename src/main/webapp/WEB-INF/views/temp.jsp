@@ -15,7 +15,7 @@
 
         <div id="rowForValidationTips"
              class="row p-2 d-flex align-items-center justify-content-center"
-             style="height: 6rem;">
+             style="height: 7rem;">
         </div>
 
         <div class="row flex-grow-1">
@@ -34,7 +34,7 @@
 
             <div class="col-10">
 
-                <div id="carouselCardCreationForm" class="carousel slide" data-interval="false">
+                <div id="carouselCardCreationForm" class="carousel slide h-100" data-interval="false">
 
                     <div class="carousel-inner h-100">
 
@@ -45,13 +45,13 @@
                                 <div class="row flex-grow-1">
 
                                     <div id="slideNo1"
-                                         class="carousel-item active" style="height: 530px;">
+                                         class="carousel-item h-100 active">
 
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center">
+                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
 
                                             <div id="formPartNo1"
                                                  class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                 style="width: 280px;">
+                                                 style="width: 300px;">
 
                                                 <!-- Make supported Card lang sent from back-end (jQuery, AJAX) -->
 
@@ -72,7 +72,8 @@
 
                                                 <br>
 
-                                                <spring:message code="card.attribute.placeholder.content" var="contentPlaceholder"/>
+                                                <spring:message code="card.attribute.placeholder.content"
+                                                                var="contentPlaceholder"/>
                                                 <input id="enabledContentInput"
                                                        type="text"
                                                        class="form-control shadow-none"
@@ -85,73 +86,77 @@
                                     </div>
 
                                     <div id="slideNo2"
-                                         class="carousel-item">
+                                         class="carousel-item h-100">
 
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center">
+                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
 
-                                            <div id="formPartNo2"
-                                                 class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                 style="width: 320px;">
+                                                <div id="formPartNo2"
+                                                     class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
+                                                     style="width: 300px;">
 
-                                                <label for="disabledContentInput">
-                                                    <spring:message code="card.attribute.label.content"/>
-                                                </label><br>
+                                                    <label for="disabledContentInput">
+                                                        <spring:message code="card.attribute.label.content"/>
+                                                    </label><br>
 
-                                                <input id="disabledContentInput"
-                                                       class="form-control shadow-none"
-                                                       type="text"
-                                                       readonly/>
+                                                    <input id="disabledContentInput"
+                                                           class="form-control shadow-none"
+                                                           type="text"
+                                                           readonly/>
 
-                                                <label for="type">
-                                                    <spring:message code="card.attribute.label.type"/>
-                                                </label><br>
+                                                    <label for="type">
+                                                        <spring:message code="card.attribute.label.type"/>
+                                                    </label><br>
 
-                                                <select id="type" class="form-control shadow-none" required>
-                                                    <jstl:forEach items="${StatementType.values()}" var="type">
-                                                        <option class="shadow-none">${type.name()}</option>
-                                                    </jstl:forEach>
-                                                </select>
+                                                    <select id="type" class="form-control shadow-none" required>
+                                                        <jstl:forEach items="${StatementType.values()}" var="type">
+                                                            <option class="shadow-none">${type.name()}</option>
+                                                        </jstl:forEach>
+                                                    </select>
 
 
-                                                <label for="transcription">
-                                                    <spring:message code="card.attribute.label.transcription"/>
-                                                </label><br>
-                                                <spring:message code="card.attribute.placeholder.transcription" var="transcriptionPlaceholder"/>
-                                                <input id="transcription"
-                                                       class="form-control shadow-none"
-                                                       type="text"
-                                                       placeholder="${transcriptionPlaceholder}"
-                                                       required/>
+                                                    <label for="transcription">
+                                                        <spring:message code="card.attribute.label.transcription"/>
+                                                    </label><br>
+                                                    <spring:message code="card.attribute.placeholder.transcription"
+                                                                    var="transcriptionPlaceholder"/>
+                                                    <input id="transcription"
+                                                           class="form-control shadow-none"
+                                                           type="text"
+                                                           placeholder="${transcriptionPlaceholder}"
+                                                           required/>
 
-                                                <label for="definition">
-                                                    <spring:message code="card.attribute.label.definition"/>
-                                                </label><br>
-                                                <spring:message code="card.attribute.placeholder.definition" var="definitionPlaceholder"/>
-                                                <textarea id="definition"
-                                                          class="form-control shadow-none"
-                                                          placeholder="${definitionPlaceholder}"
-                                                          required></textarea>
+                                                    <label for="definition">
+                                                        <spring:message code="card.attribute.label.definition"/>
+                                                    </label><br>
+                                                    <spring:message code="card.attribute.placeholder.definition"
+                                                                    var="definitionPlaceholder"/>
+                                                    <textarea id="definition"
+                                                              class="form-control shadow-none"
+                                                              placeholder="${definitionPlaceholder}"
+                                                              required></textarea>
 
-                                                <label for="textareaForSamples">
-                                                    <spring:message code="card.attribute.label.samples"/>
-                                                </label><br>
+                                                    <label for="textareaForSamples">
+                                                        <spring:message code="card.attribute.label.samples"/>
+                                                    </label><br>
 
-                                                <div id="samples">
+                                                    <div id="samples">
+                                                    </div>
+
+                                                    <textarea id="textareaForSamples" class="form-control shadow-none"
+                                                              aria-label="With textarea"></textarea>
+
+                                                    <button id="addSampleBtn" type="button"
+                                                            class="btn btn-secondary shadow-none my-1">
+                                                        Add Sample
+                                                    </button>
+                                                    <br>
+
+                                                    <input id="createCardBtn"
+                                                           type="submit"
+                                                           value="Create card"
+                                                           class="btn btn-block btn-warning border-secondary shadow-none my-1"/>
+
                                                 </div>
-
-                                                <textarea id="textareaForSamples" class="form-control shadow-none"
-                                                          aria-label="With textarea"></textarea>
-
-                                                <button id="addSampleBtn" type="button" class="btn btn-secondary shadow-none my-1">
-                                                    Add Sample
-                                                </button><br>
-
-                                                <input id="createCardBtn"
-                                                       type="submit"
-                                                       value="Create card"
-                                                       class="btn btn-block btn-warning border-secondary shadow-none my-1"/>
-
-                                            </div>
 
                                         </div>
                                     </div>
@@ -170,7 +175,7 @@
             </div>
 
 
-            <div class="col-2 col-lg-1 bg-white d-flex align-items-center justify-content-center">
+            <div class="col-1 bg-white d-flex align-items-center justify-content-center">
 
                 <a id="carouselControlRight"
                    class="carousel-control disabled btn btn-secondary shadow-none rounded d-flex align-items-center justify-content-center"
@@ -214,11 +219,25 @@
         </div>
     </div>
 
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous"></script>
+
 </mytags:overallBasePage>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+</script>
+
+
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 <script>
 
@@ -602,7 +621,7 @@
             var wasSpoiled = $(this).hasClass("spoiled");
             $(this).remove();
 
-            if(wasSpoiled) {
+            if (wasSpoiled) {
                 $(sampleUpdateValidationTipId).remove();
                 $(sampleClass).children(sampleInputClass).removeAttr("disabled");
                 $(textareaForSamplesId).removeAttr("disabled");
@@ -620,7 +639,7 @@
         var wasSampleElementSpoiled = sampleElement.hasClass("spoiled");
         sampleElement.remove();
 
-        if(wasSampleElementSpoiled) {
+        if (wasSampleElementSpoiled) {
             $(sampleUpdateValidationTipId).remove();
             $(sampleClass).children(sampleInputClass).removeAttr("disabled");
             $(textareaForSamplesId).removeAttr("disabled");
@@ -672,12 +691,40 @@
         alert("stub");
     }
 
-    $(cardCreationFormId).submit(function(event) {
+    $(cardCreationFormId).submit(function (event) {
 
         event.preventDefault();
 
         alert("I'm here");
         console.log("I'm here");
+
+        var samplesJson = "";
+        var samples = [];
+
+        if ($(sampleInputClass).length > 0) {
+
+            $(sampleInputClass).each(function () {
+                console.log($(this).val());
+                samples.push($(this).val());
+            });
+
+            console.log(samples);
+
+            samplesJson = '"samples" : [{"content" : "' + samples[0] + '"}';
+
+            if (samples.length > 1) {
+
+                for (var i = 1; i < samples.length; i++) {
+                    samplesJson += ',{"' + samples[i] + '"}';
+                }
+
+            }
+
+            samplesJson += ']';
+
+        }
+
+        console.log(samplesJson);
 
         var card = '{'
             + '"content" : "' + $(enabledContentInputId).val() + '",'
@@ -686,29 +733,26 @@
             + '"transcription" : "' + $("#transcription").val() + '"'
             + '},'
             + '"definition" : "' + $("#definition").val() + '",'
-            + '"samples" : ' + $(sampleInputClass).serializeArray()
+            + samplesJson
             + '}';
 
         $.ajax({
             url: location.origin + "/api/cards/create",
-            async: false,
             data: card,
             type: "POST",
             contentType: "application/json"
         })
 
-            .done(function() {
+            .done(function () {
                 alert("OK!");
             })
 
-            .fail(function() {
+            .fail(function () {
                 alert("Error!");
             });
 
 
-
     });
-
 
 
 </script>
