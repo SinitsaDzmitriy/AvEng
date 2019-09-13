@@ -63,10 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
 
         String[] publicUrls = {
-                "/",
-                "/initial",
-                "/cards/search",
-                "/cards/display/**"
+                "/", "/initial",
+                "/register", "/login",
+                "/cards/search", "/cards/display/**"
         };
 
         String[] additionalUserUrls = {

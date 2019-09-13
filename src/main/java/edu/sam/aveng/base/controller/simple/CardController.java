@@ -36,35 +36,10 @@ public class CardController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String displayCardCreationForm(Model model) {
-
-        LOGGER.info("Card creation form displaying.");
-        LOGGER.debug("Initial state of params: model={}", model);
-
-        CardDto cardDto = new CardDto();
-        cardDto.getSamples().add(new SampleDto(""));
-
-        model.addAttribute(Constants.Model.CARD_DTO_KEY, cardDto);
-
-        LOGGER.debug("Final state of params: model={}", model);
-        LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.CARD_CREATION_FORM);
-
-        // ToDo: Temp view for test purposes only
+    public String displayCardCreationForm() {
         return Constants.View.CARD_CREATION_FORM;
     }
 
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("cardDto") CardDto cardDto, Errors errors) {
-
-        if (errors.hasErrors()) {
-            return Constants.View.CARD_CREATION_FORM;
-        }
-
-        cardService.create(cardDto);
-
-        return "redirect:/cards/display/list";
-    }
 
     @RequestMapping(value = "/display/list", method = RequestMethod.GET)
     public String create(Model model) {

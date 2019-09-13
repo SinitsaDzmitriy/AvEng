@@ -1,6 +1,5 @@
 package edu.sam.aveng.base.controller.simple;
 
-import edu.sam.aveng.base.model.transfer.dto.UserDto;
 import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import edu.sam.aveng.base.service.user.IUserService;
 import edu.sam.aveng.base.util.Constants;
