@@ -8,7 +8,7 @@
 
 <%@ page import="edu.sam.aveng.base.model.domain.enumeration.StatementType" %>
 
-<mytags:overallBasePage>
+<mytags:overallBasePage pageHeadline="Temp">
 
     <div class="container-fluid d-flex h-100 flex-column">
 
@@ -753,6 +753,5 @@
 
 
     });
-
 
 </script>
