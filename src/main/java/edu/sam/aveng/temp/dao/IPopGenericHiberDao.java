@@ -1,7 +1,7 @@
 package edu.sam.aveng.temp.dao;
 
-import edu.sam.aveng.base.contract.dao.IGenericDao;
-import edu.sam.aveng.base.util.Populatable;
+import edu.sam.aveng.legacy.contract.dao.IGenericDao;
+import edu.sam.aveng.temp.util.Populatable;
 
 import java.io.Serializable;
 

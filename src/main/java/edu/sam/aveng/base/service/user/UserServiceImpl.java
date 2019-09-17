@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.service.user;
 
-import edu.sam.aveng.base.contract.dao.IGenericDao;
-import edu.sam.aveng.base.converter.UserConverter;
+import edu.sam.aveng.legacy.contract.dao.IGenericDao;
+import edu.sam.aveng.legacy.converter.UserConverter;
 import edu.sam.aveng.base.model.domain.SimpleGrantedAuthority;
 import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.domain.UserCard;
@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService {
         user.setEnabled(true);
 
         // ToDo refactor as obtain(String roleName): fetch or create
-        user.addAuthority(authorityDao.findOneEagerlyByProperty("role", "ROLE_USER"));
+        user.addAuthority(authorityDao.findEagerlyByProperty("role", "ROLE_USER"));
 
         return userDao.create(user);
     }
@@ -91,7 +91,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void swapAdmin(long id) {
-        User user = userDao.findOne(id);
+        User user = userDao.find(id);
 
         SimpleGrantedAuthority adminAuthority =
                 new SimpleGrantedAuthority("ROLE_ADMIN");
@@ -105,7 +105,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void delete(long id) {
-        User userToDelete = userDao.findOne(id);
+        User userToDelete = userDao.find(id);
 
         userCardDao.deleteByProperty("owner", userToDelete);
         userDao.delete(userToDelete);

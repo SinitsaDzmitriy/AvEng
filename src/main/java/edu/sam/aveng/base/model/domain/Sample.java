@@ -1,6 +1,7 @@
 package edu.sam.aveng.base.model.domain;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "samples",
@@ -19,6 +19,7 @@ public class Sample implements Serializable, Identifiable {
     @GeneratedValue
     private Long id;
 
+    @NaturalId
     private String content;
 
     public Sample() {

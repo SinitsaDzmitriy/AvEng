@@ -1,6 +1,5 @@
 package edu.sam.aveng.base.config;
 
-import edu.sam.aveng.base.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
@@ -104,11 +103,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public BeanPostProcessor persistenceTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    @Bean
-    public Converter converter() {
-        return new Converter();
     }
 
     @Override

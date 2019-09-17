@@ -1,8 +1,8 @@
 package edu.sam.aveng.base.service.usercard;
 
-import edu.sam.aveng.base.contract.converter.IShortConverter;
-import edu.sam.aveng.base.contract.dao.IGenericDao;
-import edu.sam.aveng.base.contract.service.SmartGenericCrudService;
+import edu.sam.aveng.legacy.contract.converter.IShortConverter;
+import edu.sam.aveng.legacy.contract.dao.IGenericDao;
+import edu.sam.aveng.legacy.contract.service.SmartGenericCrudService;
 import edu.sam.aveng.base.model.domain.Card;
 import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.domain.UserCard;
@@ -62,8 +62,8 @@ public class UserCardService
 
         if (currentUser.getId() == userId) {
 
-            User owner = userDao.findOne(userId);
-            Card baseCard = cardDao.findOne(cardId);
+            User owner = userDao.find(userId);
+            Card baseCard = cardDao.find(cardId);
 
             if (owner != null && baseCard != null) {
 
@@ -95,7 +95,7 @@ public class UserCardService
                 .getAuthentication()
                 .getPrincipal();
 
-        UserCard userCard = dao.findOne(id);
+        UserCard userCard = dao.find(id);
 
         if (!userCard.getOwner().getId().equals(currentUser.getId())) {
             System.out.println("You don't have enough permissions");
@@ -130,7 +130,7 @@ public class UserCardService
                 .getAuthentication()
                 .getPrincipal();
 
-        UserCard userCardToDelete = dao.findOne(id);
+        UserCard userCardToDelete = dao.find(id);
 
         if (userCardToDelete.getOwner().getId().equals(currentUser.getId())) {
             dao.delete(userCardToDelete);

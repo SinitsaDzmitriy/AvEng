@@ -678,9 +678,6 @@
 
         event.preventDefault();
 
-        alert("I'm here");
-        console.log("I'm here");
-
         var samplesJson = "";
         var samples = [];
 
@@ -729,6 +726,7 @@
 
             .done(function () {
                 alert("OK!");
+                location.pathname = "/cards/display/list";
             })
 
             .fail(function () {

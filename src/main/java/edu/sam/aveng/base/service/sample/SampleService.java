@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.service.sample;
 
-import edu.sam.aveng.base.contract.converter.ICollectionConverter;
-import edu.sam.aveng.base.contract.service.StandardGenericCrudService;
+import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
+import edu.sam.aveng.legacy.contract.service.StandardGenericCrudService;
 import edu.sam.aveng.base.converter.search.ISearchInputConverter;
 import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
 import edu.sam.aveng.base.model.domain.Sample;

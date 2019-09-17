@@ -42,7 +42,7 @@
 
             <tbody>
 
-            <jstl:forEach items="${shortCardDtoList}" var="cardDto">
+            <jstl:forEach items="${cardTableItemList}" var="cardDto">
                 <tr>
                     <th scope="row">
                         <a href="/cards/display/${cardDto.id}">${cardDto.id}</a>
