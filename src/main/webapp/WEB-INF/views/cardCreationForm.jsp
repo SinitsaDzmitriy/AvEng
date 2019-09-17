@@ -60,9 +60,9 @@
                                                         <spring:message code="card.attribute.label.lang"/>:
                                                     </label>
                                                     <select class="form-control shadow-none" id="cardLangSelect">
-                                                        <option class="shadow-none" value="en" selected>English</option>
-                                                        <option class="shadow-none" value="ru">Russian</option>
-                                                        <option class="shadow-none" value="de">German</option>
+                                                        <option class="shadow-none" value="ENGLISH" selected>English</option>
+                                                        <option class="shadow-none" value="RUSSIAN">Russian</option>
+                                                        <option class="shadow-none" value="GERMAN">German</option>
                                                     </select>
                                                 </div>
 
@@ -344,10 +344,10 @@
         contentValidationRegex = "^[\\s\\-/.:0-9a-z";
 
         switch ($(cardLangSelectId).val()) {
-            case "ru":
+            case "RUSSIAN":
                 contentValidationRegex += "а-яё";
                 break;
-            case "de":
+            case "GERMAN":
                 contentValidationRegex += "äöüß";
         }
 
@@ -710,6 +710,7 @@
         console.log(samplesJson);
 
         var card = '{'
+            + '"lang" : "' + $(cardLangSelectId).val() + '",'
             + '"content" : "' + $(enabledContentInputId).val() + '",'
             + '"type" : "' + $("#type").val() + '",'
             + '"pron" : {'

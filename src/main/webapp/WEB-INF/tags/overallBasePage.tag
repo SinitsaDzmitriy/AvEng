@@ -34,7 +34,7 @@
 
 <body>
 
-<div class="container-fluid d-flex h-100 flex-column">
+<div class="container-fluid d-flex h-100 w-100 flex-column">
     <!-- I want this container to stretch to the height of the parent -->
     <header class="row border-bottom border-secondary">
         <div class="col-1 d-md-none d-flex justify-content-center align-items-center px-0">
@@ -74,7 +74,7 @@
                             <spring:message code="sidebar.header.admin"/>
                         </h5>
 
-                        <spring:url value="/cards/list" var="cardListPagePath"/>
+                        <spring:url value="/cards/display/list" var="cardListPagePath"/>
                         <a class="dropdown-item" href="${cardListPagePath}">
                             <spring:message code="sidebar.anchor.cards"/>
                         </a>
@@ -263,7 +263,7 @@
                         <spring:message code="sidebar.anchor.homepage"/>
                     </a>
 
-                    <spring:url value="/display/list" var="displayCardsPagePath"/>
+                    <spring:url value="/cards/display/list" var="displayCardsPagePath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${displayCardsPagePath}">
                         <spring:message code="sidebar.anchor.cards"/>
                     </a>

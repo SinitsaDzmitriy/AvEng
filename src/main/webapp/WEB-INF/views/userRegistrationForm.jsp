@@ -33,45 +33,70 @@ Designed to:
 
 </head>
 
+<spring:message code="validation.common.password.mismatch" var="retypedPassMismatchValidationHint"/>
+
 <body style="background-color: #eee;">
 
 <div class="container">
 
-    <spring_form:form method="POST"
-                      modelAttribute="userRegCredentials"
+    <spring_form:form id="userRegistrationForm"
+                      method="POST"
+                      modelAttribute="userCredentials"
                       autocomplete="off"
                       cssClass="m-auto"
                       cssStyle="max-width: 330px;">
 
         <h2><spring:message code="headline.user.registration"/></h2>
 
-        <spring_form:errors path="*" element="div" cssClass="errors"/>
+        <%--        <spring_form:errors path="*" element="div" cssClass="errors"/>--%>
 
         <div class="mb-3">
             <spring:message code="user.attribute.placeholder.email" var="emailPlaceholder"/>
-            <spring_form:input path="email"
+            <spring_form:input id="email"
+                               type="email"
+                               path="email"
                                placeholder="${emailPlaceholder}"
                                cssClass="form-control"
-                               cssErrorClass="error"
-                               cssStyle="padding: 10px; min-height: 42px;"/>
+                               cssErrorClass="form-control is-invalid"
+                               cssStyle="padding: 10px; min-height: 42px;"
+                               required="required"/>
+
+            <div class="invalid-feedback">
+                <spring_form:errors path="email"/>
+            </div>
+
         </div>
 
         <div class="mb-3">
             <spring:message code="user.attribute.placeholder.password.primary" var="primaryPassPlaceholder"/>
-            <spring_form:input path="password"
+            <spring:message code="validation.front.password.pattern" var="passPatternMismatchValidationHint"/>
+            <spring_form:input id="password"
+                               type="password"
+                               path="password"
+                               pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                               title="${passPatternMismatchValidationHint}"
                                placeholder="${primaryPassPlaceholder}"
                                cssClass="form-control"
-                               cssErrorClass="error"
-                               cssStyle="padding: 10px; min-height: 42px;"/>
+                               cssErrorClass="form-control is-invalid"
+                               cssStyle="padding: 10px; min-height: 42px;"
+                               required="required"/>
+
+            <div class="invalid-feedback">
+                <spring_form:errors path="password"/>
+            </div>
+
         </div>
 
         <div class="mb-3">
             <spring:message code="user.attribute.placeholder.password.confirmatory" var="confirmatoryPassPlaceholder"/>
-            <spring_form:input path="retypedPassword"
-                               placeholder="${confirmatoryPassPlaceholder}"
-                               cssClass="form-control"
-                               cssErrorClass="error"
-                               cssStyle="padding: 10px; min-height: 42px;"/>
+            <input id="retypedPassword"
+                   type="password"
+                   class="form-control"
+                   style="padding: 10px; min-height: 42px;"
+                   placeholder="${confirmatoryPassPlaceholder}"
+                   oninput="test()"
+                   required="required"/>
+
         </div>
 
         <spring:message code="button.user.register" var="registerBtnCaption"/>
@@ -81,27 +106,44 @@ Designed to:
 
 </div>
 
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+</script>
+
+<script>
+
+    $("#userRegistrationForm").submit(function(event) {
+
+        var emailInput = document.getElementById("email");
+        var passwordInput = document.getElementById("password");
+        var retypedPasswordInput = document.getElementById("retypedPassword");
+
+        if (emailInput.checkValidity() && passwordInput.checkValidity()) {
+
+            if (passwordInput.value === retypedPasswordInput.value) {
+                // input is valid -- reset the error message
+                retypedPasswordInput.setCustomValidity('');
+            } else {
+                retypedPasswordInput.setCustomValidity("${retypedPassMismatchValidationHint}");
+                retypedPasswordInput.reportValidity();
+                event.preventDefault()
+            }
+
+        }
+    });
+
+    function test() {
+        document.getElementById("retypedPassword").setCustomValidity('');
+        retypedPasswordInput.reportValidity();
+    }
+
+   // $("#retypedPassword").change(function () {
+   //      document.getElementById("retypedPassword").setCustomValidity('');
+   //      retypedPasswordInput.reportValidity();
+   //  });
+
+</script>
+
 </body>
-
-<%--</html>--%>
-
-<%--<html lang="en">--%>
-
-<%--<body>--%>
-<%--<div class="container">--%>
-<%--    <form class="form-signin" method="post" action="/login">--%>
-<%--        <h2 class="form-signin-heading">Please sign in</h2>--%>
-<%--        <p>--%>
-<%--            <label for="username" class="sr-only">Username</label>--%>
-<%--            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required--%>
-<%--                   autofocus>--%>
-<%--        </p>--%>
-<%--        <p>--%>
-<%--            <label for="password" class="sr-only">Password</label>--%>
-<%--            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>--%>
-<%--        </p>--%>
-<%--        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>--%>
-<%--    </form>--%>
-<%--</div>--%>
-<%--</body>--%>
-<%--</html>--%>

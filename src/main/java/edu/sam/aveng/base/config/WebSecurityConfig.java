@@ -65,7 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] publicUrls = {
                 "/", "/initial",
                 "/register", "/login",
-                "/cards/search", "/cards/display/**"
+                "/cards/search", "/cards/display/**",
+                "/resources/**"
         };
 
         String[] additionalUserUrls = {

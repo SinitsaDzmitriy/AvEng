@@ -47,7 +47,7 @@
                 <br>
 
                 <h6 class="card-subtitle my-2">
-                    <spring:message code="card.attribute.samples"/>:
+                    <spring:message code="card.attribute.label.samples"/>:
                 </h6>
 
                 <ul class="list-group" id="cardSamples">

@@ -10,67 +10,77 @@
 <html>
 
 <!-- ToDo: Set table borders' properties in CSS file -->
-<style>
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .boldTableHeader {
-        font-weight: bold;
-    }
-</style>
 
 <mytags:overallBasePage pageHeadline="List of Cards">
 
-    <h1><spring:message code="headline.card.read.all"/></h1>
+    <div class="table-responsive">
 
-    <table>
-        <tr class="boldTableHeader">
-            <td>ID</td>
-            <td><spring:message code="card.attribute.label.lang"/></td>
-            <td><spring:message code="card.attribute.label.content"/></td>
-            <td><spring:message code="card.attribute.label.type"/></td>
-            <td><spring:message code="card.attribute.label.definition"/></td>
+        <table class="table m-0">
 
-            <security:authorize access="hasRole('ADMIN')">
-                <td colspan="2"><spring:message code="headline.actions"/></td>
-            </security:authorize>
+            <caption>
+                <spring:message code="headline.card.read.all"/>
+            </caption>
 
-        </tr>
-        <jstl:forEach items="${shortCardDtoList}" var="cardDto">
-            <tr>
-                <td>
-                    <a href="<jstl:url value="/cards/display/${cardDto.id}" />">${cardDto.id}</a>
-                </td>
-                <td>${cardDto.lang}</td>
-                <td>${cardDto.content}</td>
-                <td>${cardDto.type}</td>
-                <td>${cardDto.definition}</td>
+            <thead>
+
+            <tr class="table-primary">
+
+                <th scope="col">#</th>
+
+                <th scope="col"><spring:message code="card.attribute.label.lang"/></th>
+                <th scope="col"><spring:message code="card.attribute.label.content"/></th>
+                <th scope="col"><spring:message code="card.attribute.label.type"/></th>
+                <th scope="col"><spring:message code="card.attribute.label.definition"/></th>
 
                 <security:authorize access="hasRole('ADMIN')">
-
-                    <td>
-
-                        <button type="button" onclick="location.href='update/${cardDto.id}'">
-                            <spring:message code="button.update"/>
-                        </button>
-
-                    </td>
-
-                    <td>
-                        <button type="button" onclick="location.href='delete/${cardDto.id}'">
-                            <spring:message code="button.delete"/>
-                        </button>
-
-                    </td>
-
+                    <th scope="col" class="text-center" colspan="2"><spring:message code="headline.actions"/></th>
                 </security:authorize>
 
             </tr>
-        </jstl:forEach>
-    </table>
+
+            </thead>
+
+            <tbody>
+
+            <jstl:forEach items="${shortCardDtoList}" var="cardDto">
+                <tr>
+                    <th scope="row">
+                        <a href="/cards/display/${cardDto.id}">${cardDto.id}</a>
+                    </th>
+                    <td>${cardDto.lang}</td>
+                    <td>${cardDto.content}</td>
+                    <td>${cardDto.type}</td>
+                    <td>${cardDto.definition}</td>
+
+                    <security:authorize access="hasRole('ADMIN')">
+
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center">
+
+                                <button class="btn btn-warning border-secondary mx-1"
+                                        type="button"
+                                        onclick="location.pathname = '/cards/update/${cardDto.id}'">
+                                    <spring:message code="button.update"/>
+                                </button>
+
+                                <button class="btn btn-danger border-secondary mx-1"
+                                        type="button"
+                                        onclick="location.pathname = '/cards/delete/${cardDto.id}'">
+                                    <spring:message code="button.delete"/>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </security:authorize>
+
+                </tr>
+            </jstl:forEach>
+
+            </tbody>
+        </table>
+
+    </div>
 
 </mytags:overallBasePage>

@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.controller.simple;
 
-import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.service.user.IUserService;
 import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
@@ -25,23 +25,28 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String displayUserRegistrationForm(Model model) {
+
         LOGGER.info("User registration form displaying.");
         LOGGER.debug("Initial state of params: model={}", model);
-        model.addAttribute(Constants.Model.USER_REG_CREDENTIALS, new UserRegCredentials());
+
+        model.addAttribute(Constants.Model.USER_CREDENTIALS_KEY, new UserCredentials());
+
         LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.USER_REGISTRATION_FORM);
+
         return Constants.View.USER_REGISTRATION_FORM;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(
-            @Valid
-            @ModelAttribute(Constants.Model.USER_REG_CREDENTIALS)
-                    UserRegCredentials regCredentials, Errors errors) {
+    public String registerUser(@Valid @ModelAttribute(Constants.Model.USER_CREDENTIALS_KEY)
+                                       UserCredentials userCredentials, Errors errors) {
+
         if (errors.hasErrors()) {
             return Constants.View.USER_REGISTRATION_FORM;
         }
-        userService.create(regCredentials);
+
+        userService.create(userCredentials);
         return "redirect:/login";
+
     }
 }

@@ -8,7 +8,7 @@ import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.domain.UserCard;
 import edu.sam.aveng.base.model.domain.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.dto.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.UserCardTableItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;

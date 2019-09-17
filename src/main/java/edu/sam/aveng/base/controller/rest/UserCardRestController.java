@@ -4,7 +4,7 @@ import edu.sam.aveng.base.contract.controller.AbstractCrudRestController;
 import edu.sam.aveng.base.model.domain.UserCard;
 import edu.sam.aveng.base.model.domain.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.dto.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.UserCardTableItem;
 import edu.sam.aveng.base.service.usercard.IUserCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

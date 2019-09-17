@@ -5,9 +5,8 @@ import edu.sam.aveng.base.converter.UserConverter;
 import edu.sam.aveng.base.model.domain.SimpleGrantedAuthority;
 import edu.sam.aveng.base.model.domain.User;
 import edu.sam.aveng.base.model.domain.UserCard;
-import edu.sam.aveng.base.model.transfer.user.AbstractUserCredentials;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.model.transfer.user.UserTableItem;
-import edu.sam.aveng.base.util.Converter;
 import edu.sam.aveng.temp.dao.IPopGenericHiberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,17 +60,18 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public long create(AbstractUserCredentials credentials) {
+    public long create(UserCredentials userCredentials) {
+
+        User user = new User();
+
         // Encode user password
-        credentials.setPassword(passEncoder.encode(credentials.getPassword()));
+        String encodedPassword = passEncoder.encode(userCredentials.getPassword());
 
-        String test = passEncoder.encode("admin");
-        System.out.println(test);
-
-        User user = Converter.convertToEntity(credentials);
-
+        user.setEmail(userCredentials.getEmail());
+        user.setPassword(passEncoder.encode(userCredentials.getPassword()));
         user.setLastLoggingDate(new Date());
         user.setEnabled(true);
+
         // ToDo refactor as obtain(String roleName): fetch or create
         user.addAuthority(authorityDao.findOneEagerlyByProperty("role", "ROLE_USER"));
 

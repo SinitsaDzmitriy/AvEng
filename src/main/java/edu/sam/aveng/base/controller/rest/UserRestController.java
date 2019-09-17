@@ -34,9 +34,9 @@ public class UserRestController {
 
         // ToDo: Additional server-side validation credentials.password = retypedPassword
 
-        UserCredentials credentials = Converter.simplify(regCredentials);
-        long newUserId = userService.create(credentials);
-        userService.populate(newUserId);
+//        UserCredentials credentials = Converter.simplify(regCredentials);
+//        long newUserId = userService.create(credentials);
+//        userService.populate(newUserId);
     }
 
     @GetMapping

@@ -5,7 +5,7 @@ import edu.sam.aveng.base.contract.service.ICrudService;
 import edu.sam.aveng.base.model.domain.UserCard;
 import edu.sam.aveng.base.model.domain.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.dto.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.UserCardTableItem;
 
 public interface IUserCardService extends ICrudService<UserCard,
         UserCardDto,

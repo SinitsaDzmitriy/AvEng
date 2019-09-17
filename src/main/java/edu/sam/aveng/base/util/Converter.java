@@ -8,9 +8,8 @@ import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.model.transfer.dto.ShortCardDto;
-import edu.sam.aveng.base.model.transfer.dto.UserDto;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.model.transfer.user.AbstractUserCredentials;
-import edu.sam.aveng.base.model.transfer.user.UserCredentials;
 import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -62,11 +61,11 @@ public class Converter {
         return dto;
     }
 
-    public static User convertToEntity(UserDto userDto) {
+    public static User convertToEntity(UserCredentials userCredentials) {
         User user = new User();
-        user.setEmail(userDto.getEmail());
+        user.setEmail(userCredentials.getEmail());
         user.setPassword(new BCryptPasswordEncoder()
-                .encode(userDto.getPassword()));
+                .encode(userCredentials.getPassword()));
         return user;
     }
 
@@ -107,8 +106,8 @@ public class Converter {
         return user;
     }
 
-    public static UserCredentials simplify(UserRegCredentials regCredentials) {
-        UserCredentials credentials = new UserCredentials();
+    public static edu.sam.aveng.base.model.transfer.user.UserCredentials simplify(UserRegCredentials regCredentials) {
+        edu.sam.aveng.base.model.transfer.user.UserCredentials credentials = new edu.sam.aveng.base.model.transfer.user.UserCredentials();
 
         credentials.setEmail(regCredentials.getEmail());
         credentials.setPassword(regCredentials.getPassword());

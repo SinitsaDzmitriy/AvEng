@@ -14,7 +14,7 @@ public abstract class AbstractUserRegCredentials extends AbstractUserCredentials
         this.retypedPassword = retypedPassword;
     }
 
-    @AssertTrue(message = "{validation.password.mismatch}")
+    @AssertTrue(message = "{validation.back.password.mismatch}")
     public boolean isValid() {
         return password.equals(retypedPassword);
     }

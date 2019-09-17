@@ -7,160 +7,195 @@
 
 <mytags:overallBasePage pageHeadline="${cardDto.content} Card">
 
-    <h2><spring:message code="headline.card.read" arguments="${cardDto.id}"/></h2>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card" style="width: 23rem;">
 
-<div>
-    <spring:message code="card.attribute.label.content" />: <jstl:out value="${cardDto.content}"/><br>
-    <spring:message code="card.attribute.label.type" />: <jstl:out value="${cardDto.type}"/><br>
-    <spring:message code="card.attribute.label.transcription" />: [<jstl:out value="${cardDto.pron.transcription}"/>]<br>
-    <spring:message code="card.attribute.label.definition" />: <jstl:out value="${cardDto.definition}"/><br>
-    <spring:message code="card.attribute.label.samples" />:<br>
-    <jstl:forEach items="${cardDto.samples}" var="sample">
-        ${sample.content}<br>
-    </jstl:forEach>
+            <h5 class="card-header">
+                <spring:message code="headline.card.read" arguments="${cardDto.id}"/>
+            </h5>
 
-    <spring_security:authorize access="isFullyAuthenticated()">
+            <div class="bg-primary d-flex justify-content-center">
+                <spring:url value="/resources/images/samLogo.png" var="samLogo"/>
+                <!-- ToDo: auto size img -->
+                <img src="${samLogo}" class="m-2" width="114" height="67" alt="Card Image (default)">
+            </div>
 
-        <button type="button"
-                class="btn btn-secondary"
-                data-toggle="modal"
-                data-target="#userCardCreationModal">
+            <div class="card-body">
 
-            Add To My Dictionary
-        </button>
+                <h5 class="card-title d-inline-block" id="cardContent">${cardDto.content}</h5>
+                <sup id="cardLang">${cardDto.lang.name}</sup>
 
-        <div class="modal fade"
-             id="userCardCreationModal"
-             tabindex="-1"
-             role="dialog"
-             aria-labelledby="userCardCreationFormLabel"
-             aria-hidden="true">
+                <br>
 
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userCardCreationFormLabel">
-                            <spring:message code="user-card.adding-form.headline"/>
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <i id="cardType">${cardDto.type}</i>
 
-                    <div class="modal-body">
+                <h5 class="d-inline-block"> | </h5>
 
-                        <form id="userCardCreationForm" autocomplete="off">
+                <spring:url value="/resources/images/playPronIcon.svg" var="playPronIcon"/>
+                <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
 
-                            <div class="form-group">
+                <span id="cardTranscription" class="text-orangered">[${cardDto.pron.transcription}]</span>
 
-                                <label for="userCardStatusSelect">
-                                    <spring:message code="user-card.adding-form.attribute.status.caption"/>
-                                </label>
-                                <div id="userCardStatusSelect">
-                                    <mytags:statusSelect/>
+                <br>
+
+                <b id="cardDefinition">${cardDto.definition}</b>
+
+                <br>
+
+                <h6 class="card-subtitle my-2">
+                    <spring:message code="card.attribute.label.samples"/>:
+                </h6>
+
+                <ul class="list-group" id="cardSamples">
+
+                    <jstl:forEach items="${cardDto.samples}" var="sample">
+                        <li class="list-group-item">${sample.content}</li>
+                    </jstl:forEach>
+
+                </ul>
+
+                <spring_security:authorize access="isFullyAuthenticated()">
+
+                    <br>
+
+                    <button type="button"
+                            class="btn btn-primary btn-block border-secondary"
+                            data-toggle="modal"
+                            data-target="#userCardCreationModal">
+                        <spring:message code="button.card.add-to-dictionary"/>
+                    </button>
+
+                </spring_security:authorize>
+
+            </div>
+
+        </div>
+
+        <spring_security:authorize access="isFullyAuthenticated()">
+
+            <div class="modal fade"
+                 id="userCardCreationModal"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="userCardCreationFormLabel"
+                 aria-hidden="true">
+
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userCardCreationFormLabel">
+                                <spring:message code="user-card.adding-form.headline"/>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <form id="userCardCreationForm" autocomplete="off">
+
+                                <div class="form-group">
+
+                                    <label for="userCardStatusSelect">
+                                        <spring:message code="user-card.adding-form.attribute.status.caption"/>
+                                    </label>
+                                    <div id="userCardStatusSelect">
+                                        <mytags:statusSelect/>
+                                    </div>
+
                                 </div>
 
-                            </div>
+                                <div class="form-group">
 
-                            <div class="form-group">
+                                    <label for="additionalSample">
+                                        <spring:message
+                                                code="user-card.adding-form.attribute.additional-sample.caption"/>
+                                    </label>
 
-                                <label for="additionalSample">
-                                    <spring:message code="user-card.adding-form.attribute.additional-sample.caption"/>
-                                </label>
+                                    <spring:message var="additionalSamplePlaceholder"
+                                                    code="common.placeholder.input"/>
+                                    <input id="additionalSample"
+                                           class="form-control"
+                                           name="userSample"
+                                           type="text"
+                                           aria-describedby="emailHelp"
+                                           placeholder="${additionalSamplePlaceholder}">
 
-                                <spring:message var="additionalSamplePlaceholder"
-                                                code="common.placeholder.input"/>
-                                <input id="additionalSample"
-                                       class="form-control"
-                                       name="userSample"
-                                       type="text"
-                                       aria-describedby="emailHelp"
-                                       placeholder="${additionalSamplePlaceholder}">
+                                    <small id="emailHelp" class="form-text text-muted">
+                                        <spring:message
+                                                code="user-card.adding-form.attribute.additional-sample.recommendation.intro"/>
+                                        <ul>
+                                            <li><spring:message
+                                                    code="user-card.adding-form.attribute.additional-sample.recommendation.source"/></li>
+                                            <li><spring:message
+                                                    code="user-card.adding-form.attribute.additional-sample.recommendation.new"/></li>
+                                        </ul>
+                                    </small>
 
-                                <small id="emailHelp" class="form-text text-muted">
-                                    <spring:message
-                                            code="user-card.adding-form.attribute.additional-sample.recommendation.intro"/>
-                                    <ul>
-                                        <li><spring:message
-                                                code="user-card.adding-form.attribute.additional-sample.recommendation.source"/></li>
-                                        <li><spring:message
-                                                code="user-card.adding-form.attribute.additional-sample.recommendation.new"/></li>
-                                    </ul>
-                                </small>
+                                </div>
 
-                            </div>
+                            </form>
 
-                        </form>
+                        </div>
 
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btn-create-user-card">Add</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-create-user-card">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <div class="modal fade" id="successfulCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal fade" id="successfulCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Result</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Result</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            Card was added successfully! You will find it when checks your dictionary next time.
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+
                     </div>
-
-                    <div class="modal-body">
-                        Card was added successfully! You will find it when checks your dictionary next time.
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
 
-        <div class="modal fade" id="failedCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal fade" id="failedCardAddingModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Result</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Result</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div id="failModalBody" class="modal-body">
+                            Error is occurred. Card wasn't added.
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+
                     </div>
-
-                    <div id="failModalBody" class="modal-body">
-                        Error is occurred. Card wasn't added.
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
         </div>
 
-    </spring_security:authorize>
-
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous">
-    </script>
-
-
-    <spring_security:authorize access="isFullyAuthenticated()">
 
         <spring_security:authentication property="principal.id" var="currentUserId"/>
 
