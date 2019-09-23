@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.model.transfer.dto;
 
-import edu.sam.aveng.base.model.domain.enumeration.Lang;
-import edu.sam.aveng.base.model.domain.enumeration.StatementType;
+import edu.sam.aveng.base.model.enumeration.Lang;
+import edu.sam.aveng.base.model.enumeration.StatementType;
 
 public class CardTableItem {
     private Long id;

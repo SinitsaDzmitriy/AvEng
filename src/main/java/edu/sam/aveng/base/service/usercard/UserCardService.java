@@ -3,12 +3,12 @@ package edu.sam.aveng.base.service.usercard;
 import edu.sam.aveng.legacy.contract.converter.IShortConverter;
 import edu.sam.aveng.legacy.contract.dao.IGenericDao;
 import edu.sam.aveng.legacy.contract.service.SmartGenericCrudService;
-import edu.sam.aveng.base.model.domain.Card;
-import edu.sam.aveng.base.model.domain.User;
-import edu.sam.aveng.base.model.domain.UserCard;
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.entity.Card;
+import edu.sam.aveng.base.model.entity.User;
+import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.dto.UserCardShortDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @EnableTransactionManagement
 @Transactional
 public class UserCardService
-        extends SmartGenericCrudService<UserCard, UserCardDto, UserCardTableItem>
+        extends SmartGenericCrudService<UserCard, UserCardDto, UserCardShortDto>
         implements IUserCardService {
 
     private IGenericDao<User> userDao;
@@ -32,7 +32,7 @@ public class UserCardService
     @Override
     @Autowired
     @Qualifier("userCardConverter")
-    public void converter(IShortConverter<UserCard, UserCardDto, UserCardTableItem> converter) {
+    public void converter(IShortConverter<UserCard, UserCardDto, UserCardShortDto> converter) {
         setConverter(converter);
     }
 
@@ -107,7 +107,7 @@ public class UserCardService
     }
 
     @Override
-    public List<UserCardTableItem> findAll() {
+    public List<UserCardShortDto> findAll() {
 
         // ToDo: Move user check in separate method (duplication)
         // ToDo: Rewrite awful cast

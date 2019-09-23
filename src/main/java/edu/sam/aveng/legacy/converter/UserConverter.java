@@ -1,6 +1,6 @@
 package edu.sam.aveng.legacy.converter;
 
-import edu.sam.aveng.base.model.domain.User;
+import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.transfer.user.UserTableItem;
 import org.springframework.security.core.GrantedAuthority;
 

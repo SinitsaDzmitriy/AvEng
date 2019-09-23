@@ -1,10 +1,10 @@
 package edu.sam.aveng.legacy.controller.rest;
 
 import edu.sam.aveng.legacy.contract.controller.AbstractCrudRestController;
-import edu.sam.aveng.base.model.domain.UserCard;
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.dto.UserCardShortDto;
 import edu.sam.aveng.base.service.usercard.IUserCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user_cards")
 public class UserCardRestController extends AbstractCrudRestController<UserCard,
         UserCardDto,
-        UserCardTableItem,
+        UserCardShortDto,
         IUserCardService> {
 
     @Override

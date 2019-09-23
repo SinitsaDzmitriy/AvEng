@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,23 +16,23 @@ public class Picture implements Serializable {
 
     /**
      * The value is used for the image description storage. It could be used to
-     * search pictures by associations. This temporary attribute will be replaced
+     * likeSearch pictures by associations. This temporary attribute will be replaced
      * soon.
      * <p>
      * {@code private List<String> associations}
      * <p>
-     * Contains list of  related words and phrases. That will help users to search
+     * Contains list of  related words and phrases. That will help users to likeSearch
      * {@code Image} among already available. The owner-side should implements
      * {@code void addPicture(Image image)} to update list of association on the
-     * creation of relation between objects of {@link edu.sam.aveng.base.model.domain.Picture
+     * creation of relation between objects of {@link Picture
      * Picture} and another (owner) classes.
      * <p>
      * Known owners:
      * <ul>
-     *     <li>{@link edu.sam.aveng.base.model.domain.Card Card}</li>
+     *     <li>{@link Card Card}</li>
      * </ul>
      *
-     * @see edu.sam.aveng.base.model.domain.Image
+     * @see Image
      */
     private String description;
 

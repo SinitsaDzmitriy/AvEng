@@ -2,15 +2,15 @@ package edu.sam.aveng.base.service.usercard;
 
 import edu.sam.aveng.legacy.contract.converter.IShortConverter;
 import edu.sam.aveng.legacy.contract.service.ICrudService;
-import edu.sam.aveng.base.model.domain.UserCard;
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.dto.UserCardShortDto;
 
 public interface IUserCardService extends ICrudService<UserCard,
         UserCardDto,
-        UserCardTableItem,
-        IShortConverter<UserCard, UserCardDto, UserCardTableItem>> {
+        UserCardShortDto,
+        IShortConverter<UserCard, UserCardDto, UserCardShortDto>> {
 
     void create(long userId, long cardId, UserCardDto userCardDto);
 

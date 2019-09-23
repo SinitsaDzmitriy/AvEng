@@ -1,6 +1,6 @@
 package edu.sam.aveng.legacy.contract.dao;
 
-import edu.sam.aveng.base.model.domain.enumeration.Lang;
+import edu.sam.aveng.base.model.enumeration.Lang;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,9 +33,6 @@ public interface IGenericDao<T extends Serializable> {
     Object getPropertyById(String property, Long id);
 
     List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias);
-
-    // ToDo: Move this method to CardDao (single responsibility)
-    public List<Map> search(Lang usedLang, Lang desiredLang, String formattedSearchInput);
 
     void setClazz(Class<T> clazzToSet);
 

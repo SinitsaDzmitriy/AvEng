@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.enumeration.Status;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 

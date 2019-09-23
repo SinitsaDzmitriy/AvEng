@@ -3,7 +3,7 @@
 
 <%@ tag description="select element on enum values" pageEncoding="UTF-8" %>
 
-<%@ tag import="edu.sam.aveng.base.model.domain.enumeration.Status" %>
+<%@ tag import="edu.sam.aveng.base.model.enumeration.Status" %>
 
 <label>
     <select class="form-control" id="statusSelect" name="status">

@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer;
+package edu.sam.aveng.base.model.transfer.user.credentials;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

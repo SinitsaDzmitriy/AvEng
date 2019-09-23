@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain.enumeration;
+package edu.sam.aveng.base.model.enumeration;
 
 public enum StatementType {
     NOUN,

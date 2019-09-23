@@ -1,7 +1,7 @@
 package edu.sam.aveng.legacy.controller.rest;
 
 import edu.sam.aveng.legacy.contract.controller.AbstractCrudRestController;
-import edu.sam.aveng.base.model.domain.Sample;
+import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.service.sample.ISampleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SampleRestController
 
     @RequestMapping("/search")
     public List<SampleDto> search(@RequestParam String searchQuery) {
-        return service.search(searchQuery);
+        return service.likeSearch(searchQuery);
     }
 
 }

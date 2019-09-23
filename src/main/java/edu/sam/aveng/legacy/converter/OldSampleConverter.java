@@ -1,7 +1,7 @@
 package edu.sam.aveng.legacy.converter;
 
 import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
-import edu.sam.aveng.base.model.domain.Sample;
+import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 @Component
-public class SampleConverter implements ICollectionConverter<Sample, SampleDto> {
+public class OldSampleConverter implements ICollectionConverter<Sample, SampleDto> {
 
     @Override
     public SampleDto convertToDto(Sample sample) {

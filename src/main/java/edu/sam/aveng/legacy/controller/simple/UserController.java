@@ -1,6 +1,6 @@
 package edu.sam.aveng.legacy.controller.simple;
 
-import edu.sam.aveng.base.model.transfer.UserCredentials;
+import edu.sam.aveng.base.model.transfer.user.credentials.UserCredentials;
 import edu.sam.aveng.base.service.user.IUserService;
 import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;

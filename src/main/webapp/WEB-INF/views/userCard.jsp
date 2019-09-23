@@ -3,7 +3,7 @@
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page import="edu.sam.aveng.base.model.domain.enumeration.Status" %>
+<%@ page import="edu.sam.aveng.base.model.enumeration.Status" %>
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 

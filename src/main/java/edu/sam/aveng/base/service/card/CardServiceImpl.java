@@ -1,9 +1,9 @@
 package edu.sam.aveng.base.service.card;
 
-import edu.sam.aveng.legacy.contract.dao.IGenericDao;
-import edu.sam.aveng.base.model.domain.Card;
-import edu.sam.aveng.base.model.domain.Sample;
-import edu.sam.aveng.base.model.domain.enumeration.Lang;
+import edu.sam.aveng.base.dao.sample.ISampleDao;
+import edu.sam.aveng.base.model.entity.Card;
+import edu.sam.aveng.base.model.entity.Sample;
+import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
 import edu.sam.aveng.base.converter.CardConverter;
@@ -11,7 +11,6 @@ import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.dao.card.ICardDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -30,7 +29,7 @@ public class CardServiceImpl implements ICardService {
     private CardConverter cardConverter;
 
     private ICardDao cardDao;
-    private IGenericDao<Sample> sampleDao;
+    private ISampleDao sampleDao;
 
     @Autowired
     public void setCardDao(ICardDao cardDao) {
@@ -38,9 +37,7 @@ public class CardServiceImpl implements ICardService {
     }
 
     @Autowired
-    @Qualifier("genericHiberDao")
-    public void setSampleDao(IGenericDao<Sample> sampleDao) {
-        sampleDao.setClazz(Sample.class);
+    public void setSampleDao(ISampleDao sampleDao) {
         this.sampleDao = sampleDao;
     }
 
@@ -105,7 +102,7 @@ public class CardServiceImpl implements ICardService {
         return sampleDtos.stream()
                 .filter(sampleDto -> !sampleDto.getContent().isEmpty())
                 .map(sampleDto -> {
-                    Sample sample = sampleDao.findByProperty("content", sampleDto.getContent());
+                    Sample sample = sampleDao.findByContent(sampleDto.getContent());
                     if(sample == null) {
                         sample = new Sample();
                         sample.setContent(sampleDto.getContent());

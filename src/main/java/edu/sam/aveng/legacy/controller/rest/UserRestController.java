@@ -2,7 +2,6 @@ package edu.sam.aveng.legacy.controller.rest;
 
 import edu.sam.aveng.base.model.transfer.user.UserTableItem;
 import edu.sam.aveng.temp.service.IPopUserService;
-import edu.sam.aveng.base.model.transfer.user.UserRegCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +27,10 @@ public class UserRestController {
     }
 
     @PostMapping("/create")
-    public void register(@Valid @RequestBody UserRegCredentials regCredentials) {
+    public void register() {
 
         // ToDo: Additional server-side validation credentials.password = retypedPassword
-
+//        @Valid @RequestBody UserRegCredentials regCredentials
 //        UserCredentials credentials = Converter.simplify(regCredentials);
 //        long newUserId = userService.create(credentials);
 //        userService.populate(newUserId);
@@ -49,6 +48,6 @@ public class UserRestController {
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable long id) {
-        userService.delete(id);
+            userService.delete(id);
     }
 }

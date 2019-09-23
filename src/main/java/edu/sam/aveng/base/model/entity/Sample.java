@@ -1,7 +1,18 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
-import org.hibernate.annotations.NaturalId;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +25,24 @@ import java.io.Serializable;
 @Table(name = "samples",
         uniqueConstraints =
         @UniqueConstraint(columnNames = "content", name = "uq_content"))
+@Indexed
+@AnalyzerDef(name = "CustomAnalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class,
+                        params = {
+                                @Parameter(name = "language", value = "English")
+                        })
+        })
 public class Sample implements Serializable, Identifiable {
     @Id
     @GeneratedValue
     private Long id;
 
-    @NaturalId
+    // ToDo: Delete this default values
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+
     private String content;
 
     public Sample() {

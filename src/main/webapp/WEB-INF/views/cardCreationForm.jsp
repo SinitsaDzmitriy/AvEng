@@ -6,7 +6,7 @@
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<%@ page import="edu.sam.aveng.base.model.domain.enumeration.StatementType" %>
+<%@ page import="edu.sam.aveng.base.model.enumeration.StatementType" %>
 
 <mytags:overallBasePage pageHeadline="Create Card">
 
@@ -47,7 +47,8 @@
                                     <div id="slideNo1"
                                          class="carousel-item h-100 active">
 
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
+                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center"
+                                             style="min-height: 550px;">
 
                                             <div id="formPartNo1"
                                                  class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
@@ -60,7 +61,8 @@
                                                         <spring:message code="card.attribute.label.lang"/>:
                                                     </label>
                                                     <select class="form-control shadow-none" id="cardLangSelect">
-                                                        <option class="shadow-none" value="ENGLISH" selected>English</option>
+                                                        <option class="shadow-none" value="ENGLISH" selected>English
+                                                        </option>
                                                         <option class="shadow-none" value="RUSSIAN">Russian</option>
                                                         <option class="shadow-none" value="GERMAN">German</option>
                                                     </select>
@@ -88,11 +90,12 @@
                                     <div id="slideNo2"
                                          class="carousel-item h-100">
 
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
+                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center"
+                                             style="min-height: 550px;">
 
                                             <div id="formPartNo2"
                                                  class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                 style="width: 300px;">
+                                                 style="width: 450px;">
 
                                                 <label for="disabledContentInput">
                                                     <spring:message code="card.attribute.label.content"/>
@@ -142,13 +145,65 @@
                                                 <div id="samples">
                                                 </div>
 
-                                                <textarea id="textareaForSamples" class="form-control shadow-none"
-                                                          aria-label="With textarea"></textarea>
+                                                <div class="input-group">
 
-                                                <button id="addSampleBtn" type="button"
-                                                        class="btn btn-secondary shadow-none my-1">
-                                                    Add Sample
-                                                </button>
+                                                    <textarea id="textareaForSamples" class="form-control shadow-none"
+                                                              aria-label="With textarea"></textarea>
+
+                                                    <div class="input-group-append">
+                                                        <button id="addSampleBtn" type="button"
+                                                                class="btn btn-secondary shadow-none">
+                                                            Add Sample
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                                <br>
+
+                                                <div id="existentSamples" class="card">
+
+                                                    <a id="existentSamplesCollapser"
+                                                       class="card-header text-center"
+                                                       style="cursor: pointer;"
+                                                       role="button"
+                                                       data-toggle="collapse"
+                                                       data-target="#existentSamplesBody">
+
+                                                        Check existing Samples
+                                                    </a>
+
+                                                    <div id="existentSamplesBody" class="collapse"
+                                                         aria-labelledby="existentSamplesCollapserHeader">
+                                                        <div class="card-body">
+
+                                                            <table class="table table-bordered m-0">
+
+                                                                <thead class="d-block w-100">
+
+                                                                <tr class="table-primary d-flex">
+                                                                    <th scope="col" style="width: 120px;">#</th>
+                                                                    <th scope="col" class="w-100">Content</th>
+                                                                </tr>
+
+                                                                </thead>
+
+                                                                <tbody id="likeTableBody" class="d-block w-100" style="max-height: 200px; overflow-x: hidden; overflow-y: auto;">
+
+                                                                <tr class="d-flex">
+                                                                    <th scope="row" style="width: 120px;">0</th>
+                                                                    <td class="w-100">Sample to test.</td>
+                                                                </tr>
+
+                                                                </tbody>
+
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
                                                 <br>
 
                                                 <input id="createCardBtn"

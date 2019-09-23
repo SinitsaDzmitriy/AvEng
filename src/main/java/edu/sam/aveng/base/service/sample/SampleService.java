@@ -1,10 +1,11 @@
 package edu.sam.aveng.base.service.sample;
 
+import edu.sam.aveng.base.dao.sample.ISampleDao;
 import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
 import edu.sam.aveng.legacy.contract.service.StandardGenericCrudService;
 import edu.sam.aveng.base.converter.search.ISearchInputConverter;
 import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
-import edu.sam.aveng.base.model.domain.Sample;
+import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,26 +23,53 @@ public class SampleService
         extends StandardGenericCrudService<Sample, SampleDto>
         implements ISampleService {
 
-    // ToDo: Replace it with a Bean
-    private final ISearchInputConverter searchInputConverter = new SampleSearchInputConverter();
+    private ISampleDao sampleDao;
+    private ISearchInputConverter searchInputConverter;
+
+    @Autowired
+    public void setSampleDao(ISampleDao sampleDao) {
+        this.sampleDao = sampleDao;
+    }
+
+    @Autowired
+    public void setSearchInputConverter(ISearchInputConverter searchInputConverter) {
+        this.searchInputConverter = searchInputConverter;
+    }
 
     @Override
     @Autowired
-    @Qualifier("sampleConverter")
+    @Qualifier("oldSampleConverter")
     public void converter(ICollectionConverter<Sample, SampleDto> converter) {
         setConverter(converter);
     }
 
     @Override
-    public List<SampleDto> search(String searchInput) {
+    public List<SampleDto> likeSearch(String searchInput) {
 
-        List<Sample> selection = dao
-                .findWithLikeCriterias("content", searchInputConverter.convertToLikeCriterias(searchInput));
+        List<SampleDto> sampleDtos = null;
 
-        if (selection == null) {
-            return null;
-        } else {
-            return converter.convertToDto(selection).collect(Collectors.toList());
+        List<Sample> samples = sampleDao
+                .likeSearch(searchInputConverter.convertToLikeCriterias(searchInput));
+
+        if (samples != null) {
+            sampleDtos = converter.convertToDto(samples).collect(Collectors.toList());
         }
+
+        return sampleDtos;
+    }
+
+    @Override
+    public List<SampleDto> fullTextSearch(String searchInput) {
+
+        List<SampleDto> sampleDtos = null;
+
+        List<Sample> samples = sampleDao.fullTextSearch(searchInput);
+
+        if (samples != null) {
+            sampleDtos = converter.convertToDto(samples).collect(Collectors.toList());
+        }
+
+        return sampleDtos;
+
     }
 }

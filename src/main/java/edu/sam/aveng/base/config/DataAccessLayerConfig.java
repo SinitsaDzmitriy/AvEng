@@ -46,6 +46,10 @@ public class DataAccessLayerConfig {
         Properties hibernateProps = new Properties();
         hibernateProps.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProps.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.mode"));
+        hibernateProps.setProperty("hibernate.search.default.directory_provider",
+                env.getProperty("hibernate.search.default.directory_provider"));
+        hibernateProps.setProperty("hibernate.search.default.indexBase",
+                env.getProperty("hibernate.search.default.indexBase"));
 
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 

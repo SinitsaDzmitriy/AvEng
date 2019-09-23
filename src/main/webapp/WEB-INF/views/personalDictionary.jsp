@@ -5,7 +5,7 @@
 
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
-<%@ page import="edu.sam.aveng.base.model.domain.enumeration.Status" %>
+<%@ page import="edu.sam.aveng.base.model.enumeration.Status" %>
 
 <mytags:overallBasePage pageHeadline="Personal Dictionary">
 

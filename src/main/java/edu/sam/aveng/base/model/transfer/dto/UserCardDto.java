@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.model.transfer.dto;
 
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.enumeration.Status;
 
 public class UserCardDto {
     private Long id;

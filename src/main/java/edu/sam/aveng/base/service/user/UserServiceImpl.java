@@ -2,10 +2,10 @@ package edu.sam.aveng.base.service.user;
 
 import edu.sam.aveng.legacy.contract.dao.IGenericDao;
 import edu.sam.aveng.legacy.converter.UserConverter;
-import edu.sam.aveng.base.model.domain.SimpleGrantedAuthority;
-import edu.sam.aveng.base.model.domain.User;
-import edu.sam.aveng.base.model.domain.UserCard;
-import edu.sam.aveng.base.model.transfer.UserCredentials;
+import edu.sam.aveng.base.model.entity.SimpleGrantedAuthority;
+import edu.sam.aveng.base.model.entity.User;
+import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.transfer.user.credentials.UserCredentials;
 import edu.sam.aveng.base.model.transfer.user.UserTableItem;
 import edu.sam.aveng.temp.dao.IPopGenericHiberDao;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
 import org.springframework.security.core.GrantedAuthority;

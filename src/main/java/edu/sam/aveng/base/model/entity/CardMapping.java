@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

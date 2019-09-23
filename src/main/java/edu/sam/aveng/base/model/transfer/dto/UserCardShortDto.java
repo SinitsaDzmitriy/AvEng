@@ -1,10 +1,10 @@
-package edu.sam.aveng.base.model.transfer;
+package edu.sam.aveng.base.model.transfer.dto;
 
-import edu.sam.aveng.base.model.domain.enumeration.Lang;
-import edu.sam.aveng.base.model.domain.enumeration.StatementType;
-import edu.sam.aveng.base.model.domain.enumeration.Status;
+import edu.sam.aveng.base.model.enumeration.Lang;
+import edu.sam.aveng.base.model.enumeration.StatementType;
+import edu.sam.aveng.base.model.enumeration.Status;
 
-public class UserCardTableItem {
+public class UserCardShortDto {
 
     Long userCardId;
     Status status;

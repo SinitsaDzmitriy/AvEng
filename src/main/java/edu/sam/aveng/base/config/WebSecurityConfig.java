@@ -62,10 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
+        String[] devUrls = {
+                "/test/**",
+                "/utility/**"
+        };
+
         String[] publicUrls = {
                 "/", "/initial",
                 "/register", "/login",
-                "/cards/search", "/cards/display/**",
+                "/cards/likeSearch", "/cards/display/**",
                 "/resources/**"
         };
 
@@ -75,6 +80,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
 
         http.authorizeRequests()
+
+                .antMatchers(devUrls)
+                .permitAll()
+
                 .antMatchers(publicUrls)
                 .permitAll()
                 .antMatchers(additionalUserUrls)

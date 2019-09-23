@@ -1,12 +1,12 @@
 package edu.sam.aveng.legacy.converter;
 
 import edu.sam.aveng.legacy.contract.converter.IShortConverter;
-import edu.sam.aveng.base.model.domain.Card;
-import edu.sam.aveng.base.model.domain.UserCard;
+import edu.sam.aveng.base.model.entity.Card;
+import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.UserCardTableItem;
+import edu.sam.aveng.base.model.transfer.dto.UserCardShortDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 @Component
-public class UserCardConverter implements IShortConverter<UserCard, UserCardDto, UserCardTableItem> {
+public class UserCardConverter implements IShortConverter<UserCard, UserCardDto, UserCardShortDto> {
 
     private IShortConverter<Card, CardDto, CardTableItem> cardConverter;
 
@@ -58,10 +58,10 @@ public class UserCardConverter implements IShortConverter<UserCard, UserCardDto,
     }
 
     @Override
-    public Stream<UserCardTableItem> convertToShortDto(Collection<UserCard> userCards) {
+    public Stream<UserCardShortDto> convertToShortDto(Collection<UserCard> userCards) {
         return userCards.stream()
                 .map(userCard -> {
-                    UserCardTableItem item = new UserCardTableItem();
+                    UserCardShortDto item = new UserCardShortDto();
 
                     item.setUserCardId(userCard.getId());
                     item.setStatus(userCard.getStatus());

@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.domain;
+package edu.sam.aveng.base.model.entity;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.engine.jdbc.BlobProxy;

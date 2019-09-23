@@ -19,13 +19,19 @@
 
         <spring.version>5.1.5.RELEASE</spring.version>
         <hibernate.version>5.4.3.Final</hibernate.version>
+        <hibernate-search.version>5.11.3.Final</hibernate-search.version>
         <mysql-connector.version>8.0.17</mysql-connector.version>
         <h2.version>1.4.199</h2.version>
         <jackson.version>2.9.9</jackson.version>
-        <junit.version></junit.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
         <!-- Spring components -->
 
@@ -88,6 +94,13 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Lucene based full-text likeSearch -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>${hibernate-search.version}</version>
         </dependency>
 
         <!-- MySQL connectivity -->
@@ -168,7 +181,7 @@
             <version>3.9</version>
         </dependency>
 
-        <!-- To convert entities to JSON and vice versa -->
+        <!-- To convert entity to JSON and vice versa -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

@@ -75,7 +75,7 @@ public abstract class StandardGenericCrudService<E extends Serializable & Identi
 }
 
     /*
-        entities.stream()
+        entity.stream()
                 .map(item -> converter.convertToDto(item))
                 .collect(Collectors.toList());
      */

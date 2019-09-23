@@ -1,7 +1,7 @@
 package edu.sam.aveng.legacy.converter;
 
 import edu.sam.aveng.legacy.contract.converter.IBaseConverter;
-import edu.sam.aveng.base.model.domain.Pronunciation;
+import edu.sam.aveng.base.model.entity.Pronunciation;
 import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
 import org.springframework.stereotype.Component;
 
