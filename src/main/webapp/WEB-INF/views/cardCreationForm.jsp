@@ -95,7 +95,7 @@
 
                                             <div id="formPartNo2"
                                                  class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                 style="width: 450px;">
+                                                 style="width: 600px;">
 
                                                 <label for="disabledContentInput">
                                                     <spring:message code="card.attribute.label.content"/>
@@ -177,27 +177,10 @@
                                                          aria-labelledby="existentSamplesCollapserHeader">
                                                         <div class="card-body">
 
-                                                            <table class="table table-bordered m-0">
-
-                                                                <thead class="d-block w-100">
-
-                                                                <tr class="table-primary d-flex">
-                                                                    <th scope="col" style="width: 120px;">#</th>
-                                                                    <th scope="col" class="w-100">Content</th>
-                                                                </tr>
-
-                                                                </thead>
-
-                                                                <tbody id="likeTableBody" class="d-block w-100" style="max-height: 200px; overflow-x: hidden; overflow-y: auto;">
-
-                                                                <tr class="d-flex">
-                                                                    <th scope="row" style="width: 120px;">0</th>
-                                                                    <td class="w-100">Sample to test.</td>
-                                                                </tr>
-
-                                                                </tbody>
-
-                                                            </table>
+                                                            <ul id="existentSamplesList"
+                                                                class="list-group list-group-flush border rounded"
+                                                                style="max-height: 200px; overflow-y: auto;">
+                                                            </ul>
 
                                                         </div>
                                                     </div>
@@ -277,6 +260,8 @@
 
 </mytags:overallBasePage>
 
+<spring:url value="/resources/images/liftUpIcon.svg" var="liftUpIconPath"/>
+
 <script>
 
     var nextSampleId = 1;
@@ -303,6 +288,9 @@
     var samplesDeletionAlertId = "#samplesDeletionAlert";
     var confirmSamplesDeletionBtnId = "#confirmSamplesDeletionBtn";
 
+    var existentSamplesBodyId = "#existentSamplesBody";
+    var existentSamplesListId = "#existentSamplesList";
+
     var carouselControlClass = ".carousel-control";
 
     var sampleClass = ".sample";
@@ -325,7 +313,6 @@
     var contentValidationRegex = "^[\\s\\-/.:0-9a-z]+$";
     // Builds on content value
     var sampleValidationRegex;
-
 
     // Prevent form submission when press "Enter" on form input element
     $(cardCreationFormId).keypress(function (event) {
@@ -436,8 +423,68 @@
 
                 case "slideNo1":
 
+                    var content = $(enabledContentInputId).val();
+
+                    $(existentSamplesListId).empty();
+
+                    $.ajax({
+                        type: "GET",
+                        url: location.origin + "/api/samples/search?input=" + content,
+                        dataType: "json"
+                    })
+                        .done(function(samples) {
+
+                            var existentSample;
+                            var alertIconPath = "${alterIconPath}";
+                            var liftUpIconPath = "${liftUpIconPath}";
+
+                            for (var i = 0; i < samples.length; i++) {
+
+                                existentSample = $(
+
+                                    "<li class='list-group-item p-2'>" +
+                                    "<div class='media'>" +
+
+                                    "<div class='media-body mx-2 border-right'>" +
+                                    "<p class='m-0'>" +  samples[i].content + "</p>" +
+                                    "</div>" +
+
+                                    "<img src='" + liftUpIconPath + "' class='align-self-center m-2' width='25' height='25' alt='lift up icon'>" +
+
+                                    "</div>" +
+                                    "</li>"
+
+                                );
+
+                                $(existentSamplesListId).append(existentSample);
+
+                            }
+
+                            console.log("Status of the request for existent Samples: OK.")
+
+                        })
+                        .fail(function () {
+
+                            // ToDo: Internaliztion support
+
+                            var caution = $(
+
+                                "<li class='list-group-item list-group-item-danger p-2'>" +
+                                "<p class='m-0'>" +
+                                "Failed to load existing examples." +
+                                "</p>"+
+                                "</li>"
+
+                            );
+
+                            $(existentSamplesListId).append(caution);
+
+                            console.log("Status of the request for existent Samples: failure.")
+
+                        });
+
                     // Set value of disabled content input on the 2nd slide
-                    $(disabledContentInputId).val($(enabledContentInputId).val());
+                    $(disabledContentInputId).val(content);
 
                     // Form validation regex for Samples
                     var contentParts = $(disabledContentInputId).val().split(/\s/);
@@ -699,7 +746,9 @@
 
     $(confirmSamplesDeletionBtnId).click(function () {
 
+
         $(samplesDeletionAlertId).modal("hide");
+        $(existentSamplesBodyId).collapse('hide');
         $(carouselCardCreationFormId).carousel("prev");
 
         $(carouselControlRightId).removeClass("disabled");

@@ -47,13 +47,13 @@
                 <div class="col-6">
                     <div class="fluid-container">
 
-                        <div class="row">
-                            <div id="likeStatisticsWrapper" class="col d-flex" style="min-height: 48px">
+                        <div class="row mt-1">
+                            <div id="likeStatisticsWrapper" class="col d-flex " style="height: 50px">
 
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-1">
                             <div class="col">
 
                                     <table id="likeTable" class="table table-bordered">
@@ -71,7 +71,7 @@
 
                                         </thead>
 
-                                        <tbody id="likeTableBody" class="d-block w-100 wr-2" style="max-height: 680px; overflow-x: hidden; overflow-y: auto;">
+                                        <tbody id="likeTableBody" class="d-block w-100 wr-2" style="max-height: 650px; overflow-x: hidden; overflow-y: auto;">
 
                                         <tr class="d-flex">
                                             <th scope="row" style="width: 120px;">0</th>
@@ -91,13 +91,13 @@
                 <div class="col-6">
                     <div class="fluid-container">
 
-                        <div class="row">
-                            <div id="fullTextStatisticsWrapper" class="col d-flex" style="min-height: 48px">
+                        <div class="row mt-1">
+                            <div id="fullTextStatisticsWrapper" class="col d-flex" style="min-height: 50px">
 
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-1">
                             <div class="col">
 
                                 <table id="fullTextTable" class="table table-bordered">
@@ -115,7 +115,7 @@
 
                                     </thead>
 
-                                    <tbody id="fullTextTableBody" class="d-block w-100 wr-2" style="max-height: 680px; overflow-x: hidden; overflow-y: auto;">
+                                    <tbody id="fullTextTableBody" class="d-block w-100 wr-2" style="max-height: 650px; overflow-x: hidden; overflow-y: auto;">
 
                                     <tr class="d-flex">
                                         <th scope="row" style="width: 120px;">0</th>
@@ -173,38 +173,38 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/test/samples/search/like?searchQuery=" + searchInputVal,
+                    url: location.origin + "/api/test/test-samples/search/like?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
 
                         console.log(response);
 
-                        var sample = response.samples;
+                        var testSamples = response.testSamples;
 
                         $(likeStatisticsWrapperId).empty();
                         $(likeTableBodyId).empty();
 
-                        var likeStatistics = $("<div class='alert alert-primary m-0'>"
-                            + "<p>" + samples.length + " results (" + response.time + " seconds)" + "</p>"
+                        var likeStatistics = $("<div class='alert alert-primary w-100 m-0'>"
+                            + "<p class='m-0'>" + testSamples.length + " results (" + response.time + " seconds)" + "</p>"
                             + "</div>");
 
                         $(likeStatisticsWrapperId).append(likeStatistics);
 
                         var tableEntry;
 
-                        for (var i = 0; i < samples.length; i++) {
+                        for (var i = 0; i < testSamples.length; i++) {
 
                             tableEntry = $("<tr class='d-flex'>"
-                                + "<th scope='row' style='width: 120px;'>" + samples[i].id + "</th>"
-                                + "<td class='w-100'>" + samples[i].content + "</td>"
+                                + "<th scope='row' style='width: 120px;'>" + testSamples[i].id + "</th>"
+                                + "<td class='w-100'>" + testSamples[i].content + "</td>"
                                 + "</tr>");
 
                             $(likeTableBodyId).append(tableEntry);
 
-                            console.log("LIKE: OK!")
-
                         }
+
+                        console.log("LIKE: OK!")
 
                     })
                     .fail(function () {
@@ -215,38 +215,38 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/test/samples/search/full-text?searchQuery=" + searchInputVal,
+                    url: location.origin + "/api/test/test-samples/search/full-text?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
 
                         console.log(response);
 
-                        var sample = response.samples;
+                        var testSamples = response.testSamples;
 
                         $(fullTextStatisticsWrapperId).empty();
                         $(fullTextTableBodyId).empty();
 
-                        var fullTextStatistics = $("<div class='alert alert-primary'>"
-                            + "<p>" + samples.length + " results (" + response.time + " seconds)" + "</p>"
+                        var fullTextStatistics = $("<div class='alert alert-primary w-100 m-0'>"
+                            + "<p class='m-0'>" + testSamples.length + " results (" + response.time + " seconds)" + "</p>"
                             + "</div>");
 
                         $(fullTextStatisticsWrapperId).append(fullTextStatistics);
 
                         var tableEntry;
 
-                        for (var i = 0; i < samples.length; i++) {
+                        for (var i = 0; i < testSamples.length; i++) {
 
                             tableEntry = $("<tr class='d-flex'>"
-                                + "<th scope='row' style='width: 120px;'>" + samples[i].id + "</th>"
-                                + "<td class='w-100'>" + samples[i].content + "</td>"
+                                + "<th scope='row' style='width: 120px;'>" + testSamples[i].id + "</th>"
+                                + "<td class='w-100'>" + testSamples[i].content + "</td>"
                                 + "</tr>");
 
                             $(fullTextTableBodyId).append(tableEntry);
 
-                            console.log("Full text: OK!")
-
                         }
+
+                        console.log("Full text: OK!")
 
                     })
                     .fail(function () {

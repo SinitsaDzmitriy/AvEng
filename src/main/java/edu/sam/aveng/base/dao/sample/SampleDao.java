@@ -60,8 +60,9 @@ public class SampleDao
                 .buildQueryBuilder().forEntity(Sample.class).get();
 
         org.apache.lucene.search.Query query = sentenceQueryBuilder
-                .keyword()
+                .simpleQueryString()
                 .onFields("content")
+                .withAndAsDefaultOperator()
                 .matching(searchQuery)
                 .createQuery();
 

@@ -31,8 +31,8 @@ public class SampleRestController
     }
 
     @RequestMapping("/search")
-    public List<SampleDto> search(@RequestParam String searchQuery) {
-        return service.likeSearch(searchQuery);
+    public List<SampleDto> search(@RequestParam String input) {
+        return service.fullTextSearch(input);
     }
 
 }
