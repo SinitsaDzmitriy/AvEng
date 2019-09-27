@@ -1,16 +1,16 @@
 package edu.sam.aveng.base.model.entity;
 
 import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.util.SampleContentLangDiscriminator;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.de.GermanStemFilterFactory;
+import org.apache.lucene.analysis.en.PorterStemFilterFactory;
+import org.apache.lucene.analysis.ru.RussianLightStemFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.AnalyzerDiscriminator;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Parameter;
-import org.hibernate.search.annotations.Store;
 import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
 
@@ -26,23 +26,32 @@ import java.io.Serializable;
         uniqueConstraints =
         @UniqueConstraint(columnNames = "content", name = "uq_content"))
 @Indexed
-@AnalyzerDef(name = "CustomAnalyzer",
+@AnalyzerDef(name = "en",
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
         filters = {
                 @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-                @TokenFilterDef(factory = SnowballPorterFilterFactory.class,
-                        params = {
-                                @Parameter(name = "language", value = "English")
-                        })
+                @TokenFilterDef(factory = PorterStemFilterFactory.class)
+        })
+@AnalyzerDef(name = "de",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = GermanStemFilterFactory.class)
+        })
+@AnalyzerDef(name = "ru",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = RussianLightStemFilterFactory.class)
         })
 public class Sample implements Serializable, Identifiable {
+
     @Id
     @GeneratedValue
     private Long id;
 
-    // ToDo: Delete this default values
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-
+    @Field
+    @AnalyzerDiscriminator(impl = SampleContentLangDiscriminator.class)
     private String content;
 
     public Sample() {
@@ -67,8 +76,6 @@ public class Sample implements Serializable, Identifiable {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     @Override
     public int hashCode() {

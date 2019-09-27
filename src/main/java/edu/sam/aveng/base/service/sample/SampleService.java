@@ -1,6 +1,7 @@
 package edu.sam.aveng.base.service.sample;
 
 import edu.sam.aveng.base.dao.sample.ISampleDao;
+import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
 import edu.sam.aveng.legacy.contract.service.StandardGenericCrudService;
 import edu.sam.aveng.base.converter.search.ISearchInputConverter;
@@ -59,11 +60,11 @@ public class SampleService
     }
 
     @Override
-    public List<SampleDto> fullTextSearch(String searchInput) {
+    public List<SampleDto> fullTextSearch(String searchInput, Lang searchLang) {
 
         List<SampleDto> sampleDtos = null;
 
-        List<Sample> samples = sampleDao.fullTextSearch(searchInput);
+        List<Sample> samples = sampleDao.fullTextSearch(searchInput, searchLang);
 
         if (samples != null) {
             sampleDtos = converter.convertToDto(samples).collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package edu.sam.aveng.legacy.controller.rest;
 
+import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.legacy.contract.controller.AbstractCrudRestController;
 import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
@@ -31,8 +32,8 @@ public class SampleRestController
     }
 
     @RequestMapping("/search")
-    public List<SampleDto> search(@RequestParam String input) {
-        return service.fullTextSearch(input);
+    public List<SampleDto> search(@RequestParam String input, @RequestParam Lang lang) {
+        return service.fullTextSearch(input, lang);
     }
 
 }

@@ -23,15 +23,25 @@
         <mysql-connector.version>8.0.17</mysql-connector.version>
         <h2.version>1.4.199</h2.version>
         <jackson.version>2.9.9</jackson.version>
+        <tika.version>1.22</tika.version>
     </properties>
 
     <dependencies>
 
+        <!-- Language detection dependencies -->
+
         <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.1</version>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${tika.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-langdetect</artifactId>
+            <version>1.22</version>
+        </dependency>
+
 
         <!-- Spring components -->
 

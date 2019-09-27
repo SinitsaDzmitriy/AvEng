@@ -31,8 +31,15 @@
 
                 <h5 class="d-inline-block"> | </h5>
 
+
                 <spring:url value="/resources/images/playPronIcon.svg" var="playPronIcon"/>
-                <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
+
+                <button id="playPronBtn"
+                        class="use-existent-sample-btn btn btn-link shadow-none p-0"
+                        type="button">
+
+                    <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
+                </button>
 
                 <span id="cardTranscription" class="text-orangered">[${cardDto.pron.transcription}]</span>
 
@@ -255,3 +262,15 @@
     </spring_security:authorize>
 
 </mytags:overallBasePage>
+
+<script>
+
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = "${cardDto.content}";
+    msg.lang = "${cardDto.lang.code}";
+
+    $("#playPronBtn").click(function () {
+        speechSynthesis.speak(msg);
+    });
+
+</script>

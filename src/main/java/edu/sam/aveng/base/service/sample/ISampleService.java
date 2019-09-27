@@ -1,5 +1,6 @@
 package edu.sam.aveng.base.service.sample;
 
+import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
 import edu.sam.aveng.legacy.contract.service.ICrudService;
 import edu.sam.aveng.base.model.entity.Sample;
@@ -14,5 +15,7 @@ public interface ISampleService
         ICollectionConverter<Sample, SampleDto>> {
 
     List<SampleDto> likeSearch(String searchInput);
-    List<SampleDto> fullTextSearch(String searchInput);
+
+    List<SampleDto> fullTextSearch(String searchInput, Lang searchLang);
+
 }

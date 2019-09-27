@@ -16,6 +16,10 @@
         <div id="rowForValidationTips"
              class="row p-2 d-flex align-items-center justify-content-center"
              style="height: 7rem;">
+
+            <div id="validationTips" class="alert alert-warning p-0 m-0" role="alert">
+            </div>
+
         </div>
 
         <div class="row flex-grow-1">
@@ -273,6 +277,10 @@
 
     var rowForValidationTipsId = "#rowForValidationTips";
 
+    var validationTipsId = "#validationTips";
+    var newSampleValidationTipId = "#newSampleValidationTip";
+    var correctedSampleValidationTipId = "#correctedSampleValidationTip";
+
     var sampleUpdateValidationTipId = "#samplesValidationTip";
     var sampleAddingValidationTipId = "#sampleAddingValidationTip";
     var contentValidationTipId = "#contentValidationTip";
@@ -281,7 +289,7 @@
     var cardLangSelectId = "#cardLangSelect";
     var disabledContentInputId = "#disabledContentInput";
 
-    var textareaForSamplesId = "#textareaForSamples";
+    var textareaForNewSamplesId = "#textareaForSamples";
     var addSampleBtnId = "#addSampleBtn";
     var createCardBtnId = "#createCardBtn";
 
@@ -293,12 +301,22 @@
 
     var carouselControlClass = ".carousel-control";
 
+    var samplesId = "#samples";
+
     var sampleClass = ".sample";
     var sampleInputClass = ".sample-input";
+    var sampleDeleteBtnWrapperClass = ".sample-delete-btn-wrapper";
     var sampleDeleteBtnClass = ".sample-delete-btn";
+
+    var isValidClass = ".is-valid";
+    var isInvalidClass = ".is-invalid";
 
     var disabledClass = ".disabled";
     var spoiledClass = ".spoiled";
+
+    var mediaBodyClass = ".media-body";
+    var existentSampleClass = ".existent-sample";
+    var useExistentSampleBtnClass = ".use-existent-sample-btn";
 
     var sampleWithoutContentTip = "<spring:message code="validation.sample.without-content"/>";
     var sampleDuplicateTip = "<spring:message code="validation.sample.duplicate"/>";
@@ -320,7 +338,6 @@
             event.preventDefault();
         }
     });
-
 
     function validateContent() {
 
@@ -364,13 +381,20 @@
             $(carouselControlRightId).removeClass("disabled");
 
         } else {
+
             // No -> disable carousel-controls
 
             $(contentValidationTipId).remove();
-            var contentValidationTipElement = $("<div id='contentValidationTip' class='alert alert-danger m-0' role='alert'>"
-                + "<spring:message code='validation.card.content.lang'/>"
-                + "</div>");
-            $(rowForValidationTipsId).prepend(contentValidationTipElement);
+
+            var contentValidationTipElement = $(
+
+                "<p id='contentValidationTip' class='px-3 my-2'>" +
+                    "<spring:message code='validation.card.content.lang'/>" +
+                "</p>"
+
+            );
+
+            $(validationTipsId).prepend(contentValidationTipElement);
 
             $(enabledContentInputId).removeClass("is-valid");
             $(enabledContentInputId).addClass("is-invalid");
@@ -378,7 +402,6 @@
         }
 
     }
-
 
     $(cardLangSelectId).change(function () {
 
@@ -429,13 +452,12 @@
 
                     $.ajax({
                         type: "GET",
-                        url: location.origin + "/api/samples/search?input=" + content,
+                        url: location.origin + "/api/samples/search?input=" + content + "&lang=" + $(cardLangSelectId).val(),
                         dataType: "json"
                     })
                         .done(function(samples) {
 
                             var existentSample;
-                            var alertIconPath = "${alterIconPath}";
                             var liftUpIconPath = "${liftUpIconPath}";
 
                             for (var i = 0; i < samples.length; i++) {
@@ -445,11 +467,13 @@
                                     "<li class='list-group-item p-2'>" +
                                     "<div class='media'>" +
 
-                                    "<div class='media-body mx-2 border-right'>" +
-                                    "<p class='m-0'>" +  samples[i].content + "</p>" +
+                                    "<div class='media-body border-right px-2 mx-1 d-flex align-items-center' style='min-height: 43px;'>" +
+                                    "<p class='existent-sample m-0'>" +  samples[i].content + "</p>" +
                                     "</div>" +
 
+                                    "<button class='use-existent-sample-btn btn btn-link shadow-none p-0' type='button'>" +
                                     "<img src='" + liftUpIconPath + "' class='align-self-center m-2' width='25' height='25' alt='lift up icon'>" +
+                                    "</button>" +
 
                                     "</div>" +
                                     "</li>"
@@ -463,20 +487,34 @@
                             console.log("Status of the request for existent Samples: OK.")
 
                         })
-                        .fail(function () {
 
-                            // ToDo: Internaliztion support
+                        .fail(function (response) {
 
-                            var caution = $(
+                            var caution;
 
-                                "<li class='list-group-item list-group-item-danger p-2'>" +
-                                "<p class='m-0'>" +
-                                "Failed to load existing examples." +
-                                "</p>"+
-                                "</li>"
+                            // ToDo: Internalization support
 
-                            );
+                            if (!response.ok) {
 
+                                caution = $(
+                                    "<li class='list-group-item list-group-item-warning p-2'>" +
+                                    "<p class='text-center m-0'>" +
+                                    "Sorry, there is no appropriate Samples." +
+                                    "</p>" +
+                                    "</li>"
+                                );
+
+                            } else {
+
+                                caution = $(
+                                    "<li class='list-group-item list-group-item-danger p-2'>" +
+                                    "<p class='text-center m-0'>" +
+                                    "Failed to load existing examples." +
+                                    "</p>" +
+                                    "</li>"
+                                );
+
+                            }
                             $(existentSamplesListId).append(caution);
 
                             console.log("Status of the request for existent Samples: failure.")
@@ -512,227 +550,375 @@
     });
 
 
+    //==================================================================================================================
+
     /*
-        Add Sample if valid:
-        1. Not empty
-        2. Contains content
-        3. Not duplicate
+
+    -- 2nd slide of the form
+
+    Valid Sample restrictions:
+
+    1. Not empty
+    2. Contains content
+    3. Not duplicate
+
     */
+
+    //==================================================================================================================
+
+    // "Enter" key press handling
+
+    $(sampleInputClass).keypress(function (event) {
+        if (event.which === 13) {
+            $(this).blur();
+        }
+    });
+
+    $(document).on("keypress", sampleInputClass, function (event) {
+        if (event.which === 13) {
+            $(this).blur();
+        }
+    });
+
+    $(textareaForNewSamplesId).keypress(function (event) {
+        if (event.which === 13) {
+            $(addSampleBtnId).click();
+        }
+    });
+
+    // =================================================================================================================
+
+    // Block with utility functions
+
+    function isSampleUnique(sample) {
+
+        var isSampleUnique = true;
+        var locale = $(cardLangSelectId).val();
+
+        console.log("Locale used for Samples comparison: " + locale);
+
+        $(sampleInputClass + isValidClass).each(function () {
+
+            var currentSample = $(this).val();
+
+            if (sample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
+                isSampleUnique = false;
+                console.log("Caution: Attempt to add duplicate Sample.");
+                console.log("Duplicate content: " + sample);
+                return false;
+            }
+
+        });
+
+        return isSampleUnique;
+
+    }
+
+
+
+    function addSampleElement(sample) {
+
+        var currentSampleNo = nextSampleId++;
+
+        var sampleElement = $(
+
+            "<div class='sample input-group my-1'>" +
+
+            "<input type='text' class='sample-input is-valid form-control shadow-none' aria-describedby='sampleBtnNo" + currentSampleNo + "'>" +
+
+            "<div class='sample-delete-btn-wrapper input-group-append'>" +
+            "<button id='sampleBtnNo" + currentSampleNo + "' class='sample-delete-btn btn btn-danger shadow-none' type='button'>&times</button>" +
+            "</div>" +
+
+            "</div>"
+
+        );
+
+        sampleElement.children(sampleInputClass).val(sample);
+
+        $(samplesId).append(sampleElement);
+
+    }
+
+
+
+    function setPartialFormLock() {
+
+        // Disable delete buttons for valid Samples
+        $(sampleInputClass + isValidClass)
+            .siblings(sampleDeleteBtnWrapperClass)
+            .children(sampleDeleteBtnClass)
+            .attr("disabled", "true");
+        // Disable inputs for valid Samples
+        $(sampleInputClass + isValidClass).attr("disabled", "true");
+        // Disable textarea for new Samples
+        $(textareaForNewSamplesId).attr("disabled", "true");
+        // Disable button associated with this textarea
+        $(addSampleBtnId).attr("disabled", "true");
+        // Disable Card creation from submit button
+        $(createCardBtnId).attr("disabled", "true");
+
+    }
+
+
+
+    function releasePartialFormLock() {
+
+        // Enable inputs with valid Samples
+        $(sampleInputClass + isValidClass).removeAttr("disabled");
+        // Enable delete buttons for valid Samples
+        $(sampleInputClass + isValidClass)
+            .siblings(sampleDeleteBtnWrapperClass)
+            .children(sampleDeleteBtnClass)
+            .removeAttr("disabled");
+        // Enable textarea for new Samples
+        $(textareaForNewSamplesId).removeAttr("disabled");
+        // Enable button associated with this textarea
+        $(addSampleBtnId).removeAttr("disabled");
+        // Enable Card creation from submit button
+        $(createCardBtnId).removeAttr("disabled");
+
+    }
+
+    // =================================================================================================================
 
     $(addSampleBtnId).click(function () {
 
-        $(sampleAddingValidationTipId).remove();
+        // Remove new Sample validation tip (if exists)
+        $(newSampleValidationTipId).remove();
 
-        var sampleAddingValidationTipElement;
+        // Delete blank spaces at the edges
+        var newSample = $(textareaForNewSamplesId).val().trim();
 
-        // Delete edge blank spaces
-        var newSample = $(textareaForSamplesId).val().trim();
-
+        // Check if new Sample is empty.
         if (newSample) {
 
-            // Replace wrong spacing
-            newSample = newSample.replace(/[\s\t]+/g, " ");
+            // New Sample isn't empty -> Continue validation
 
-            $(textareaForSamplesId).val(newSample);
+            var isNewSampleValid = true;
+            var newSampleValidationTip;
 
-            // Does new Sample match the validation regex?
+            // Correct wrong spacing
+            newSample = newSample.replace(/\s{2,}|\t+/g, " ");
+
+            // 1. Perform validation
+
+            // Check if Sample satisfies regex
             if (RegExp(sampleValidationRegex, "i").test(newSample)) {
-                // Yes -> continue validation
 
-                var isSampleUnique = true;
+                // Sample satisfies regex -> Continue validation
 
-                if ($(sampleClass).length > 0) {
+                // Check if new Sample is unique
+                if (!isSampleUnique(newSample)) {
 
-                    var locale = $(cardLangSelectId).val();
-                    console.log("Current locale: " + locale);
+                    // New Sample is a duplicate -> Mark new Sample as invalid, add appropriate validation tip
 
-                    $(sampleClass).each(function () {
-
-                        var currentSample = $(this).children(sampleInputClass).val();
-
-                        if (newSample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
-                            isSampleUnique = false;
-                            console.log("New Sample is a duplicate");
-                            console.log("Current Sample: " + currentSample);
-                            console.log("New Sample: " + newSample);
-                            return false;
-                        }
-
-                    });
-
-                }
-
-                // Is new Sample unique?
-                if (isSampleUnique) {
-
-                    var currentSampleNo = nextSampleId++;
-
-                    var newSampleInput = $("<div class='sample input-group my-1'>"
-                        + "<input type='text' class='sample-input form-control shadow-none' aria-describedby='sampleBtnNo" + currentSampleNo + "'>"
-                        + "<div class='input-group-append'>"
-                        + "<button id='sampleBtnNo" + currentSampleNo + "' class='sample-delete-btn btn btn-danger shadow-none' type='button'>&times</button>"
-                        + "</div>"
-                        + "</div>");
-
-                    newSampleInput.children(".sample-input").val(newSample);
-
-                    $("#samples").append(newSampleInput);
-
-                    $(textareaForSamplesId).val("");
-                } else {
-
-                    sampleAddingValidationTipElement = $("<div id='sampleAddingValidationTip' class='alert alert-danger' role='alert'>"
-                        + sampleDuplicateTip
-                        + "</div>");
-                    $(rowForValidationTipsId).append(sampleAddingValidationTipElement)
+                    isNewSampleValid = false;
+                    newSampleValidationTip = "<spring:message code='validation.sample.new.duplicate'/>";
 
                 }
 
             } else {
-                // No -> display validation tip for User
 
-                sampleAddingValidationTipElement = $("<div id='sampleAddingValidationTip' class='alert alert-danger' role='alert'>"
-                    + sampleWithoutContentTip
-                    + "</div>");
-                $(rowForValidationTipsId).append(sampleAddingValidationTipElement);
+                // New Sample doesn't satisfy regex -> Mark new Sample as invalid, add appropriate validation tip
+
+                isNewSampleValid = false;
+                newSampleValidationTip = "<spring:message code='validation.sample.new.without-content'/>";
+
+            }
+
+            // 2. Change page on validation results
+
+            // Check if new Sample is valid
+            if(isNewSampleValid) {
+
+                // New Sample is valid -> Add it to other Samples
+                addSampleElement(newSample);
+
+                $(textareaForNewSamplesId).val("");
+
+            } else {
+
+                // New Sample is invalid -> Add validation tip, replace textarea (for new Samples) value with corrected one
+
+                var sampleAddingValidationTipElement = $(
+                    "<p id='newSampleValidationTip' class='px-3 my-2'>" + newSampleValidationTip + "</p>"
+                );
+
+                $(validationTipsId).append(sampleAddingValidationTipElement);
+
+                $(textareaForNewSamplesId).val(newSample);
 
             }
 
         }
+
     });
 
+    // =================================================================================================================
 
-    /*
-        Add Sample if valid:
-        1. Not empty
-        2. Contains content
-        3. Not duplicate
-    */
+    // Delete validation tip when value of textarea is changed
+    // ToDo: input for textareaForNewSamplesId + "with-invalid-sample" -> delete class "with-invalid-sample"
 
-    $(document).on("change", sampleClass, function () {
+    $(textareaForNewSamplesId).change(function () {
 
-        var updatedSampleInput = $(this).children("input.sample-input");
+        $(newSampleValidationTipId).remove();
 
-        var updatedSample = updatedSampleInput.val().trim();
+    });
 
-        // Is this input empty?
-        if (updatedSample) {
+    // =================================================================================================================
 
-            // No -> continue validation
+    $(document).on("change", sampleInputClass, function () {
 
-            // Replace wrong spacing
-            updatedSample = updatedSample.replace(/[\s\t]+/g, " ");
-            updatedSampleInput.val(updatedSample);
+        $(this).removeClass("is-valid");
 
-            var isValid = true;
-            var validationTip;
+        var correctedSample =  $(this).val().trim();
+
+        // Check if corrected Sample is empty.
+        if (correctedSample) {
+
+            // Corrected Sample isn't empty -> Continue validation
+
+            var isCorrectedSampleValid = true;
+            var correctedSampleValidationTip;
+
+            // Correct wrong spacing
+            correctedSample = correctedSample.replace(/\s{2,}|\t+/g, " ");
 
             // Does updated Sample match the validation regex?
-            if (RegExp(sampleValidationRegex, "i").test(updatedSample)) {
+            if (RegExp(sampleValidationRegex, "i").test(correctedSample)) {
 
-                // Yes -> continue validation
+                // Sample satisfies regex -> Continue validation
 
-                if ($(sampleClass).length > 0) {
+                // If corrected Sample isn't unique
+                if (!isSampleUnique(correctedSample)) {
 
-                    var locale = $(cardLangSelectId).val();
-                    console.log("Current locale: " + locale);
+                    // Corrected Sample is a duplicate -> Mark it as invalid, add appropriate validation tip
 
-                    $(sampleInputClass).not(updatedSampleInput).each(function () {
-
-                        var currentSample = $(this).val();
-
-                        if (updatedSample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
-                            isValid = false;
-                            validationTip = sampleDuplicateTip;
-                            console.log("Updated Sample is a duplicate");
-                            console.log("Current Sample: " + currentSample);
-                            console.log("Updated Sample: " + updatedSample);
-                            return false;
-                        }
-
-                    });
+                    isCorrectedSampleValid = false;
+                    correctedSampleValidationTip = "<spring:message code='validation.sample.corrected.duplicate'/>";
 
                 }
 
             } else {
 
-                // No -> mark this Sample as invalid
-                isValid = false;
-                validationTip = sampleWithoutContentTip;
+                //  Corrected Sample doesn't satisfy regex -> Mark it as invalid, add appropriate validation tip
+
+                isCorrectedSampleValid = false;
+                correctedSampleValidationTip = "<spring:message code='validation.sample.corrected.duplicate'/>";
+
             }
 
-            if (isValid) {
+            // Check if corrected Sample is valid
+            if (isCorrectedSampleValid) {
 
-                if ($(this).hasClass("spoiled")) {
+                // Corrected Sample is valid
 
-                    $(sampleUpdateValidationTipId).remove();
-                    $(sampleClass + ":not(" + spoiledClass + ")")
-                        .children(sampleInputClass)
-                        .removeAttr("disabled");
-                    $(textareaForSamplesId).removeAttr("disabled");
-                    $(addSampleBtnId).removeAttr("disabled");
-                    $(createCardBtnId).removeAttr("disabled");
-                    $(this).removeClass("spoiled");
-                    $(this).children("input").removeClass("is-invalid");
+                // If Sample was invalid
+                if ($(this).hasClass("is-invalid")) {
+
+                    // Remove class-marker of invalid Sample
+                    $(this).removeClass("is-invalid");
+
+                    // Remove validation tip for corrected Sample
+                    $(correctedSampleValidationTipId).remove();
+
+                    // Release partial form lock
+                    releasePartialFormLock();
+
                 }
+
+                // Mark corrected Sample as valid
+                $(this).addClass("is-valid");
 
             } else {
 
-                $(sampleUpdateValidationTipId).remove();
-                var samplesValidationTipElement = $("<div id='samplesValidationTip' class='alert alert-danger' role='alert'>"
-                    + validationTip
-                    + "</div>");
-                $(rowForValidationTipsId).prepend(samplesValidationTipElement);
+                // Corrected Sample is invalid
 
-                if (!$(this).hasClass("spoiled")) {
+                // Check if Sample was invalid before correction
+                if($(this).hasClass("is-invalid")) {
 
-                    $(this).addClass("spoiled");
-                    $(this).children("input").addClass("is-invalid");
-                    $(sampleClass)
-                        .not(this)
-                        .children(sampleInputClass)
-                        .attr("disabled", "true");
-                    $(createCardBtnId).attr("disabled", "true");
-                    $(addSampleBtnId).attr("disabled", "true");
-                    $(textareaForSamplesId).attr("disabled", "true");
+                    // Sample was invalid before correction
+
+                    // Remove previous validation tip for corrected Sample
+                    $(correctedSampleValidationTipId).remove();
+
+                } else {
+
+                    // Sample was valid before correction
+
+                    // Mark corrected Sample as invalid
+                    $(this).addClass("is-invalid");
+
+                    // Partially block Card creation form
+                    setPartialFormLock()
 
                 }
+
+                // Add validation tip element for corrected Sample
+
+                var correctedSampleValidationTipElement = $(
+                    "<p id='correctedSampleValidationTip' class='px-3 my-2'>" + correctedSampleValidationTip + "</p>"
+                    );
+
+                $(validationTipsId).prepend(correctedSampleValidationTipElement);
+
             }
 
         } else {
 
-            // Yes -> remove this element
+            // Corrected Sample is empty
 
-            var wasSpoiled = $(this).hasClass("spoiled");
-            $(this).remove();
+            // Remember weather it was invalid
+            var wasInvalid = $(this).hasClass("is-invalid");
 
-            if (wasSpoiled) {
-                $(sampleUpdateValidationTipId).remove();
-                $(sampleClass).children(sampleInputClass).removeAttr("disabled");
-                $(textareaForSamplesId).removeAttr("disabled");
-                $(addSampleBtnId).removeAttr("disabled");
-                $(createCardBtnId).removeAttr("disabled");
+            // Delete empty Sample input
+            $(this).parent(sampleClass).remove();
+
+
+            // If Sample was invalid, release partial form lock
+            if (wasInvalid) {
+
+                // Delete validation tip for corrected Sample
+                $(correctedSampleValidationTipId).remove();
+
+                // Release partial form lock
+                releasePartialFormLock();
+
             }
 
         }
 
     });
 
+    // =================================================================================================================
+
     $(document).on("click", sampleDeleteBtnClass, function () {
 
-        var sampleElement = $(this).parents(sampleClass);
-        var wasSampleElementSpoiled = sampleElement.hasClass("spoiled");
-        sampleElement.remove();
+        $(sampleInputClass).blur();
 
-        if (wasSampleElementSpoiled) {
-            $(sampleUpdateValidationTipId).remove();
-            $(sampleClass).children(sampleInputClass).removeAttr("disabled");
-            $(textareaForSamplesId).removeAttr("disabled");
-            $(addSampleBtnId).removeAttr("disabled");
-            $(createCardBtnId).removeAttr("disabled");
+        var isAssociatedSampleInvalid = $(this)
+            .parent(sampleDeleteBtnWrapperClass)
+            .siblings(sampleInputClass)
+            .hasClass("is-invalid");
+
+        // Remove Sample element
+        $(this).parents(sampleClass).remove();
+
+        // Check if value of associated Sample input is invalid
+        if(isAssociatedSampleInvalid) {
+
+            // Remove validation tip for corrected Sample
+            $(correctedSampleValidationTipId).remove();
+
+            // Release partial form lock
+            releasePartialFormLock();
+
         }
 
     });
+
+    // =================================================================================================================
 
     // hardcode
 
@@ -746,7 +932,6 @@
 
     $(confirmSamplesDeletionBtnId).click(function () {
 
-
         $(samplesDeletionAlertId).modal("hide");
         $(existentSamplesBodyId).collapse('hide');
         $(carouselCardCreationFormId).carousel("prev");
@@ -755,12 +940,12 @@
         $(carouselControlLeftId).addClass("disabled");
 
         $(sampleUpdateValidationTipId).remove();
-        $(textareaForSamplesId).removeAttr("disabled");
+        $(textareaForNewSamplesId).removeAttr("disabled");
         $(addSampleBtnId).removeAttr("disabled");
         $(createCardBtnId).removeAttr("disabled");
 
         $(sampleClass).remove();
-        $(textareaForSamplesId).val("");
+        $(textareaForNewSamplesId).val("");
 
     });
 
@@ -837,6 +1022,16 @@
                 alert("Error!");
             });
 
+
+    });
+
+    $(document).on("click", useExistentSampleBtnClass, function () {
+
+        var sample = $(this).siblings(mediaBodyClass).children(existentSampleClass).text();
+
+        if(isSampleUnique(sample)) {
+            addSampleElement(sample);
+        }
 
     });
 
