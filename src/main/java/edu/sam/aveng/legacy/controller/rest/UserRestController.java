@@ -32,7 +32,7 @@ public class UserRestController {
         // ToDo: Additional server-side validation credentials.password = retypedPassword
 //        @Valid @RequestBody UserRegCredentials regCredentials
 //        UserCredentials credentials = Converter.simplify(regCredentials);
-//        long newUserId = userService.create(credentials);
+//        long newUserId = userService.persist(credentials);
 //        userService.populate(newUserId);
     }
 

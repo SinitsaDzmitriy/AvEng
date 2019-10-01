@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IGenericDao<T extends Serializable> {
 
-    long create(final T entity);
+    long persist(final T entity);
 
     T find(final long id);
 
@@ -15,7 +15,7 @@ public interface IGenericDao<T extends Serializable> {
 
     List<T> findAllEagerly();
 
-    T update(final T entity);
+    void update(final T entity);
 
     void delete(final T entity);
 

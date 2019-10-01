@@ -1012,7 +1012,7 @@
             + '}';
 
         $.ajax({
-            url: location.origin + "/api/cards/create",
+            url: location.origin + "/api/cards/persist",
             data: card,
             type: "POST",
             contentType: "application/json"

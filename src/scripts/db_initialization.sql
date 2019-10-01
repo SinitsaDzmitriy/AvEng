@@ -231,7 +231,7 @@ VALUES
 INSERT INTO examples
 (example, card_id)
 VALUES
-('Most applications provide extensions for the files they create.', 1),
+('Most applications provide extensions for the files they persist.', 1),
 ('Relational database scripts have to be stored in the file with ".sql" extension.', 1),
 ('Расширение помогает системе понять, какой программой открывать файлы.', 2),
 ('Некоторые расширения могут указывать на способ кодирования.', 2),

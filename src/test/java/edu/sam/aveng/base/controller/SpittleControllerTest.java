@@ -29,7 +29,7 @@
 //        SpittleController controller = new SpittleController(mockRepository);
 //        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 //
-//        mockMvc.perform(MockMvcRequestBuilders.get("/spittles/create"))
+//        mockMvc.perform(MockMvcRequestBuilders.get("/spittles/persist"))
 //                .andExpect(MockMvcResultMatchers.view().name("spittleCreationForm"))
 //                .andExpect(MockMvcResultMatchers.model().attributeExists(Constants.Model.SPITTLE_ENTITY_KEY));
 //    }
@@ -46,16 +46,16 @@
 //                .build();
 //
 //        SpittleController controller = new SpittleController(mockRepository);
-//        Mockito.when(mockRepository.create(unsaved)).thenReturn(0L);
+//        Mockito.when(mockRepository.persist(unsaved)).thenReturn(0L);
 //        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-//        mockMvc.perform(MockMvcRequestBuilders.post("/spittles/create")
+//        mockMvc.perform(MockMvcRequestBuilders.post("/spittles/persist")
 //                .param("message", "Test")
 //                .param("time", "00:00")
 //                .param("longitude", "0")
 //                .param("latitude", "0"))
 //                .andExpect(MockMvcResultMatchers.redirectedUrl("/spittles"));
 //
-//        Mockito.verify(mockRepository, Mockito.atLeastOnce()).create(unsaved);
+//        Mockito.verify(mockRepository, Mockito.atLeastOnce()).persist(unsaved);
 //    }
 //
 //    // Testing of a Spittle reading:

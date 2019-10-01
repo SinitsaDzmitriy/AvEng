@@ -50,7 +50,7 @@ public abstract class AbstractGenericHibernateDao<T extends Identifiable & Seria
     }
 
     @Override
-    public long create(final T entity) {
+    public long persist(final T entity) {
         getCurrentSession().persist(entityClass.getName(), entity);
         return entity.getId();
     }
@@ -85,8 +85,8 @@ public abstract class AbstractGenericHibernateDao<T extends Identifiable & Seria
     }
 
     @Override
-    public T update(T entity) {
-        return (T) getCurrentSession().merge(entity);
+    public void update(T entity) {
+        getCurrentSession().update(entity);
     }
 
     @Override

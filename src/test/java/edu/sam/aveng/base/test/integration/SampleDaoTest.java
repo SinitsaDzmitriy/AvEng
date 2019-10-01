@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.integration;
+package edu.sam.aveng.base.test.integration;
 
 import edu.sam.aveng.base.config.DataAccessLayerConfig;
 import edu.sam.aveng.base.dao.sample.ISampleDao;
@@ -28,14 +28,15 @@ public class SampleDaoTest {
     }
 
     @Test
-    public void SampleMapping_CreateSampleThenFindIt_SampleIsCreatedAndFound() {
+    // test bla bla
+    public void sampleMappingCreateSampleThenFindItSampleIsCreatedAndFound() {
 
         // 1. Arrange
         Sample sample = new Sample("Sample's content.");
 
         // 2. Act
         TestTransaction.flagForCommit();
-        long sampleId = sampleDao.create(sample);
+        long sampleId = sampleDao.persist(sample);
         TestTransaction.end();
 
         TestTransaction.start();

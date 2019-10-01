@@ -72,7 +72,7 @@ public class UserServiceImpl implements IUserService {
         user.setLastLoggingDate(new Date());
         user.setEnabled(true);
 
-        // ToDo refactor as obtain(String roleName): fetch or create
+        // ToDo refactor as obtain(String roleName): fetch or persist
         user.addAuthority(authorityDao.findEagerlyByProperty("role", "ROLE_USER"));
 
         return userDao.create(user);

@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.service;
+package edu.sam.aveng.base.test.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,18 +10,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    ToDo: Random character number generation
-*/
-
-public class SampleSearchInputConverterTests {
+public class SampleSearchInputConverterUnitTest {
 
     private SampleSearchInputConverter subject = new SampleSearchInputConverter();
 
     private List<String> expectedCriteriasForWord;
     private List<String> expectedCriteriasForPhrase;
 
-    public SampleSearchInputConverterTests() {
+    public SampleSearchInputConverterUnitTest() {
 
         expectedCriteriasForWord = new ArrayList<>(2);
         expectedCriteriasForWord.add("'query%'");

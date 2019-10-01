@@ -380,7 +380,7 @@
             localStorage.setItem("lastUsedDestinationLang", "English");
         }
 
-        // ToDo: create js func to avoid duplication
+        // ToDo: persist js func to avoid duplication
 
         supportedCardLangs.forEach(function (lang) {
             var htmlLangOption = "<option " + "id='langSourceOption" + lang + "'>"

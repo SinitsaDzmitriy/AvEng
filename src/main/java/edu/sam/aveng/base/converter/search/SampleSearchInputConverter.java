@@ -1,10 +1,5 @@
 package edu.sam.aveng.base.converter.search;
 
-/*
-    ToDo: Find a proper way to concat String's
-    ToDo: Cover other important test cases in future
-*/
-
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

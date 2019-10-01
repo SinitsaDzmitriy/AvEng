@@ -75,7 +75,7 @@ public class CardServiceImpl implements ICardService {
         Card card = cardConverter.convertToEntity(cardDto);
         Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
         card.setSamples(preparedSamples);
-        cardDao.create(card);
+        cardDao.persist(card);
     }
 
     @Override
