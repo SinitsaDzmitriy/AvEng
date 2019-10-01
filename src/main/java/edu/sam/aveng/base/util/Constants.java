@@ -12,6 +12,8 @@ public final class Constants {
         public static final String CARD_DTO_KEY = "cardDto";
         public static final String USER_CARD_DTO_KEY = "userCardDto";
         public static final String USER_CARD_TABLE_ITEMS = "userCardTableItems";
+
+        public static final String HTTP_ERROR_CODE = "httpErrorCode";
     }
 
     public static final class View {
@@ -24,6 +26,8 @@ public final class Constants {
         public static final String USER_CARD = "userCard";
         public static final String PERSONAL_DICTIONARY = "personalDictionary";
         public static final String SEARCH_OUTPUT = "searchOutput";
+
+        public static final String ERROR_PAGE = "errorPage";
     }
 
 }

@@ -2,7 +2,9 @@ package edu.sam.aveng.base.service.card;
 
 import edu.sam.aveng.base.dao.sample.ISampleDao;
 import edu.sam.aveng.base.model.entity.Card;
+import edu.sam.aveng.base.model.entity.CardMapping;
 import edu.sam.aveng.base.model.entity.Sample;
+import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.transfer.dto.CardDto;
 import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
@@ -10,7 +12,9 @@ import edu.sam.aveng.base.converter.CardConverter;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.dao.card.ICardDao;
 
+import edu.sam.aveng.legacy.contract.dao.IGenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -26,10 +30,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class CardServiceImpl implements ICardService {
 
-    private CardConverter cardConverter;
-
+    // Separate DAOs
     private ICardDao cardDao;
     private ISampleDao sampleDao;
+
+    // Generic DAOs
+    private IGenericDao<UserCard> userCardDao;
+    private IGenericDao<CardMapping> cardMappingDao;
+
+    private CardConverter cardConverter;
 
     @Autowired
     public void setCardDao(ICardDao cardDao) {
@@ -39,6 +48,20 @@ public class CardServiceImpl implements ICardService {
     @Autowired
     public void setSampleDao(ISampleDao sampleDao) {
         this.sampleDao = sampleDao;
+    }
+
+    @Autowired
+    @Qualifier("genericHiberDao")
+    public void setUserCardDao(IGenericDao<UserCard> userCardDao) {
+        userCardDao.setClazz(UserCard.class);
+        this.userCardDao = userCardDao;
+    }
+
+    @Autowired
+    @Qualifier("genericHiberDao")
+    public void setCardMappingDao(IGenericDao<CardMapping> cardMappingDao) {
+        cardMappingDao.setClazz(CardMapping.class);
+        this.cardMappingDao = cardMappingDao;
     }
 
     @Autowired
@@ -90,7 +113,18 @@ public class CardServiceImpl implements ICardService {
 
     @Override
     public void delete(long id) {
-        cardDao.delete(id);
+
+        Card cardToDelete = cardDao.find(id);
+
+        // Delete associated UserCards (fk constraint)
+        userCardDao.deleteByProperty("card.id", id);
+
+        // Delete associated CardMappings (fk constraint)
+        cardMappingDao.deleteByProperty("sourceCard.id", id);
+        cardMappingDao.deleteByProperty("destCard.id", id);
+
+        cardDao.delete(cardToDelete);
+
     }
 
     @Override

@@ -65,7 +65,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("/WEB-INF/images/")
                 .setCachePeriod(31556926);
 
-
     }
 
     @Bean

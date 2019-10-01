@@ -203,74 +203,84 @@
 
         </div>
 
+        </spring_security:authorize>
 
-        <spring_security:authentication property="principal.id" var="currentUserId"/>
 
-        <script>
-
-            function objectifyForm(formArray) {
-
-                var returnArray = {};
-                for (var i = 0; i < formArray.length; i++) {
-                    returnArray[formArray[i]['name']] = formArray[i]['value'];
-                }
-                return returnArray;
-            }
-
-            $(document).ready(function () {
-
-                $("#btn-create-user-card").click(function (event) {
-
-                    event.preventDefault();
-                    var formData = objectifyForm($("#userCardCreationForm").serializeArray());
-
-                    console.log(formData);
-
-                    $.ajax({
-                        type: "POST",
-                        url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
-                        // data: { test: "test "}
-                        data: JSON.stringify(formData),
-                        // ToDo: understand what this line change?
-                        contentType: "application/json"
-                        // dataType: "json"
-                        // application/
-                    })
-
-                        .done(function () {
-                            $('#userCardCreationModal').modal('hide');
-                            $('#successfulCardAddingModal').modal('show');
-                        })
-
-                        .fail(function (response) {
-
-                            var failModalBodyId = "#failModalBody";
-
-                            $(failModalBodyId).append("<br>HTTP status: " + response.status
-                                + " (" + response.statusText + ")");
-
-                            $('#userCardCreationModal').modal('hide');
-                            $('#failedCardAddingModal').modal('show');
-
-                        })
-
-                });
-            });
-
-        </script>
-
-    </spring_security:authorize>
 
 </mytags:overallBasePage>
 
+<%-- Script available for all Users --%>
+
 <script>
 
-    var msg = new SpeechSynthesisUtterance();
-    msg.text = "${cardDto.content}";
-    msg.lang = "${cardDto.lang.code}";
+    $(document).ready(function () {
 
-    $("#playPronBtn").click(function () {
-        speechSynthesis.speak(msg);
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = "${cardDto.content}";
+        msg.lang = "${cardDto.lang.code}";
+
+        $("#playPronBtn").click(function () {
+            speechSynthesis.speak(msg);
+        });
+
     });
 
 </script>
+
+<%-- Script available only for authenticated Users --%>
+
+<spring_security:authorize access="isFullyAuthenticated()">
+
+<spring_security:authentication property="principal.id" var="currentUserId"/>
+
+<script>
+
+    function objectifyForm(formArray) {
+
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+
+        $("#btn-create-user-card").click(function (event) {
+
+            event.preventDefault();
+            var formData = objectifyForm($("#userCardCreationForm").serializeArray());
+
+            console.log(formData);
+
+            $.ajax({
+                type: "POST",
+                url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
+                // data: { test: "test "}
+                data: JSON.stringify(formData),
+                // ToDo: understand what this line change?
+                contentType: "application/json"
+                // dataType: "json"
+                // application/
+            })
+
+                .done(function () {
+                    $('#userCardCreationModal').modal('hide');
+                    $('#successfulCardAddingModal').modal('show');
+                })
+
+                .fail(function (response) {
+
+                    var failModalBodyId = "#failModalBody";
+
+                    $(failModalBodyId).append("<br>HTTP status: " + response.status
+                        + " (" + response.statusText + ")");
+
+                    $('#userCardCreationModal').modal('hide');
+                    $('#failedCardAddingModal').modal('show');
+
+                })
+
+        });
+
+</script>
+
+</spring_security:authorize>

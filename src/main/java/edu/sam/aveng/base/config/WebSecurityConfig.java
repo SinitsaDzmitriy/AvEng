@@ -70,8 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] publicUrls = {
                 "/", "/initial",
                 "/register", "/login",
-                "/cards/likeSearch", "/cards/display/**",
-                "/resources/**"
+                "/cards/search", "/cards/display/**",
+                "/resources/**",
+                "/errors/**"
         };
 
         String[] additionalUserUrls = {
@@ -99,7 +100,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest()
 //                .permitAll()
 //                .and()
-//                .csrf().disable();
+//                .csrf().disable()
+//                .formLogin();
 
     }
 }

@@ -26,18 +26,21 @@ import java.util.Map;
 @RequestMapping(value = "/cards")
 public class CardController {
 
-    @Autowired
     private ICardService cardService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String displayCardCreationForm() {
+    @Autowired
+    public void setCardService(ICardService cardService) {
+        this.cardService = cardService;
+    }
+
+    @GetMapping(value = "/create")
+    public String create() {
         return Constants.View.CARD_CREATION_FORM;
     }
 
-
-    @RequestMapping(value = "/display/list", method = RequestMethod.GET)
+    @GetMapping(value = "/display/list")
     public String create(Model model) {
         model.addAttribute(cardService.findAllAsTableItems());
         return "cardList";

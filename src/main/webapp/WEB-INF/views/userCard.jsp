@@ -219,7 +219,7 @@
                     contentType: "application/json"
                 })
                     .done(function () {
-                        location.reload();
+                        location.pathname = "/user_cards/display";
                     })
 
                     .fail(function (xhr, status, errorThrown) {

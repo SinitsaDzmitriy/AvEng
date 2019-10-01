@@ -54,7 +54,7 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="dropdown-item" href="${homePagePath}">
-                        <spring:message code="sidebar.anchor.homepage"/>
+                        <spring:message code="common.anchor.homepage"/>
                     </a>
 
                     <security:authorize access="isFullyAuthenticated()">
@@ -260,7 +260,7 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${homePagePath}">
-                        <spring:message code="sidebar.anchor.homepage"/>
+                        <spring:message code="common.anchor.homepage"/>
                     </a>
 
                     <spring:url value="/cards/display/list" var="displayCardsPagePath"/>

@@ -17,7 +17,7 @@
              class="row p-2 d-flex align-items-center justify-content-center"
              style="height: 7rem;">
 
-            <div id="validationTips" class="alert alert-warning p-0 m-0" role="alert">
+            <div id="validationTips" class="alert alert-warning text-center p-0 m-0" role="alert">
             </div>
 
         </div>
@@ -157,7 +157,7 @@
                                                     <div class="input-group-append">
                                                         <button id="addSampleBtn" type="button"
                                                                 class="btn btn-secondary shadow-none">
-                                                            Add Sample
+                                                            <spring:message code="button.sample.add"/>
                                                         </button>
                                                     </div>
 
@@ -174,7 +174,7 @@
                                                        data-toggle="collapse"
                                                        data-target="#existentSamplesBody">
 
-                                                        Check existing Samples
+                                                        <spring:message code="button.sample.check-existent"/>
                                                     </a>
 
                                                     <div id="existentSamplesBody" class="collapse"
@@ -234,28 +234,38 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="samplesDeletionAlert" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="samplesDeletionAlert" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <spring:message code="common.warning"/>
+                </h5>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+
             </div>
 
             <div class="modal-body">
-                This action delete all samples on the current slide. Confirm to continue.
+                <spring:message code="card.creation.alert.samples-deletion"/>
             </div>
 
             <div class="modal-footer">
-                <button id="confirmSamplesDeletionBtn" type="button" class="btn btn-secondary">Confirm</button>
-                <button id="cancelSamplesDeletionBtn" type="button" class="btn btn-primary" data-dismiss="modal">
-                    Cancel
+
+                <button id="confirmSamplesDeletionBtn" type="button" class="btn btn-secondary">
+                    <spring:message code="common.confirm"/>
                 </button>
+
+                <button id="cancelSamplesDeletionBtn" type="button" class="btn btn-primary" data-dismiss="modal">
+                    <spring:message code="common.cancel"/>
+                </button>
+
             </div>
 
         </div>
@@ -306,7 +316,7 @@
     var sampleClass = ".sample";
     var sampleInputClass = ".sample-input";
     var sampleDeleteBtnWrapperClass = ".sample-delete-btn-wrapper";
-    var sampleDeleteBtnClass = ".sample-delete-btn";
+    var deleteSampleBtnClass = ".sample-delete-btn";
 
     var isValidClass = ".is-valid";
     var isInvalidClass = ".is-invalid";
@@ -332,12 +342,7 @@
     // Builds on content value
     var sampleValidationRegex;
 
-    // Prevent form submission when press "Enter" on form input element
-    $(cardCreationFormId).keypress(function (event) {
-        if (event.which === 13) {
-            event.preventDefault();
-        }
-    });
+
 
     function validateContent() {
 
@@ -568,12 +573,6 @@
 
     // "Enter" key press handling
 
-    $(sampleInputClass).keypress(function (event) {
-        if (event.which === 13) {
-            $(this).blur();
-        }
-    });
-
     $(document).on("keypress", sampleInputClass, function (event) {
         if (event.which === 13) {
             $(this).blur();
@@ -647,7 +646,7 @@
         // Disable delete buttons for valid Samples
         $(sampleInputClass + isValidClass)
             .siblings(sampleDeleteBtnWrapperClass)
-            .children(sampleDeleteBtnClass)
+            .children(deleteSampleBtnClass)
             .attr("disabled", "true");
         // Disable inputs for valid Samples
         $(sampleInputClass + isValidClass).attr("disabled", "true");
@@ -655,6 +654,8 @@
         $(textareaForNewSamplesId).attr("disabled", "true");
         // Disable button associated with this textarea
         $(addSampleBtnId).attr("disabled", "true");
+        // Disable add buttons associated with existent Samples
+        $(useExistentSampleBtnClass).attr("disabled", "true");
         // Disable Card creation from submit button
         $(createCardBtnId).attr("disabled", "true");
 
@@ -669,12 +670,14 @@
         // Enable delete buttons for valid Samples
         $(sampleInputClass + isValidClass)
             .siblings(sampleDeleteBtnWrapperClass)
-            .children(sampleDeleteBtnClass)
+            .children(deleteSampleBtnClass)
             .removeAttr("disabled");
         // Enable textarea for new Samples
         $(textareaForNewSamplesId).removeAttr("disabled");
         // Enable button associated with this textarea
         $(addSampleBtnId).removeAttr("disabled");
+        // Enable add buttons associated with existent Samples
+        $(useExistentSampleBtnClass).removeAttr("disabled");
         // Enable Card creation from submit button
         $(createCardBtnId).removeAttr("disabled");
 
@@ -893,7 +896,7 @@
 
     // =================================================================================================================
 
-    $(document).on("click", sampleDeleteBtnClass, function () {
+    $(document).on("click", deleteSampleBtnClass, function () {
 
         $(sampleInputClass).blur();
 
@@ -934,6 +937,8 @@
 
         $(samplesDeletionAlertId).modal("hide");
         $(existentSamplesBodyId).collapse('hide');
+        $(newSampleValidationTipId).remove();
+        $(correctedSampleValidationTipId).remove();
         $(carouselCardCreationFormId).carousel("prev");
 
         $(carouselControlRightId).removeClass("disabled");
@@ -984,7 +989,7 @@
             if (samples.length > 1) {
 
                 for (var i = 1; i < samples.length; i++) {
-                    samplesJson += ',{"' + samples[i] + '"}';
+                    samplesJson += ',{"content" : "' + samples[i] + '"}';
                 }
 
             }

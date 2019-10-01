@@ -16,55 +16,55 @@ import java.util.List;
 
 public class SampleSearchInputConverterTests {
 
-    private final SampleSearchInputConverter subject = new SampleSearchInputConverter();
+    private SampleSearchInputConverter subject = new SampleSearchInputConverter();
 
-    private final List<String> EXPECTED_CRITERIAS_FOR_WORD;
-    private final List<String> EXPECTED_CRITERIAS_FOR_PHRASE;
+    private List<String> expectedCriteriasForWord;
+    private List<String> expectedCriteriasForPhrase;
 
     public SampleSearchInputConverterTests() {
 
-        EXPECTED_CRITERIAS_FOR_WORD = new ArrayList<>(2);
-        EXPECTED_CRITERIAS_FOR_WORD.add("'query%'");
-        EXPECTED_CRITERIAS_FOR_WORD.add("'% query%'");
+        expectedCriteriasForWord = new ArrayList<>(2);
+        expectedCriteriasForWord.add("'query%'");
+        expectedCriteriasForWord.add("'% query%'");
 
-        EXPECTED_CRITERIAS_FOR_PHRASE = new ArrayList<>(2);
-        EXPECTED_CRITERIAS_FOR_PHRASE.add("'very% long% likeSearch% query%'");
-        EXPECTED_CRITERIAS_FOR_PHRASE.add("'% very% long% likeSearch% query%'");
+        expectedCriteriasForPhrase = new ArrayList<>(2);
+        expectedCriteriasForPhrase.add("'very% long% like% search% query%'");
+        expectedCriteriasForPhrase.add("'% very% long% like% search% query%'");
     }
 
     @Test
     @Order(1)
     public void standardLowercaseWord() {
         final String INPUT = "query";
-        assertEquals(EXPECTED_CRITERIAS_FOR_WORD, subject.convertToLikeCriterias(INPUT));
+        assertEquals(expectedCriteriasForWord, subject.convertToLikeCriterias(INPUT));
     }
 
     @Test
     @Order(2)
     public void standardLowercasePhrase() {
-        final String INPUT = "very long likeSearch query";
-        assertEquals(EXPECTED_CRITERIAS_FOR_PHRASE, subject.convertToLikeCriterias(INPUT));
+        final String INPUT = "very long like search query";
+        assertEquals(expectedCriteriasForPhrase, subject.convertToLikeCriterias(INPUT));
     }
 
     @Test
     @Order(3)
     public void inputWithMixedCase() {
-        final String INPUT = "VerY lonG SeArCh quERy";
-        assertEquals(EXPECTED_CRITERIAS_FOR_PHRASE, subject.convertToLikeCriterias(INPUT));
+        final String INPUT = "VerY lonG LIKE SeArCh quERy";
+        assertEquals(expectedCriteriasForPhrase, subject.convertToLikeCriterias(INPUT));
     }
 
     @Test
     @Order(4)
     public void inputWithMixedBlanks() {
-        final String INPUT = "  very    long     likeSearch     query      ";
-        assertEquals(EXPECTED_CRITERIAS_FOR_PHRASE, subject.convertToLikeCriterias(INPUT));
+        final String INPUT = "  very    long     like         search     query      ";
+        assertEquals(expectedCriteriasForPhrase, subject.convertToLikeCriterias(INPUT));
     }
 
     @Test
     @Order(5)
     public void inputWithMixedSqlSpecialCharacters() {
-        final String INPUT = "%very_ long_ %likeSearch %%query__";
-        assertEquals(EXPECTED_CRITERIAS_FOR_PHRASE, subject.convertToLikeCriterias(INPUT));
+        final String INPUT = "%very_ long_ %like search %%query__";
+        assertEquals(expectedCriteriasForPhrase, subject.convertToLikeCriterias(INPUT));
     }
 
 }

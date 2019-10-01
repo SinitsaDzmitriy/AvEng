@@ -35,7 +35,7 @@ public class UserCard implements Serializable, Identifiable {
         @ForeignKey(name = "USER_ID_FK"))
     private User owner;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", foreignKey =
         @ForeignKey(name = "CARD_ID_FK"))
     private Card card;

@@ -6,751 +6,720 @@
 
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<%@ page import="edu.sam.aveng.base.model.enumeration.StatementType" %>
-
 <mytags:overallBasePage pageHeadline="Temp">
 
-    <div class="container-fluid d-flex h-100 flex-column">
+    <div class="container-fluid h-100 d-flex flex-column align-items-center justify-content-center">
 
-
-        <div id="rowForValidationTips"
-             class="row p-2 d-flex align-items-center justify-content-center"
-             style="height: 7rem;">
+        <div class="row p-2 d-flex align-items-center justify-content-center" style="height: 7rem;">
+            <div id="validationTips" class="alert alert-warning text-center p-0 m-0" role="alert">
+            </div>
         </div>
 
-        <div class="row flex-grow-1">
+        <div class="row w-100">
 
-            <div class="col-1 d-flex align-items-center justify-content-center">
+            <div class="col-1"></div>
 
-                <a id="carouselControlLeft"
-                   class="carousel-control disabled btn btn-secondary shadow-none rounded d-flex align-items-center justify-content-center"
-                   style="width: 50px; height: 160px;">
+            <div class="col-10 d-flex align-items-center justify-content-center">
 
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </a>
+                <div id="cardUpdateFormWrapper" class="border border-secondary rounded px-4 pt-2 pb-4 m-0" style="width: 600px;">
 
-            </div>
+                    <spring_form:form id="cardUpdateForm" cssClass="m-0" method="POST" modelAttribute="cardDto" autocomplete="off">
 
 
-            <div class="col-10">
+                        <label for="disabledContentInput" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.content"/>
+                        </label>
 
-                <div id="carouselCardCreationForm" class="carousel slide h-100" data-interval="false">
+                        <spring_form:input id="disabledContentInput"
+                                           path="content"
+                                           class="form-control shadow-none"
+                                           type="text"
+                                           readonly="true"/>
 
-                    <div class="carousel-inner h-100">
 
-                        <form id="cardCreationForm" class="h-100 m-0">
+                        <label for="disabledLangInput" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.lang"/>
+                        </label>
 
-                            <div class="container-fluid d-flex h-100 flex-column">
+                        <spring_form:input id="disabledLangInput"
+                                           path="lang"
+                                           class="form-control shadow-none"
+                                           type="text"
+                                           readonly="true"/>
 
-                                <div class="row flex-grow-1">
 
-                                    <div id="slideNo1"
-                                         class="carousel-item h-100 active">
+                        <label for="type" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.type"/>
+                        </label>
 
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
+                        <spring_form:select id="type"
+                                            path="type"
+                                            class="form-control shadow-none"
+                                            required="true">
+                            <spring_form:options/>
+                        </spring_form:select>
 
-                                            <div id="formPartNo1"
-                                                 class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                 style="width: 300px;">
 
-                                                <!-- Make supported Card lang sent from back-end (jQuery, AJAX) -->
+                        <label for="transcription" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.transcription"/>
+                        </label>
 
-                                                <div class="form-group">
-                                                    <label for="cardLangSelect">
-                                                        <spring:message code="card.attribute.label.lang"/>:
-                                                    </label>
-                                                    <select class="form-control shadow-none" id="cardLangSelect">
-                                                        <option class="shadow-none" value="en" selected>English</option>
-                                                        <option class="shadow-none" value="ru">Russian</option>
-                                                        <option class="shadow-none" value="de">German</option>
-                                                    </select>
-                                                </div>
+                        <spring:message code="card.attribute.placeholder.transcription" var="transcriptionPlaceholder"/>
+                        <spring_form:input id="transcription"
+                                           path="pron.transcription"
+                                           class="form-control shadow-none"
+                                           type="text"
+                                           required="true"
+                                           placeholder="${transcriptionPlaceholder}"/>
 
-                                                <label for="enabledContentInput">
-                                                    <spring:message code="card.attribute.label.content"/>
-                                                </label>
 
-                                                <br>
+                        <label for="definition" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.definition"/>
+                        </label>
 
-                                                <spring:message code="card.attribute.placeholder.content"
-                                                                var="contentPlaceholder"/>
-                                                <input id="enabledContentInput"
+                        <spring:message code="card.attribute.placeholder.definition" var="definitionPlaceholder"/>
+                        <spring_form:textarea id="definition"
+                                              path="definition"
+                                              class="form-control shadow-none"
+                                              type="text"
+                                              required="true"
+                                              placeholder="${definitionPlaceholder}"/>
+
+
+                        <label for="textareaForSamples" class="mt-2 my-1">
+                            <spring:message code="card.attribute.label.samples"/>
+                        </label>
+
+                        <div id="samples">
+
+                            <jstl:forEach items="${cardDto.samples}" varStatus="status">
+
+                                <div class="sample input-group my-1">
+
+                                    <spring_form:input path="samples[${status.index}].content"
+                                                       class="sample-input is-valid form-control shadow-none"
                                                        type="text"
-                                                       class="form-control shadow-none"
-                                                       placeholder="${contentPlaceholder}"/>
+                                                       aria-describedby="sampleBtnNo1"/>
 
-                                            </div>
+                                    <div class="sample-delete-btn-wrapper input-group-append">
 
-                                        </div>
+                                        <button id="sampleBtnNo1"
+                                                class="sample-delete-btn btn btn-danger shadow-none"
+                                                type="button">×</button>
 
                                     </div>
-
-                                    <div id="slideNo2"
-                                         class="carousel-item h-100">
-
-                                        <div class="container-fluid h-100 bg-white d-flex align-items-center justify-content-center" style="min-height: 550px;">
-
-                                                <div id="formPartNo2"
-                                                     class="border border-secondary rounded px-4 pt-2 pb-4 m-0"
-                                                     style="width: 300px;">
-
-                                                    <label for="disabledContentInput">
-                                                        <spring:message code="card.attribute.label.content"/>
-                                                    </label><br>
-
-                                                    <input id="disabledContentInput"
-                                                           class="form-control shadow-none"
-                                                           type="text"
-                                                           readonly/>
-
-                                                    <label for="type">
-                                                        <spring:message code="card.attribute.label.type"/>
-                                                    </label><br>
-
-                                                    <select id="type" class="form-control shadow-none" required>
-                                                        <jstl:forEach items="${StatementType.values()}" var="type">
-                                                            <option class="shadow-none">${type.name()}</option>
-                                                        </jstl:forEach>
-                                                    </select>
-
-
-                                                    <label for="transcription">
-                                                        <spring:message code="card.attribute.label.transcription"/>
-                                                    </label><br>
-                                                    <spring:message code="card.attribute.placeholder.transcription"
-                                                                    var="transcriptionPlaceholder"/>
-                                                    <input id="transcription"
-                                                           class="form-control shadow-none"
-                                                           type="text"
-                                                           placeholder="${transcriptionPlaceholder}"
-                                                           required/>
-
-                                                    <label for="definition">
-                                                        <spring:message code="card.attribute.label.definition"/>
-                                                    </label><br>
-                                                    <spring:message code="card.attribute.placeholder.definition"
-                                                                    var="definitionPlaceholder"/>
-                                                    <textarea id="definition"
-                                                              class="form-control shadow-none"
-                                                              placeholder="${definitionPlaceholder}"
-                                                              required></textarea>
-
-                                                    <label for="textareaForSamples">
-                                                        <spring:message code="card.attribute.label.samples"/>
-                                                    </label><br>
-
-                                                    <div id="samples">
-                                                    </div>
-
-                                                    <textarea id="textareaForSamples" class="form-control shadow-none"
-                                                              aria-label="With textarea"></textarea>
-
-                                                    <button id="addSampleBtn" type="button"
-                                                            class="btn btn-secondary shadow-none my-1">
-                                                        Add Sample
-                                                    </button>
-                                                    <br>
-
-                                                    <input id="createCardBtn"
-                                                           type="submit"
-                                                           value="Create card"
-                                                           class="btn btn-block btn-warning border-secondary shadow-none my-1"/>
-
-                                                </div>
-
-                                        </div>
-                                    </div>
-
 
                                 </div>
 
+                            </jstl:forEach>
+
+                        </div>
+
+                        <div class="input-group mt-2">
+
+                            <textarea id="textareaForSamples"
+                                      class="form-control shadow-none"
+                                      aria-label="With textarea"></textarea>
+
+                            <div class="input-group-append">
+                                <button id="addSampleBtn"
+                                        class="btn btn-secondary p-2 shadow-none"
+                                        type="button">
+                                        <spring:message code="button.sample.add"/>
+                                </button>
                             </div>
 
-                        </form>
+                        </div>
 
-                    </div>
+                        <div id="existentSamples" class="card mt-2">
+
+                            <a id="existentSamplesCollapser"
+                               class="card-header text-center"
+                               style="cursor: pointer;"
+                               role="button"
+                               data-toggle="collapse"
+                               data-target="#existentSamplesBody">
+
+                                <spring:message code="button.sample.check-existent"/>
+                            </a>
+
+                            <div id="existentSamplesBody" class="collapse" aria-labelledby="existentSamplesCollapserHeader">
+                                <div class="card-body">
+
+                                    <ul id="existentSamplesList"
+                                        class="list-group list-group-flush border rounded"
+                                        style="max-height: 200px; overflow-y: auto;">
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="actionButtons" class="btn-group d-flex mt-2">
+
+                            <button id="updateCardBtn"
+                                   class="btn btn-block btn-primary d-inline-block"
+                                   type="submit">
+                                <spring:message code="button.update"/>
+                            </button>
+
+                            <button id="deleteCardBtn"
+                                    class="btn btn-danger"
+                                    type="button"
+                                    onclick="location.pathname = '/cards/delete/${cardDto.id}'">
+                                <spring:message code="button.delete"/>
+                            </button>
+
+                        </div>
+
+                    </spring_form:form>
 
                 </div>
 
             </div>
 
-
-            <div class="col-1 bg-white d-flex align-items-center justify-content-center">
-
-                <a id="carouselControlRight"
-                   class="carousel-control disabled btn btn-secondary shadow-none rounded d-flex align-items-center justify-content-center"
-                   style="width: 50px; height: 160px;">
-
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </a>
-
-            </div>
-
+            <div class="col-1"></div>
 
         </div>
 
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="samplesDeletionAlert" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <div class="modal-dialog" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                This action delete all samples on the current slide. Confirm to continue.
-            </div>
-
-            <div class="modal-footer">
-                <button id="confirmSamplesDeletionBtn" type="button" class="btn btn-secondary">Confirm</button>
-                <button id="cancelSamplesDeletionBtn" type="button" class="btn btn-primary" data-dismiss="modal">
-                    Cancel
-                </button>
-            </div>
-
-        </div>
-    </div>
-
 
 </mytags:overallBasePage>
 
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous">
-</script>
-
-
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-
-<script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+<spring:url value="/resources/images/liftUpIcon.svg" var="liftUpIconPath"/>
 
 <script>
 
-    var nextSampleId = 1;
+    /*
+    ====================================================================================================================
+        Block with variables declaration.
+    ====================================================================================================================
+        Main page variables.
+    */
 
-    var carouselCardCreationFormId = "#carouselCardCreationForm";
-    var cardCreationFormId = "#cardCreationForm";
-
-    var formPartNo2Id = "#formPartNo2";
-
-    var rowForValidationTipsId = "#rowForValidationTips";
-
-    var sampleUpdateValidationTipId = "#samplesValidationTip";
-    var sampleAddingValidationTipId = "#sampleAddingValidationTip";
-    var contentValidationTipId = "#contentValidationTip";
-
-    var enabledContentInputId = "#enabledContentInput";
-    var cardLangSelectId = "#cardLangSelect";
-    var disabledContentInputId = "#disabledContentInput";
-
-    var textareaForSamplesId = "#textareaForSamples";
-    var addSampleBtnId = "#addSampleBtn";
-    var createCardBtnId = "#createCardBtn";
-
-    var samplesDeletionAlertId = "#samplesDeletionAlert";
-    var confirmSamplesDeletionBtnId = "#confirmSamplesDeletionBtn";
-
-    var carouselControlClass = ".carousel-control";
-
-    var sampleClass = ".sample";
-    var sampleInputClass = ".sample-input";
-    var sampleDeleteBtnClass = ".sample-delete-btn";
-
-    var disabledClass = ".disabled";
-    var spoiledClass = ".spoiled";
-
-    var sampleWithoutContentTip = "<spring:message code="validation.sample.without-content"/>";
-    var sampleDuplicateTip = "<spring:message code="validation.sample.duplicate"/>";
-
-    var slideNo1Id = "slideNo1";
-    var slideNo2Id = "slideNo2";
-
-    var carouselControlLeftId = "#carouselControlLeft";
-    var carouselControlRightId = "#carouselControlRight";
-
-    // Regex for (default) English language
-    var contentValidationRegex = "^[\\s\\-/.:0-9a-z]+$";
     // Builds on content value
     var sampleValidationRegex;
+    var nextSampleId = ${cardDto.samples.size()};
 
+    // Page constants
+
+    var content = $("#disabledContentInput").val();
+    var lang = $("#disabledLangInput").val();
+
+    // Caution messages
+
+    var loadExistentSamplesEmptyCaution = "<spring:message code='sample.load-existent.caution.empty'/>";
+    var loadExistentSamplesFailureCaution = "<spring:message code='sample.load-existent.caution.failure'/>";
+
+    // Variables with IDs' and classes' names for jQuery:
+
+    var cardUpdateFormId = "#cardUpdateForm";
+    var updateCardBtnId = "#updateCardBtn";
+
+    // Parts of element for adding new Sample
+
+    var textareaForNewSamplesId = "#textareaForSamples";
+    var addSampleBtnId = "#addSampleBtn";
+
+    // Elements that are parts of element with Samples
+
+    var samplesId = "#samples";
+    var sampleClass = ".sample";
+    var sampleInputClass = ".sample-input";
+    var sampleDeleteBtnWrapperClass = ".sample-delete-btn-wrapper";
+    var deleteSampleBtnClass = ".sample-delete-btn";
+
+    // Class for valid elements (Sample inputs in our case)
+    var isValidClass = ".is-valid";
+
+    // Elements that are parts of element with existent Samples
+
+    var existentSamplesListId = "#existentSamplesList";
+    var mediaBodyClass = ".media-body";
+    var existentSampleClass = ".existent-sample";
+    var useExistentSampleBtnClass = ".use-existent-sample-btn";
+
+    var validationTipsId = "#validationTips";
+    var newSampleValidationTipId = "#newSampleValidationTip";
+    var correctedSampleValidationTipId = "#correctedSampleValidationTip";
+
+    /*
+    ====================================================================================================================
+        Block with functions.
+    ====================================================================================================================
+        "Enter" key press handling
+    */
 
     // Prevent form submission when press "Enter" on form input element
-    $(cardCreationFormId).keypress(function (event) {
+    $(cardUpdateFormId).keypress(function (event) {
         if (event.which === 13) {
             event.preventDefault();
         }
     });
 
-
-    function validateContent() {
-
-        var isValid = true;
-        var correctedContent = $(enabledContentInputId).val().trim();
-
-        if (correctedContent) {
-
-            correctedContent = correctedContent.replace(/[\s\t]+/g, " ");
-            $(enabledContentInputId).val(correctedContent);
-
-
-            // Does corrected content input match current validation regex?
-            if (RegExp(contentValidationRegex, "i").test($(enabledContentInputId).val())) {
-
-                // Yes -> do nothing
-                console.log("Content is valid");
-
-            } else {
-
-                // No -> mark content input as invalid
-                console.log("Content is invalid (doesn't match regex)");
-                console.log("content = " + $(enabledContentInputId).val());
-                console.log("contentValidationRegex = " + contentValidationRegex);
-                isValid = false;
-
-            }
-        } else {
-
-            console.log("Content is invalid (empty)");
-            isValid = false;
-
-        }
-
-        // Is corrected content input is valid?
-        if (isValid) {
-            // Yes -> enable carousel-controls
-            $(contentValidationTipId).remove();
-            $(enabledContentInputId).removeClass("is-invalid");
-            $(enabledContentInputId).addClass("is-valid");
-            $(carouselControlRightId).removeClass("disabled");
-
-        } else {
-            // No -> disable carousel-controls
-
-            $(contentValidationTipId).remove();
-            var contentValidationTipElement = $("<div id='contentValidationTip' class='alert alert-danger m-0' role='alert'>"
-                + "<spring:message code='validation.card.content.lang'/>"
-                + "</div>");
-            $(rowForValidationTipsId).prepend(contentValidationTipElement);
-
-            $(enabledContentInputId).removeClass("is-valid");
-            $(enabledContentInputId).addClass("is-invalid");
-            $(carouselControlRightId).addClass("disabled");
-        }
-
-    }
-
-
-    $(cardLangSelectId).change(function () {
-
-        // Reform regex for validating content input based on new selected language
-        contentValidationRegex = "^[\\s\\-/.:0-9a-z";
-
-        switch ($(cardLangSelectId).val()) {
-            case "ru":
-                contentValidationRegex += "а-яё";
-                break;
-            case "de":
-                contentValidationRegex += "äöüß";
-        }
-
-        contentValidationRegex += "]+$";
-
-        console.log("New contentValidationRegex = " + contentValidationRegex);
-
-        if ($(enabledContentInputId).val()) {
-            validateContent();
-        }
-
-    });
-
-
-    $(enabledContentInputId).change(validateContent);
-
-
-    $(enabledContentInputId).keypress(function (event) {
+    $(document).on("keypress", sampleInputClass, function (event) {
         if (event.which === 13) {
-            validateContent();
+            $(this).blur();
         }
     });
 
-
-    $(carouselControlClass).click(function (event) {
-        if ($(this).hasClass("disabled")) {
-            event.stopPropagation();
-        } else {
-
-            switch ($(".carousel-item.active").attr("id")) {
-
-                case "slideNo1":
-
-                    // Set value of disabled content input on the 2nd slide
-                    $(disabledContentInputId).val($(enabledContentInputId).val());
-
-                    // Form validation regex for Samples
-                    var contentParts = $(disabledContentInputId).val().split(/\s/);
-                    console.log(contentParts.length);
-
-                    sampleValidationRegex = "(.+ |^)" + contentParts[0];
-                    for (i = 1; i < contentParts.length; i++) {
-                        sampleValidationRegex += ".* " + contentParts[i];
-                    }
-
-                    console.log("sampleValidationRegex = " + sampleValidationRegex);
-                    break;
-
-                case "slideNo2":
-
-                    $(samplesDeletionAlertId).modal("show");
-                    event.stopPropagation();
-                    break;
-
-                default:
-                    console.log("Undefined carousel-item id (click jQuery method).")
-            }
-
+    $(textareaForNewSamplesId).keypress(function (event) {
+        if (event.which === 13) {
+            $(addSampleBtnId).click();
         }
     });
 
 
     /*
-        Add Sample if valid:
-        1. Not empty
-        2. Contains content
-        3. Not duplicate
+    ====================================================================================================================
+        Block with utility functions.
+    */
+
+    function isSampleUnique(sample) {
+
+        var isSampleUnique = true;
+        var locale = "${cardDto.lang.code}";
+
+        console.log("Locale used for Samples comparison: " + locale);
+
+        $(sampleInputClass + isValidClass).each(function () {
+
+            var currentSample = $(this).val();
+
+            if (sample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
+                isSampleUnique = false;
+                console.log("Caution: Attempt to add duplicate Sample.");
+                console.log("Duplicate content: " + sample);
+                return false;
+            }
+
+        });
+
+        return isSampleUnique;
+
+    }
+
+    function addSampleElement(sample) {
+
+        var currentSampleNo = nextSampleId++;
+
+        var sampleElement = $(
+
+            "<div class='sample input-group my-1'>" +
+
+                "<input id='samples" + currentSampleNo + ".content' " +
+                    "name='samples[" + currentSampleNo +"].content' " +
+                    "class='sample-input is-valid form-control shadow-none' " +
+                    "type='text' " +
+                    "aria-describedby='sampleBtnNo" + currentSampleNo + "'>" +
+
+                "<div class='sample-delete-btn-wrapper input-group-append'>" +
+                    "<button id='sampleBtnNo" + currentSampleNo + "' " +
+                        "class='sample-delete-btn btn btn-danger shadow-none' " +
+                        "type='button'>&times</button>" +
+                "</div>" +
+
+            "</div>"
+
+        );
+
+        sampleElement.children(sampleInputClass).val(sample);
+
+        $(samplesId).append(sampleElement);
+
+    }
+
+    function setPartialFormLock() {
+
+        // Disable delete buttons for valid Samples
+        $(sampleInputClass + isValidClass)
+            .siblings(sampleDeleteBtnWrapperClass)
+            .children(deleteSampleBtnClass)
+            .attr("disabled", "true");
+        // Disable inputs for valid Samples
+        $(sampleInputClass + isValidClass).attr("disabled", "true");
+        // Disable textarea for new Samples
+        $(textareaForNewSamplesId).attr("disabled", "true");
+        // Disable button associated with this textarea
+        $(addSampleBtnId).attr("disabled", "true");
+        // Disable add buttons associated with existent Samples
+        $(useExistentSampleBtnClass).attr("disabled", "true");
+        // Disable Card creation from submit button
+        $(updateCardBtnId).attr("disabled", "true");
+
+    }
+
+    function releasePartialFormLock() {
+
+        // Enable inputs with valid Samples
+        $(sampleInputClass + isValidClass).removeAttr("disabled");
+        // Enable delete buttons for valid Samples
+        $(sampleInputClass + isValidClass)
+            .siblings(sampleDeleteBtnWrapperClass)
+            .children(deleteSampleBtnClass)
+            .removeAttr("disabled");
+        // Enable textarea for new Samples
+        $(textareaForNewSamplesId).removeAttr("disabled");
+        // Enable button associated with this textarea
+        $(addSampleBtnId).removeAttr("disabled");
+        // Enable add buttons associated with existent Samples
+        $(useExistentSampleBtnClass).removeAttr("disabled");
+        // Enable Card creation from submit button
+        $(updateCardBtnId).removeAttr("disabled");
+
+    }
+
+    /*
+    ====================================================================================================================
+        Block with static event handlers.
     */
 
     $(addSampleBtnId).click(function () {
 
-        $(sampleAddingValidationTipId).remove();
+        // Remove new Sample validation tip (if exists)
+        $(newSampleValidationTipId).remove();
 
-        var sampleAddingValidationTipElement;
+        // Delete blank spaces at the edges
+        var newSample = $(textareaForNewSamplesId).val().trim();
 
-        // Delete edge blank spaces
-        var newSample = $(textareaForSamplesId).val().trim();
-
+        // Check if new Sample is empty.
         if (newSample) {
 
-            // Replace wrong spacing
-            newSample = newSample.replace(/[\s\t]+/g, " ");
+            // New Sample isn't empty -> Continue validation
 
-            $(textareaForSamplesId).val(newSample);
+            var isNewSampleValid = true;
+            var newSampleValidationTip;
 
-            // Does new Sample match the validation regex?
+            // Correct wrong spacing
+            newSample = newSample.replace(/\s{2,}|\t+/g, " ");
+
+            // 1. Perform validation
+
+            // Check if Sample satisfies regex
             if (RegExp(sampleValidationRegex, "i").test(newSample)) {
-                // Yes -> continue validation
 
-                var isSampleUnique = true;
+                // Sample satisfies regex -> Continue validation
 
-                if ($(sampleClass).length > 0) {
+                // Check if new Sample is unique
+                if (!isSampleUnique(newSample)) {
 
-                    var locale = $(cardLangSelectId).val();
-                    console.log("Current locale: " + locale);
+                    // New Sample is a duplicate -> Mark new Sample as invalid, add appropriate validation tip
 
-                    $(sampleClass).each(function () {
-
-                        var currentSample = $(this).children(sampleInputClass).val();
-
-                        if (newSample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
-                            isSampleUnique = false;
-                            console.log("New Sample is a duplicate");
-                            console.log("Current Sample: " + currentSample);
-                            console.log("New Sample: " + newSample);
-                            return false;
-                        }
-
-                    });
-
-                }
-
-                // Is new Sample unique?
-                if (isSampleUnique) {
-
-                    var currentSampleNo = nextSampleId++;
-
-                    var newSampleInput = $("<div class='sample input-group my-1'>"
-                        + "<input type='text' class='sample-input form-control shadow-none' aria-describedby='sampleBtnNo" + currentSampleNo + "'>"
-                        + "<div class='input-group-append'>"
-                        + "<button id='sampleBtnNo" + currentSampleNo + "' class='sample-delete-btn btn btn-danger shadow-none' type='button'>&times</button>"
-                        + "</div>"
-                        + "</div>");
-
-                    newSampleInput.children(".sample-input").val(newSample);
-
-                    $("#samples").append(newSampleInput);
-
-                    $(textareaForSamplesId).val("");
-                } else {
-
-                    sampleAddingValidationTipElement = $("<div id='sampleAddingValidationTip' class='alert alert-danger' role='alert'>"
-                        + sampleDuplicateTip
-                        + "</div>");
-                    $(rowForValidationTipsId).append(sampleAddingValidationTipElement)
+                    isNewSampleValid = false;
+                    newSampleValidationTip = "<spring:message code='validation.sample.new.duplicate'/>";
 
                 }
 
             } else {
-                // No -> display validation tip for User
 
-                sampleAddingValidationTipElement = $("<div id='sampleAddingValidationTip' class='alert alert-danger' role='alert'>"
-                    + sampleWithoutContentTip
-                    + "</div>");
-                $(rowForValidationTipsId).append(sampleAddingValidationTipElement);
+                // New Sample doesn't satisfy regex -> Mark new Sample as invalid, add appropriate validation tip
+
+                isNewSampleValid = false;
+                newSampleValidationTip = "<spring:message code='validation.sample.new.without-content'/>";
+
+            }
+
+            // 2. Change page on validation results
+
+            // Check if new Sample is valid
+            if(isNewSampleValid) {
+
+                // New Sample is valid -> Add it to other Samples
+                addSampleElement(newSample);
+
+                $(textareaForNewSamplesId).val("");
+
+            } else {
+
+                // New Sample is invalid -> Add validation tip, replace textarea (for new Samples) value with corrected one
+
+                var sampleAddingValidationTipElement = $(
+                    "<p id='newSampleValidationTip' class='px-3 my-2'>" + newSampleValidationTip + "</p>"
+                );
+
+                $(validationTipsId).append(sampleAddingValidationTipElement);
+
+                $(textareaForNewSamplesId).val(newSample);
 
             }
 
         }
+
+    });
+
+    /*
+    ====================================================================================================================
+
+        Block with dynamic event handlers.
+
+    */
+
+    $(document).on("click", useExistentSampleBtnClass, function () {
+
+        var sample = $(this).siblings(mediaBodyClass).children(existentSampleClass).text();
+
+        if(isSampleUnique(sample)) {
+            addSampleElement(sample);
+        }
+
     });
 
 
-    /*
-        Add Sample if valid:
-        1. Not empty
-        2. Contains content
-        3. Not duplicate
-    */
 
-    $(document).on("change", sampleClass, function () {
+    $(document).on("change", sampleInputClass, function () {
 
-        var updatedSampleInput = $(this).children("input.sample-input");
+        $(this).removeClass("is-valid");
 
-        var updatedSample = updatedSampleInput.val().trim();
+        var correctedSample = $(this).val().trim();
 
-        // Is this input empty?
-        if (updatedSample) {
+        // Check if corrected Sample is empty.
+        if (correctedSample) {
 
-            // No -> continue validation
+            // Corrected Sample isn't empty -> Continue validation
 
-            // Replace wrong spacing
-            updatedSample = updatedSample.replace(/[\s\t]+/g, " ");
-            updatedSampleInput.val(updatedSample);
+            var isCorrectedSampleValid = true;
+            var correctedSampleValidationTip;
 
-            var isValid = true;
-            var validationTip;
+            // Correct wrong spacing
+            correctedSample = correctedSample.replace(/\s{2,}|\t+/g, " ");
 
             // Does updated Sample match the validation regex?
-            if (RegExp(sampleValidationRegex, "i").test(updatedSample)) {
+            if (RegExp(sampleValidationRegex, "i").test(correctedSample)) {
 
-                // Yes -> continue validation
+                // Sample satisfies regex -> Continue validation
 
-                if ($(sampleClass).length > 0) {
+                // If corrected Sample isn't unique
+                if (!isSampleUnique(correctedSample)) {
 
-                    var locale = $(cardLangSelectId).val();
-                    console.log("Current locale: " + locale);
+                    // Corrected Sample is a duplicate -> Mark it as invalid, add appropriate validation tip
 
-                    $(sampleInputClass).not(updatedSampleInput).each(function () {
-
-                        var currentSample = $(this).val();
-
-                        if (updatedSample.localeCompare(currentSample, locale, {sensitivity: 'base'}) === 0) {
-                            isValid = false;
-                            validationTip = sampleDuplicateTip;
-                            console.log("Updated Sample is a duplicate");
-                            console.log("Current Sample: " + currentSample);
-                            console.log("Updated Sample: " + updatedSample);
-                            return false;
-                        }
-
-                    });
+                    isCorrectedSampleValid = false;
+                    correctedSampleValidationTip = "<spring:message code='validation.sample.corrected.duplicate'/>";
 
                 }
 
             } else {
 
-                // No -> mark this Sample as invalid
-                isValid = false;
-                validationTip = sampleWithoutContentTip;
+                //  Corrected Sample doesn't satisfy regex -> Mark it as invalid, add appropriate validation tip
+
+                isCorrectedSampleValid = false;
+                correctedSampleValidationTip = "<spring:message code='validation.sample.corrected.duplicate'/>";
+
             }
 
-            if (isValid) {
+            // Check if corrected Sample is valid
+            if (isCorrectedSampleValid) {
 
-                if ($(this).hasClass("spoiled")) {
+                // Corrected Sample is valid
 
-                    $(sampleUpdateValidationTipId).remove();
-                    $(sampleClass + ":not(" + spoiledClass + ")")
-                        .children(sampleInputClass)
-                        .removeAttr("disabled");
-                    $(textareaForSamplesId).removeAttr("disabled");
-                    $(addSampleBtnId).removeAttr("disabled");
-                    $(createCardBtnId).removeAttr("disabled");
-                    $(this).removeClass("spoiled");
-                    $(this).children("input").removeClass("is-invalid");
+                // If Sample was invalid
+                if ($(this).hasClass("is-invalid")) {
+
+                    // Remove class-marker of invalid Sample
+                    $(this).removeClass("is-invalid");
+
+                    // Remove validation tip for corrected Sample
+                    $(correctedSampleValidationTipId).remove();
+
+                    // Release partial form lock
+                    releasePartialFormLock();
+
                 }
+
+                // Mark corrected Sample as valid
+                $(this).addClass("is-valid");
 
             } else {
 
-                $(sampleUpdateValidationTipId).remove();
-                var samplesValidationTipElement = $("<div id='samplesValidationTip' class='alert alert-danger' role='alert'>"
-                    + validationTip
-                    + "</div>");
-                $(rowForValidationTipsId).prepend(samplesValidationTipElement);
+                // Corrected Sample is invalid
 
-                if (!$(this).hasClass("spoiled")) {
+                // Check if Sample was invalid before correction
+                if($(this).hasClass("is-invalid")) {
 
-                    $(this).addClass("spoiled");
-                    $(this).children("input").addClass("is-invalid");
-                    $(sampleClass)
-                        .not(this)
-                        .children(sampleInputClass)
-                        .attr("disabled", "true");
-                    $(createCardBtnId).attr("disabled", "true");
-                    $(addSampleBtnId).attr("disabled", "true");
-                    $(textareaForSamplesId).attr("disabled", "true");
+                    // Sample was invalid before correction
+
+                    // Remove previous validation tip for corrected Sample
+                    $(correctedSampleValidationTipId).remove();
+
+                } else {
+
+                    // Sample was valid before correction
+
+                    // Mark corrected Sample as invalid
+                    $(this).addClass("is-invalid");
+
+                    // Partially block Card creation form
+                    setPartialFormLock()
 
                 }
+
+                // Add validation tip element for corrected Sample
+
+                var correctedSampleValidationTipElement = $(
+                    "<p id='correctedSampleValidationTip' class='px-3 my-2'>" + correctedSampleValidationTip + "</p>"
+                );
+
+                $(validationTipsId).prepend(correctedSampleValidationTipElement);
+
             }
 
         } else {
 
-            // Yes -> remove this element
+            // Corrected Sample is empty
 
-            var wasSpoiled = $(this).hasClass("spoiled");
-            $(this).remove();
+            // Remember weather it was invalid
+            var wasInvalid = $(this).hasClass("is-invalid");
 
-            if (wasSpoiled) {
-                $(sampleUpdateValidationTipId).remove();
-                $(sampleClass).children(sampleInputClass).removeAttr("disabled");
-                $(textareaForSamplesId).removeAttr("disabled");
-                $(addSampleBtnId).removeAttr("disabled");
-                $(createCardBtnId).removeAttr("disabled");
-            }
+            // Delete empty Sample input
+            $(this).parent(sampleClass).remove();
 
-        }
 
-    });
+            // If Sample was invalid, release partial form lock
+            if (wasInvalid) {
 
-    $(document).on("click", sampleDeleteBtnClass, function () {
+                // Delete validation tip for corrected Sample
+                $(correctedSampleValidationTipId).remove();
 
-        var sampleElement = $(this).parents(sampleClass);
-        var wasSampleElementSpoiled = sampleElement.hasClass("spoiled");
-        sampleElement.remove();
-
-        if (wasSampleElementSpoiled) {
-            $(sampleUpdateValidationTipId).remove();
-            $(sampleClass).children(sampleInputClass).removeAttr("disabled");
-            $(textareaForSamplesId).removeAttr("disabled");
-            $(addSampleBtnId).removeAttr("disabled");
-            $(createCardBtnId).removeAttr("disabled");
-        }
-
-    });
-
-    // hardcode
-
-    $(carouselControlLeftId).click(function () {
-
-        if ($(".carousel-item.active").attr("id") === "slideNo2") {
-            $(samplesDeletionAlertId).modal("show");
-        }
-
-    });
-
-    $(confirmSamplesDeletionBtnId).click(function () {
-
-        $(samplesDeletionAlertId).modal("hide");
-        $(carouselCardCreationFormId).carousel("prev");
-
-        $(carouselControlRightId).removeClass("disabled");
-        $(carouselControlLeftId).addClass("disabled");
-
-        $(sampleUpdateValidationTipId).remove();
-        $(textareaForSamplesId).removeAttr("disabled");
-        $(addSampleBtnId).removeAttr("disabled");
-        $(createCardBtnId).removeAttr("disabled");
-
-        $(sampleClass).remove();
-        $(textareaForSamplesId).val("");
-
-    });
-
-    $(carouselControlRightId).click(function () {
-
-        if ($(".carousel-item.active").attr("id") === "slideNo1") {
-            $(carouselCardCreationFormId).carousel("next");
-            $(carouselControlLeftId).removeClass("disabled");
-            $(this).addClass("disabled");
-        }
-
-    });
-
-    function sendSynchCardCreationRequest() {
-        alert("stub");
-    }
-
-    $(cardCreationFormId).submit(function (event) {
-
-        event.preventDefault();
-
-        alert("I'm here");
-        console.log("I'm here");
-
-        var samplesJson = "";
-        var samples = [];
-
-        if ($(sampleInputClass).length > 0) {
-
-            $(sampleInputClass).each(function () {
-                console.log($(this).val());
-                samples.push($(this).val());
-            });
-
-            console.log(samples);
-
-            samplesJson = '"samples" : [{"content" : "' + samples[0] + '"}';
-
-            if (samples.length > 1) {
-
-                for (var i = 1; i < samples.length; i++) {
-                    samplesJson += ',{"' + samples[i] + '"}';
-                }
+                // Release partial form lock
+                releasePartialFormLock();
 
             }
 
-            samplesJson += ']';
+        }
+
+    });
+
+
+
+    $(document).on("click", deleteSampleBtnClass, function () {
+
+        $(sampleInputClass).blur();
+
+        var isAssociatedSampleInvalid = $(this)
+            .parent(sampleDeleteBtnWrapperClass)
+            .siblings(sampleInputClass)
+            .hasClass("is-invalid");
+
+        // Remove Sample element
+        $(this).parents(sampleClass).remove();
+
+        // Check if value of associated Sample input is invalid
+        if(isAssociatedSampleInvalid) {
+
+            // Remove validation tip for corrected Sample
+            $(correctedSampleValidationTipId).remove();
+
+            // Release partial form lock
+            releasePartialFormLock();
 
         }
 
-        console.log(samplesJson);
+    });
 
-        var card = '{'
-            + '"content" : "' + $(enabledContentInputId).val() + '",'
-            + '"type" : "' + $("#type").val() + '",'
-            + '"pron" : {'
-            + '"transcription" : "' + $("#transcription").val() + '"'
-            + '},'
-            + '"definition" : "' + $("#definition").val() + '",'
-            + samplesJson
-            + '}';
+
+    /*
+    ====================================================================================================================
+
+        Code to execute when page is ready.
+
+    */
+
+    $(document).ready(function () {
+
+        /*
+        ================================================================================================================
+            1. Calculate regex for Sample validation based on 'content' field value.
+        */
+
+        var contentParts = content.split(/\s/);
+        console.log("Content parts: " + contentParts);
+
+        sampleValidationRegex = "(.+ |^)" + contentParts[0];
+        for (i = 1; i < contentParts.length; i++) {
+            sampleValidationRegex += ".* " + contentParts[i];
+        }
+
+        console.log("Validation regex for Samples: " + sampleValidationRegex);
+
+        /*
+        ================================================================================================================
+            2. Send asynchronous request to REST api to get existent Samples for Card 'content'.
+        */
 
         $.ajax({
-            url: location.origin + "/api/cards/create",
-            data: card,
-            type: "POST",
-            contentType: "application/json"
+            type: "GET",
+            url: location.origin + "/api/samples/search?input=" + content + "&lang=" + lang,
+            dataType: "json"
         })
+            .done(function(samples) {
 
-            .done(function () {
-                alert("OK!");
+                var existentSample;
+                var liftUpIconPath = "${liftUpIconPath}";
+
+                for (var i = 0; i < samples.length; i++) {
+
+                    existentSample = $(
+
+                        "<li class='list-group-item p-2'>" +
+                            "<div class='media'>" +
+
+                                "<div class='media-body border-right px-2 mx-1 d-flex align-items-center' style='min-height: 43px;'>" +
+                                    "<p class='existent-sample m-0'>" +  samples[i].content + "</p>" +
+                                "</div>" +
+
+                            "<button class='use-existent-sample-btn btn btn-link shadow-none p-0' type='button'>" +
+                                "<img src='" + liftUpIconPath + "' class='align-self-center m-2' width='25' height='25' alt='lift up icon'>" +
+                            "</button>" +
+
+                            "</div>" +
+                        "</li>"
+
+                    );
+
+                    $(existentSamplesListId).append(existentSample);
+
+                }
+
+                console.log("Status of the request to get existent Samples: OK (" + samples.length + " Samples found).");
+
             })
 
-            .fail(function () {
-                alert("Error!");
-            });
+            .fail(function (response) {
 
+                var caution;
+
+                // ToDo: Internalization support
+
+                if (!response.ok) {
+
+                    console.log("Status of the request to get existent Samples: OK (0 Samples found).");
+
+                    caution = $(
+                        "<li class='list-group-item list-group-item-warning p-2'>" +
+                            "<p class='text-center m-0'>" +
+                                loadExistentSamplesEmptyCaution +
+                            "</p>" +
+                        "</li>"
+                    );
+
+                } else {
+
+                    console.log("Status of the request to get existent Samples: failure.");
+
+                    caution = $(
+                        "<li class='list-group-item list-group-item-danger p-2'>" +
+                            "<p class='text-center m-0'>" +
+                                loadExistentSamplesFailureCaution +
+                            "</p>" +
+                        "</li>"
+                    );
+
+                }
+
+                $(existentSamplesListId).append(caution);
+
+            });
 
     });
 

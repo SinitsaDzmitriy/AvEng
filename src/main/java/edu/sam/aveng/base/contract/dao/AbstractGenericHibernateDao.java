@@ -16,6 +16,11 @@ public abstract class AbstractGenericHibernateDao<T extends Identifiable & Seria
     private Class<T> entityClass;
     private SessionFactory sessionFactory;
 
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     protected AbstractGenericHibernateDao() {
         assignEntityClazz();
         if (entityClass == null) {
@@ -42,11 +47,6 @@ public abstract class AbstractGenericHibernateDao<T extends Identifiable & Seria
 
     public Class<T> getEntityClass() {
         return entityClass;
-    }
-
-    @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
