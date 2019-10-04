@@ -37,6 +37,29 @@ public class CardDao
     }
 
     @Override
+    public List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition) {
+        return getCurrentSession().createQuery("select new "
+                + CardTableItem.class.getName()
+                + "("
+                + "c.id, "
+                + "c.lang, "
+                + "c.content, "
+                + "c.type, "
+                + "c.definition"
+                + ") "
+                + "from " + Card.class.getName() + " c", CardTableItem.class)
+                .setFirstResult(firstResultPosition)
+                .setMaxResults(maxNumberOfResults)
+                .list();
+    }
+
+    @Override
+    public long countAll() {
+        return (long) getCurrentSession().createQuery("select count(*) from "
+                + Card.class.getName()).uniqueResult();
+    }
+
+    @Override
     public List<Map> search(Lang cardLang, Lang coupledCardsLang, String formattedSearchInput) {
 
         Session session =  getCurrentSession();

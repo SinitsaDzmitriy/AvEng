@@ -95,7 +95,6 @@ public class AbstractDaoTest {
             simpleEntityDao.persist(simpleEntity);
         }
 
-        TestTransaction.start();
         List<SimpleTestEntity> foundSimpleEntities = simpleEntityDao.findAll();
         TestTransaction.end();
 

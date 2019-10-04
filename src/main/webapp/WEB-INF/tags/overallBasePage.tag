@@ -54,7 +54,7 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="dropdown-item" href="${homePagePath}">
-                        <spring:message code="common.anchor.homepage"/>
+                        <spring:message code="common.caption.homepage"/>
                     </a>
 
                     <security:authorize access="isFullyAuthenticated()">
@@ -214,7 +214,7 @@
                     <div class="nav-item">
                         <spring:url value="/login" var="loginLink"/>
                         <a href="${loginLink}" class="btn btn-light text-nowrap mx-1">
-                            <spring:message code="nav.login"/>
+                            <spring:message code="common.caption.login"/>
                         </a>
                     </div>
 
@@ -260,7 +260,7 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${homePagePath}">
-                        <spring:message code="common.anchor.homepage"/>
+                        <spring:message code="common.caption.homepage"/>
                     </a>
 
                     <spring:url value="/cards/display/list" var="displayCardsPagePath"/>

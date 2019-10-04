@@ -15,9 +15,13 @@ public interface ICardService {
 
     List<CardTableItem> findAllAsTableItems();
 
+    List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition);
+
     void update(Long id, CardDto cardDto);
 
     void delete(long id);
+
+    long countAll();
 
     List<Map> search(Lang usedLang, Lang desiredLang, String userInput);
 }

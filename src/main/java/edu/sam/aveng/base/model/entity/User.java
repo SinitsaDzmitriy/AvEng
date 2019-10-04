@@ -46,7 +46,7 @@ public class User implements UserDetails, Identifiable {
             inverseJoinColumns = {@JoinColumn(name = "authority_id")})
     private Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
-    @Column(name = "last_logging_date", nullable = false)
+    @Column(name = "last_logging_date")
     private Date lastLoggingDate;
 
     @Override

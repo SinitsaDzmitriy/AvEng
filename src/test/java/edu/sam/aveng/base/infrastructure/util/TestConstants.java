@@ -19,7 +19,7 @@ public final class TestConstants {
 
             public static final String TABLE_NAME = "simple_records";
             public static final String ID_COLUMN_NAME = "id";
-            public static final String STRING_COLUMN_NAME = "string2";
+            public static final String STRING_COLUMN_NAME = "string";
 
         }
 

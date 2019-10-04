@@ -99,6 +99,11 @@ public class CardServiceImpl implements ICardService {
     }
 
     @Override
+    public List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition) {
+        return cardDao.findAllAsTableItems(maxNumberOfResults, firstResultPosition);
+    }
+
+    @Override
     public void update(Long id, CardDto cardDto) {
 
         Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
@@ -125,6 +130,11 @@ public class CardServiceImpl implements ICardService {
 
         cardDao.delete(cardToDelete);
 
+    }
+
+    @Override
+    public long countAll() {
+        return cardDao.countAll();
     }
 
     @Override

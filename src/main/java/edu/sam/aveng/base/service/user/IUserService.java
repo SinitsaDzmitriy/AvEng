@@ -8,12 +8,16 @@ import java.util.List;
 
 public interface IUserService extends UserDetailsService {
 
-    long create(UserCredentials credentials);
+    void create(UserCredentials credentials);
 
     List<UserTableItem> findAll();
 
     void swapAdmin(long id);
 
     void delete(long id);
+
+    String activate(String token);
+
+    boolean isUserRegistered(String mail);
 
 }

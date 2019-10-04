@@ -20,6 +20,16 @@ public class SimpleTestEntity implements Identifiable, Serializable {
     @Column(name = TestConstants.Database.SimpleRecords.ID_COLUMN_NAME)
     private Long id;
 
+    private String temp;
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
     @Column(name = TestConstants.Database.SimpleRecords.STRING_COLUMN_NAME)
     private String string;
 

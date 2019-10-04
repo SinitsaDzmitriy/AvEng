@@ -6,12 +6,17 @@ import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -46,7 +51,23 @@ public class UserController {
         }
 
         userService.create(userCredentials);
+
         return "redirect:/login";
 
     }
+
+    @GetMapping("/users/activation")
+    public String activate(@RequestParam String token, Model model) {
+
+        String userEmail = userService.activate(token);
+
+        if (userEmail == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        model.addAttribute(Constants.Model.USER_EMAIL_KEY, userEmail);
+        return Constants.View.USER_ACTIVATION;
+
+    }
+
 }

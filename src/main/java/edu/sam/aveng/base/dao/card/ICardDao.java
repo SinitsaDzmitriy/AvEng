@@ -12,6 +12,10 @@ public interface ICardDao extends IGenericDao<Card> {
 
     List<CardTableItem> findAllAsTableItems();
 
+    List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition);
+
+    long countAll();
+
     List<Map> search(Lang cardLang, Lang coupledCardsLang, String formattedSearchInput);
 
 }

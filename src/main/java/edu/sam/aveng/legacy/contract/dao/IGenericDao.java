@@ -12,7 +12,7 @@ public interface IGenericDao<T extends Serializable> {
 
     T find(final long id);
 
-    T findByProperty(String property, String value);
+    T findByProperty(String property, Object value);
 
     T findEagerlyByProperty(String property, String value);
 

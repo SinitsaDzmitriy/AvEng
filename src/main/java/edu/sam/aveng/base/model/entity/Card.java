@@ -176,4 +176,5 @@ public class Card implements Identifiable, Serializable {
     public int hashCode() {
         return Objects.hash(type, content, definition);
     }
+
 }

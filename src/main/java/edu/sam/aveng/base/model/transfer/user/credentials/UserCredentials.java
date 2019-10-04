@@ -1,5 +1,7 @@
 package edu.sam.aveng.base.model.transfer.user.credentials;
 
+import edu.sam.aveng.temp.validation.constraint.UniqueEmail;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -12,6 +14,7 @@ public class UserCredentials implements IUserCredentials {
     @NotBlank(message = "{validation.back.email.blank}")
     @Size(max = 254, message = "{validation.back.email.size}")
     @Email(message = "{validation.back.email.pattern}")
+    @UniqueEmail(message = "{validation.back.email.duplicate}")
     private String email;
 
     @NotBlank(message = "validation.back.password.blank")

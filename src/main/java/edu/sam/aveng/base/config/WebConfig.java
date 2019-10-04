@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -26,6 +29,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.Properties;
 
 @EnableWebMvc
 @EnableWebSecurity
@@ -46,25 +51,32 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public MailSender mailSender() {
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("aveng.comp@gmail.com");
+        mailSender.setPassword("Ol234567");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
+    }
+
+    @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix(env.getProperty("view.resolver.prefix"));
         resolver.setSuffix(env.getProperty("view.resolver.suffix"));
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
-    }
-
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/styles/**")
-                .addResourceLocations("/WEB-INF/styles/")
-                .setCachePeriod(31556926);
-
-        registry.addResourceHandler("/resources/images/**")
-                .addResourceLocations("/WEB-INF/images/")
-                .setCachePeriod(31556926);
-
     }
 
     @Bean
@@ -113,4 +125,18 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("/resources/styles/**")
+                .addResourceLocations("/WEB-INF/styles/")
+                .setCachePeriod(31556926);
+
+        registry.addResourceHandler("/resources/images/**")
+                .addResourceLocations("/WEB-INF/images/")
+                .setCachePeriod(31556926);
+
+    }
+
 }

@@ -64,7 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         String[] devUrls = {
                 "/test/**",
-                "/utility/**"
+                "/utility/**",
+                "/users/activation"
         };
 
         String[] publicUrls = {

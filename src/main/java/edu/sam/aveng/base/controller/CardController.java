@@ -26,6 +26,9 @@ import java.util.Map;
 @RequestMapping(value = "/cards")
 public class CardController {
 
+    private final String DEFAULT_CARD_TABLE_SIZE = "5";
+    private final String DEFAULT_CARD_TABLE_PAGE_NUMBER = "1";
+
     private ICardService cardService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
@@ -45,6 +48,42 @@ public class CardController {
         model.addAttribute(cardService.findAllAsTableItems());
         return "cardList";
     }
+
+
+
+    @GetMapping(value = "/display/table")
+    public String displayCardTable(Model model,
+            @RequestParam(defaultValue = DEFAULT_CARD_TABLE_SIZE) int pageSize,
+            @RequestParam(defaultValue = DEFAULT_CARD_TABLE_PAGE_NUMBER) int pageNum) {
+
+        long totalNumberOfCards = cardService.countAll();
+        int firstCardPositionToRead = (pageSize * (pageNum - 1));
+        boolean isListFirst = false;
+        boolean isListLast = false;
+
+
+        if(firstCardPositionToRead >= totalNumberOfCards) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        long restNumberOfCards = totalNumberOfCards - (firstCardPositionToRead + 1);
+
+        if(pageNum == 1) {
+            isListFirst = true;
+        }
+
+        if (restNumberOfCards <= pageSize) {
+            isListLast = true;
+        }
+
+        model.addAttribute(Constants.Model.IS_LIST_FIRST_KEY, isListFirst);
+        model.addAttribute(Constants.Model.IS_LIST_LAST_KEY, isListLast);
+        model.addAttribute(Constants.Model.CARD_TABLE_ITEMS_KEY, cardService.findAllAsTableItems(pageSize, firstCardPositionToRead));
+
+        return "cardTable";
+    }
+
+
 
     @RequestMapping(value = "/display/{cardId}", method = RequestMethod.GET)
     public String spittle(Model model, @PathVariable long cardId) {

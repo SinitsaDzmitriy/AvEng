@@ -94,7 +94,6 @@ Designed to:
                    class="form-control"
                    style="padding: 10px; min-height: 42px;"
                    placeholder="${confirmatoryPassPlaceholder}"
-                   oninput="test()"
                    required="required"/>
 
         </div>
@@ -106,8 +105,7 @@ Designed to:
 
 </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
+<script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
@@ -134,15 +132,10 @@ Designed to:
         }
     });
 
-    function test() {
+   $("#retypedPassword").change(function () {
         document.getElementById("retypedPassword").setCustomValidity('');
         retypedPasswordInput.reportValidity();
-    }
-
-   // $("#retypedPassword").change(function () {
-   //      document.getElementById("retypedPassword").setCustomValidity('');
-   //      retypedPasswordInput.reportValidity();
-   //  });
+    });
 
 </script>
 

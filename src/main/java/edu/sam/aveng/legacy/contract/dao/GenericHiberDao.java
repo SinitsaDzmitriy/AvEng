@@ -100,7 +100,7 @@ public class GenericHiberDao<T extends Serializable & Identifiable>
         delete(entity);
     }
 
-    public T findByProperty(String property, String value) {
+    public T findByProperty(String property, Object value) {
 
         return (T) getCurrentSession()
                 .createQuery(String.format("from %s c ", clazz.getName())
