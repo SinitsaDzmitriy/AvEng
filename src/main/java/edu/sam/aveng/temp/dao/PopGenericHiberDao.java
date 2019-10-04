@@ -1,8 +1,8 @@
 package edu.sam.aveng.temp.dao;
 
-import edu.sam.aveng.legacy.contract.dao.GenericHiberDao;
+import edu.sam.aveng.base.contract.v1.dao.GenericHiberDao;
 import edu.sam.aveng.base.model.enumeration.Status;
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;

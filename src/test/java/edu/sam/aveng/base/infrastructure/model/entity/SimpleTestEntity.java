@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.infrastructure.model.entity;
 
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import edu.sam.aveng.base.infrastructure.util.TestConstants;
 
 import javax.persistence.Column;

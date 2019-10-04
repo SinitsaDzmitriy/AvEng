@@ -1,8 +1,8 @@
 package edu.sam.aveng.base.service.usercard;
 
-import edu.sam.aveng.legacy.contract.converter.IShortConverter;
-import edu.sam.aveng.legacy.contract.dao.IGenericDao;
-import edu.sam.aveng.legacy.contract.service.SmartGenericCrudService;
+import edu.sam.aveng.base.contract.v1.converter.IShortConverter;
+import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
+import edu.sam.aveng.base.contract.v1.service.SmartGenericCrudService;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.entity.UserCard;

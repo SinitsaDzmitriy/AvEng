@@ -1,6 +1,5 @@
 package edu.sam.aveng.base.controller;
 
-import edu.sam.aveng.legacy.controller.simple.InitialController;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

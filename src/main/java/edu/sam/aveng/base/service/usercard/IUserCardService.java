@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.service.usercard;
 
-import edu.sam.aveng.legacy.contract.converter.IShortConverter;
-import edu.sam.aveng.legacy.contract.service.ICrudService;
+import edu.sam.aveng.base.contract.v1.converter.IShortConverter;
+import edu.sam.aveng.base.contract.v1.service.ICrudService;
 import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.transfer.dto.UserCardDto;

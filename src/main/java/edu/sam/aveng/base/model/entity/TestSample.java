@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.model.entity;
 
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.search.annotations.Analyze;

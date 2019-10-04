@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.converter;
 
-import edu.sam.aveng.legacy.contract.converter.IBaseConverter;
-import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
+import edu.sam.aveng.base.contract.v1.converter.IBaseConverter;
+import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.entity.Pronunciation;
 import edu.sam.aveng.base.model.entity.Sample;

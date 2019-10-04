@@ -1,6 +1,5 @@
 package edu.sam.aveng.base.model.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import edu.sam.aveng.base.model.enumeration.Status;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;

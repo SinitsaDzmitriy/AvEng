@@ -2,8 +2,8 @@ package edu.sam.aveng.base.service.user;
 
 import edu.sam.aveng.base.model.entity.VerificationToken;
 
-import edu.sam.aveng.legacy.contract.dao.IGenericDao;
-import edu.sam.aveng.legacy.converter.UserConverter;
+import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
+import edu.sam.aveng.base.converter.UserConverter;
 
 import edu.sam.aveng.base.model.entity.SimpleGrantedAuthority;
 import edu.sam.aveng.base.model.entity.User;

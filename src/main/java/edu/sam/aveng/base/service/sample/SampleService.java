@@ -2,10 +2,9 @@ package edu.sam.aveng.base.service.sample;
 
 import edu.sam.aveng.base.dao.sample.ISampleDao;
 import edu.sam.aveng.base.model.enumeration.Lang;
-import edu.sam.aveng.legacy.contract.converter.ICollectionConverter;
-import edu.sam.aveng.legacy.contract.service.StandardGenericCrudService;
+import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
+import edu.sam.aveng.base.contract.v1.service.StandardGenericCrudService;
 import edu.sam.aveng.base.converter.search.ISearchInputConverter;
-import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
 import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.dao.sample;
 
-import edu.sam.aveng.base.contract.dao.AbstractGenericHibernateDao;
+import edu.sam.aveng.base.contract.v2.dao.AbstractGenericHibernateDao;
 import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.enumeration.Lang;
 import org.hibernate.search.FullTextSession;

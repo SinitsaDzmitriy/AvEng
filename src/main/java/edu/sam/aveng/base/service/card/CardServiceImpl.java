@@ -12,7 +12,7 @@ import edu.sam.aveng.base.converter.CardConverter;
 import edu.sam.aveng.base.model.transfer.dto.SampleDto;
 import edu.sam.aveng.base.dao.card.ICardDao;
 
-import edu.sam.aveng.legacy.contract.dao.IGenericDao;
+import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.model.entity;
 
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import edu.sam.aveng.base.util.SampleContentLangDiscriminator;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.de.GermanStemFilterFactory;
@@ -16,7 +16,6 @@ import org.hibernate.search.annotations.TokenizerDef;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;

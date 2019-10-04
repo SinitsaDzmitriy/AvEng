@@ -2,7 +2,7 @@ package edu.sam.aveng.base.model.entity;
 
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.enumeration.StatementType;
-import edu.sam.aveng.base.contract.model.Identifiable;
+import edu.sam.aveng.base.contract.v2.model.Identifiable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
