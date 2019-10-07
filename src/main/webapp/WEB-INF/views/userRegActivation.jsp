@@ -8,7 +8,7 @@
 <head>
 
     <title>
-        <spring:message code="title.user.activation" arguments="${userEmail}"/>
+        <spring:message code="title.users.reg.activation" arguments="${userEmail}"/>
     </title>
 
     <link rel="stylesheet"
@@ -18,23 +18,23 @@
 
 </head>
 
-<body>
+<body style="background-color: #eee;">
 <div class="container">
 
     <div class="row mt-3 d-flex justify-content-center">
-        <h3>
-            <spring:message code="user.activation.message" arguments="${userEmail}"/>
+        <h3 class="text-center">
+            <spring:message code="users.reg.activation.message" arguments="${userEmail}"/>
         </h3>
     </div>
 
     <div class="row mt-3 d-flex justify-content-center">
 
-        <button type="button " class="btn btn-primary mx-1 shadow-none" onclick="location.href = location.origin">
-            <spring:message code="common.caption.homepage"/>
+        <button type="button" class="btn btn-primary mx-1 shadow-none" onclick="location.href = location.origin">
+            <spring:message code="common.homepage"/>
         </button>
 
         <button type="button" class="btn btn-primary mx-1 shadow-none" onclick="location.href = location.origin + '/login'">
-            <spring:message code="common.caption.login"/>
+            <spring:message code="common.login"/>
         </button>
 
     </div>

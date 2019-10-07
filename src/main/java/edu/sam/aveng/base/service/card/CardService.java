@@ -3,13 +3,14 @@ package edu.sam.aveng.base.service.card;
 import edu.sam.aveng.base.dao.sample.ISampleDao;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.entity.CardMapping;
+import edu.sam.aveng.base.model.entity.Pronunciation;
 import edu.sam.aveng.base.model.entity.Sample;
 import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.enumeration.Lang;
-import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
+import edu.sam.aveng.base.model.dto.CardDto;
+import edu.sam.aveng.base.model.transfer.CardTableItem;
 import edu.sam.aveng.base.converter.CardConverter;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
 import edu.sam.aveng.base.dao.card.ICardDao;
 
 import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
@@ -28,13 +29,14 @@ import java.util.stream.Collectors;
 @Service
 @EnableTransactionManagement
 @Transactional
-public class CardServiceImpl implements ICardService {
+public class CardService implements ICardService {
 
     // Separate DAOs
     private ICardDao cardDao;
     private ISampleDao sampleDao;
 
     // Generic DAOs
+    private IGenericDao<Pronunciation> pronDao;
     private IGenericDao<UserCard> userCardDao;
     private IGenericDao<CardMapping> cardMappingDao;
 
@@ -48,6 +50,13 @@ public class CardServiceImpl implements ICardService {
     @Autowired
     public void setSampleDao(ISampleDao sampleDao) {
         this.sampleDao = sampleDao;
+    }
+
+    @Autowired
+    @Qualifier("genericHiberDao")
+    public void setPronDao(IGenericDao<Pronunciation> pronDao) {
+        pronDao.setClazz(Pronunciation.class);
+        this.pronDao = pronDao;
     }
 
     @Autowired
@@ -76,6 +85,7 @@ public class CardServiceImpl implements ICardService {
         Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
         card.setSamples(preparedSamples);
         cardDao.persist(card);
+
     }
 
     @Override
@@ -105,12 +115,19 @@ public class CardServiceImpl implements ICardService {
 
     @Override
     public void update(Long id, CardDto cardDto) {
+        String transcription = cardDto.getPron().getTranscription();
+        Pronunciation pron = pronDao.findByProperty("transcription", transcription);
+        if(pron == null) {
+            pron = new Pronunciation(transcription);
+            pronDao.create(pron);
+        }
 
         Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
 
-        Card card = cardConverter.convertToEntity(cardDto);
 
+        Card card = cardConverter.convertToEntity(cardDto);
         card.setId(id);
+        card.setPron(pron);
         card.setSamples(preparedSamples);
 
         cardDao.update(card);
@@ -150,6 +167,7 @@ public class CardServiceImpl implements ICardService {
                     if(sample == null) {
                         sample = new Sample();
                         sample.setContent(sampleDto.getContent());
+                        sampleDao.persist(sample);
                     }
                     return sample;
                 })

@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.service.user;
 
-import edu.sam.aveng.base.model.transfer.user.credentials.UserCredentials;
-import edu.sam.aveng.base.model.transfer.user.UserTableItem;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
+import edu.sam.aveng.base.model.transfer.UserTableItem;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

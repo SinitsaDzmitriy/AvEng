@@ -7,7 +7,8 @@
 
 <%@ page import="edu.sam.aveng.base.model.enumeration.Status" %>
 
-<mytags:overallBasePage pageHeadline="Personal Dictionary">
+<spring:message code="title.user-cards.display.all" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${pageTitle}">
 
     <div class="container-fluid w-75">
 
@@ -19,7 +20,7 @@
 
                     <spring:url value="/resources/images/addIcon.svg" var="addIcon"/>
                     <jstl:set var="img" value="<img src='${addIcon}' width='28' height='28' alt='addIcon' style='margin-left: 0.2rem; margin-right: 0.2rem; background-color: white; border-radius: 50%;'>"/>
-                    <spring:message code="alert.user-cards.empty" arguments="${img}"/>
+                    <spring:message code="user-cards.display.all.alert.empty" arguments="${img}"/>
 
                 </div>
             </div>
@@ -90,16 +91,16 @@
                 <div class="col-2 d-flex justify-content-end">
 
                     <spring:url value="/resources/images/playPronIcon.svg" var="playPronIconPath"/>
-                    <img src="${playPronIconPath}" width="28" height="28" alt="playPronIcon">
+                    <img src="${playPronIconPath}" style="cursor: pointer;"
+                         width="28" height="28" alt="Play pronunciation icon"
+                         onclick="playPron( '${userCardItem.content}', '${userCardItem.lang.code}')">
 
                     <h5 class="d-inline-block">|</h5>
 
-                        <%--                    <spring:url value="/resources/images/deleteIcon.svg" var="deleteIconPath"/>--%>
-                        <%--                    <img src="${deleteIconPath}" width="28" height="28" alt="deleteIcon" onclick="">--%>
-
                     <spring:url value="/resources/images/deleteIcon.svg" var="deleteIconPath"/>
-                    <input type="image" src="${deleteIconPath}" alt="deleteIcon" width="28" height="28"
-                           onclick="deleteUserCard(${userCardItem.userCardId})">
+                    <img src="${deleteIconPath}" style="cursor: pointer;"
+                         width="28" height="28" alt="Delete icon"
+                         onclick="deleteUserCard(${userCardItem.userCardId})">
 
                 </div>
 
@@ -110,6 +111,13 @@
     </div>
 
     <script>
+
+        function playPron(text, lang) {
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = lang;
+            speechSynthesis.speak(msg);
+        }
 
         function deleteUserCard(userCardId) {
 

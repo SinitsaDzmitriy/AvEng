@@ -1,12 +1,9 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="jstl" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
-<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
-
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
-<mytags:overallBasePage pageHeadline="AvEng">
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
-    <h1><spring:message code="headline.initial"/></h1>
-
+<spring:message code="app.name" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${pageTitle}">
+    <h1><spring:message code="initial.message"/></h1>
 </mytags:overallBasePage>

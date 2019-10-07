@@ -1,13 +1,11 @@
 package edu.sam.aveng.base.controller;
 
-import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.enumeration.StatementType;
-import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
-import edu.sam.aveng.base.model.transfer.user.credentials.IUserCredentials;
-import edu.sam.aveng.base.model.transfer.user.credentials.UserCredentials;
+import edu.sam.aveng.base.model.dto.CardDto;
+import edu.sam.aveng.base.model.dto.PronunciationDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.service.user.IUserService;
 import edu.sam.aveng.base.service.usercard.IUserCardService;
 
@@ -25,16 +23,16 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-@RequestMapping({"/test"})
+@RequestMapping({"/demo"})
 @EnableTransactionManagement
 public class TestController {
 
     @Autowired
     IUserCardService tempService;
 
-    @RequestMapping(value = "/main", method = GET)
+    @RequestMapping(value = "/like-vs-fts", method = GET)
     public String test() {
-        return "test";
+        return "likeVsFts";
     }
 
     @RequestMapping(value = "/temp", method = GET)

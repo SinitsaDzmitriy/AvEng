@@ -1,23 +1,18 @@
-<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 
+<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 
 <head>
+    <title>
+        <spring:message code="title.like-vs-fts"/>
+    </title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <style>
-
-    </style>
-
-    <title>Test</title>
-
 </head>
 
 <body>
@@ -30,14 +25,28 @@
         <div class="col-10">
 
             <div class="row mt-1">
-                <button type="button" class="btn btn-primary btn-block">Back to homepage</button>
+                <div class="col-12">
+                    <button type="button" id="homepageBtn"
+                            class="btn btn-block btn-primary shadow-none"
+                            onclick="location.href = location.origin">
+                        <spring:message code="demo.like-vs-fts.button.homepage"/>
+                    </button>
+                </div>
             </div>
 
+
             <div class="row mt-1">
-                <div class="input-group">
-                    <input id="searchInput" class="form-control" type="text" placeholder="Enter word or phrase">
-                    <div class="input-group-append">
-                        <button id="performSearchBtn" class="btn btn-primary" type="button">Search</button>
+                <div class="col-12">
+                    <div class="input-group">
+                        <spring:message code="demo.like-vs-fts.input.search" var="searchPlaceholder"/>
+                        <input id="searchInput" class="form-control shadow-none" type="text"
+                               placeholder="${searchPlaceholder}">
+                        <div class="input-group-append">
+                            <button type="button" id="performSearchBtn"
+                                    class="btn btn-primary shadow-none">
+                                <spring:message code="demo.like-vs-fts.button.search"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,14 +68,16 @@
                                     <table id="likeTable" class="table table-bordered">
 
                                         <caption>
-                                            Results of search on LIKEs
+                                            <spring:message code="demo.like-vs-fts.table.caption.like"/>
                                         </caption>
 
                                         <thead class="d-block w-100 wr-2">
 
                                         <tr class="table-primary d-flex">
                                             <th scope="col" style="width: 120px;">#</th>
-                                            <th scope="col" class="w-100">Content</th>
+                                            <th scope="col" class="w-100">
+                                                <spring:message code="sample.attribute.label.content"/>
+                                            </th>
                                         </tr>
 
                                         </thead>
@@ -103,14 +114,16 @@
                                 <table id="fullTextTable" class="table table-bordered">
 
                                     <caption>
-                                        Results of Full-Text Search
+                                        <spring:message code="demo.like-vs-fts.table.caption.fts"/>
                                     </caption>
 
                                     <thead class="d-block w-100 wr-2">
 
                                     <tr class="table-primary d-flex">
                                         <th scope="col" style="width: 120px;">#</th>
-                                        <th scope="col" class="w-100">Content</th>
+                                        <th scope="col" class="w-100">
+                                            <spring:message code="sample.attribute.label.content"/>
+                                        </th>
                                     </tr>
 
                                     </thead>
@@ -150,6 +163,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<spring:message code="demo.like-vs-fts.statistics.results" var="results"/>
+<spring:message code="demo.like-vs-fts.statistics.seconds" var="seconds"/>
+
 <script>
 
     $(document).ready(function () {
@@ -163,6 +179,12 @@
         var fullTextStatisticsWrapperId = "#fullTextStatisticsWrapper";
         var fullTextTableBodyId = "#fullTextTableBody";
 
+        $(searchInputId).keypress(function (event) {
+            if (event.which === 13) {
+                $(performSearchBtnId).click();
+            }
+        });
+
         $(performSearchBtnId).click(function () {
 
             var searchInputVal = $(searchInputId).val();
@@ -173,7 +195,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/test/test-samples/search/like?input=" + searchInputVal,
+                    url: location.origin + "/api/demo/test-samples/search/like?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
@@ -186,7 +208,7 @@
                         $(likeTableBodyId).empty();
 
                         var likeStatistics = $("<div class='alert alert-primary w-100 m-0'>"
-                            + "<p class='m-0'>" + testSamples.length + " results (" + response.time + " seconds)" + "</p>"
+                            + "<p class='m-0'>${results}: " + testSamples.length + " (${seconds}: " + response.time + ")</p>"
                             + "</div>");
 
                         $(likeStatisticsWrapperId).append(likeStatistics);
@@ -215,7 +237,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/test/test-samples/search/full-text?input=" + searchInputVal,
+                    url: location.origin + "/api/demo/test-samples/search/full-text?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
@@ -228,7 +250,7 @@
                         $(fullTextTableBodyId).empty();
 
                         var fullTextStatistics = $("<div class='alert alert-primary w-100 m-0'>"
-                            + "<p class='m-0'>" + testSamples.length + " results (" + response.time + " seconds)" + "</p>"
+                            + "<p class='m-0'>${results}: " + testSamples.length + " (${seconds}: " + response.time + ")</p>"
                             + "</div>");
 
                         $(fullTextStatisticsWrapperId).append(fullTextStatistics);

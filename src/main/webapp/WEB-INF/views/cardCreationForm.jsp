@@ -1,14 +1,15 @@
+<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+
 <%@ taglib prefix="spring_form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
-<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
 <%@ page import="edu.sam.aveng.base.model.enumeration.StatementType" %>
 
-<mytags:overallBasePage pageHeadline="Create Card">
+<spring:message code="title.cards.create" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${pageTitle}">
 
     <div class="container-fluid d-flex h-100 flex-column">
 
@@ -42,7 +43,7 @@
 
                     <div class="carousel-inner h-100">
 
-                        <form id="cardCreationForm" class="h-100 m-0">
+                        <form id="cardCreationForm" class="h-100 m-0" autocomplete="off">
 
                             <div class="container-fluid d-flex h-100 flex-column">
 
@@ -157,7 +158,7 @@
                                                     <div class="input-group-append">
                                                         <button id="addSampleBtn" type="button"
                                                                 class="btn btn-secondary shadow-none">
-                                                            <spring:message code="button.sample.add"/>
+                                                            <spring:message code="cards.common.samples.add"/>
                                                         </button>
                                                     </div>
 
@@ -174,7 +175,7 @@
                                                        data-toggle="collapse"
                                                        data-target="#existentSamplesBody">
 
-                                                        <spring:message code="button.sample.check-existent"/>
+                                                        <spring:message code="cards.common.samples.check-existent.button"/>
                                                     </a>
 
                                                     <div id="existentSamplesBody" class="collapse"
@@ -193,9 +194,10 @@
 
                                                 <br>
 
+                                                <spring:message code="cards.create.button.submit" var="createCardBtnValue"/>
                                                 <input id="createCardBtn"
                                                        type="submit"
-                                                       value="Create card"
+                                                       value="${createCardBtnValue}"
                                                        class="btn btn-block btn-warning border-secondary shadow-none my-1"/>
 
                                             </div>
@@ -253,7 +255,7 @@
             </div>
 
             <div class="modal-body">
-                <spring:message code="card.creation.alert.samples-deletion"/>
+                <spring:message code="cards.create.samples.deletion-alert"/>
             </div>
 
             <div class="modal-footer">
@@ -275,6 +277,8 @@
 </mytags:overallBasePage>
 
 <spring:url value="/resources/images/liftUpIcon.svg" var="liftUpIconPath"/>
+<spring:message code="cards.common.samples.check-existent.caution.empty" var="existentSamplesEmptyMsg"/>
+<spring:message code="cards.common.samples.check-existent.caution.failure" var="existentSamplesFailureMsg"/>
 
 <script>
 
@@ -504,7 +508,7 @@
                                 caution = $(
                                     "<li class='list-group-item list-group-item-warning p-2'>" +
                                     "<p class='text-center m-0'>" +
-                                    "Sorry, there is no appropriate Samples." +
+                                    "${existentSamplesEmptyMsg}" +
                                     "</p>" +
                                     "</li>"
                                 );
@@ -514,7 +518,7 @@
                                 caution = $(
                                     "<li class='list-group-item list-group-item-danger p-2'>" +
                                     "<p class='text-center m-0'>" +
-                                    "Failed to load existing examples." +
+                                    "${existentSamplesFailureMsg}" +
                                     "</p>" +
                                     "</li>"
                                 );
@@ -964,15 +968,11 @@
 
     });
 
-    function sendSynchCardCreationRequest() {
-        alert("stub");
-    }
-
     $(cardCreationFormId).submit(function (event) {
 
         event.preventDefault();
 
-        var samplesJson = "";
+        var samplesJson = '"samples" : [';
         var samples = [];
 
         if ($(sampleInputClass).length > 0) {
@@ -984,7 +984,7 @@
 
             console.log(samples);
 
-            samplesJson = '"samples" : [{"content" : "' + samples[0] + '"}';
+            samplesJson += '{"content" : "' + samples[0] + '"}';
 
             if (samples.length > 1) {
 
@@ -993,11 +993,9 @@
                 }
 
             }
-
-            samplesJson += ']';
-
         }
 
+        samplesJson += ']';
         console.log(samplesJson);
 
         var card = '{'
@@ -1012,19 +1010,18 @@
             + '}';
 
         $.ajax({
-            url: location.origin + "/api/cards/persist",
+            url: location.origin + "/api/cards/create",
             data: card,
             type: "POST",
             contentType: "application/json"
         })
 
             .done(function () {
-                alert("OK!");
-                location.pathname = "/cards/display/list";
+                location.href = location.origin + "/cards/display/table";
             })
 
             .fail(function () {
-                alert("Error!");
+                console.log("Error!");
             });
 
 

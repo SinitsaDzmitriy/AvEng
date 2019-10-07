@@ -1,8 +1,8 @@
 package edu.sam.aveng.base.service.card;
 
 import edu.sam.aveng.base.model.enumeration.Lang;
-import edu.sam.aveng.base.model.transfer.dto.CardDto;
-import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
+import edu.sam.aveng.base.model.dto.CardDto;
+import edu.sam.aveng.base.model.transfer.CardTableItem;
 
 import java.util.List;
 import java.util.Map;

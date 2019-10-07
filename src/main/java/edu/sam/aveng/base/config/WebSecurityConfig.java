@@ -72,8 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/", "/initial",
                 "/register", "/login",
                 "/cards/search", "/cards/display/**",
-                "/resources/**",
-                "/errors/**"
+                "/favicon.ico", "/resources/**",
+                "/errors/**",
+                "/api/demo/**", "/demo/**"
         };
 
         String[] additionalUserUrls = {
@@ -82,10 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
 
         http.authorizeRequests()
-
                 .antMatchers(devUrls)
                 .permitAll()
-
                 .antMatchers(publicUrls)
                 .permitAll()
                 .antMatchers(additionalUserUrls)

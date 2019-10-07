@@ -43,22 +43,15 @@ public class Card implements Identifiable, Serializable {
     @Column(nullable = false)
     private StatementType type;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "pronunciation_id",
-                    foreignKey = @ForeignKey(name = "PRON_ID_FK"))
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "pronunciation_id", foreignKey = @ForeignKey(name = "PRON_ID_FK"))
     private Pronunciation pron;
 
     @Column(nullable = false)
     private String definition;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     private Set<Sample> samples = new HashSet<>();
-
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id",
-            foreignKey = @ForeignKey(name = "IMAGE_ID_FK"))
-    private Image image;
 
     @OneToMany(mappedBy = "sourceCard",
             cascade = CascadeType.ALL,
@@ -89,10 +82,6 @@ public class Card implements Identifiable, Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public void setDefinition(String definition) {

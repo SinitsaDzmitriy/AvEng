@@ -6,7 +6,7 @@ import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
 import edu.sam.aveng.base.contract.v1.service.StandardGenericCrudService;
 import edu.sam.aveng.base.converter.search.ISearchInputConverter;
 import edu.sam.aveng.base.model.entity.Sample;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

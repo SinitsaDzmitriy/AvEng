@@ -3,7 +3,7 @@ package edu.sam.aveng.base.dao.card;
 import edu.sam.aveng.base.contract.v2.dao.IGenericDao;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.enumeration.Lang;
-import edu.sam.aveng.base.model.transfer.dto.CardTableItem;
+import edu.sam.aveng.base.model.transfer.CardTableItem;
 
 import java.util.List;
 import java.util.Map;

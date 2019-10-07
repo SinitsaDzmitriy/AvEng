@@ -3,7 +3,7 @@ package edu.sam.aveng.base.controller;
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.contract.v1.controller.AbstractCrudRestController;
 import edu.sam.aveng.base.model.entity.Sample;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
 import edu.sam.aveng.base.service.sample.ISampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

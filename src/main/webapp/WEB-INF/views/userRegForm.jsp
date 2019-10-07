@@ -19,13 +19,13 @@ Designed to:
     body {
         padding-top: 40px;
         padding-bottom: 40px;
-
+        background-color: #eee !important;
     }
 </style>
 
 <head>
 
-    <title><spring:message code="title.user.registration"/></title>
+    <title><spring:message code="title.users.reg.form"/></title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -33,9 +33,7 @@ Designed to:
 
 </head>
 
-<spring:message code="validation.common.password.mismatch" var="retypedPassMismatchValidationHint"/>
-
-<body style="background-color: #eee;">
+<body>
 
 <div class="container">
 
@@ -46,9 +44,7 @@ Designed to:
                       cssClass="m-auto"
                       cssStyle="max-width: 330px;">
 
-        <h2><spring:message code="headline.user.registration"/></h2>
-
-        <%--        <spring_form:errors path="*" element="div" cssClass="errors"/>--%>
+        <h2><spring:message code="users.reg.form.headline"/></h2>
 
         <div class="mb-3">
             <spring:message code="user.attribute.placeholder.email" var="emailPlaceholder"/>
@@ -89,16 +85,16 @@ Designed to:
 
         <div class="mb-3">
             <spring:message code="user.attribute.placeholder.password.confirmatory" var="confirmatoryPassPlaceholder"/>
+            <spring:message code="validation.front.password.mismatch" var="retypedPassMismatchValidationHint"/>
             <input id="retypedPassword"
                    type="password"
                    class="form-control"
                    style="padding: 10px; min-height: 42px;"
                    placeholder="${confirmatoryPassPlaceholder}"
                    required="required"/>
-
         </div>
 
-        <spring:message code="button.user.register" var="registerBtnCaption"/>
+        <spring:message code="users.reg.form.button" var="registerBtnCaption"/>
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="${registerBtnCaption}"/>
 
     </spring_form:form>
@@ -111,7 +107,6 @@ Designed to:
 </script>
 
 <script>
-
     $("#userRegistrationForm").submit(function(event) {
 
         var emailInput = document.getElementById("email");

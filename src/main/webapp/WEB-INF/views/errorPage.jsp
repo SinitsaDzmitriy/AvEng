@@ -46,7 +46,7 @@
 
         <spring:url value="/" var="homePagePath"/>
         <a class="btn btn-secondary border rounded-pill shadow-none" href="${homePagePath}">
-            <spring:message code="common.caption.homepage"/>
+            <spring:message code="common.homepage"/>
         </a>
 
     </div>

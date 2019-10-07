@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer.user.credentials;
+package edu.sam.aveng.base.model.transfer;
 
 public interface IUserCredentials {
     String getEmail();

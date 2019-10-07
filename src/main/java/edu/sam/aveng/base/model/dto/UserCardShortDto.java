@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer.dto;
+package edu.sam.aveng.base.model.dto;
 
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.enumeration.StatementType;

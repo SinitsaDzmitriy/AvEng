@@ -1,17 +1,19 @@
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="spring_security" uri="http://www.springframework.org/security/tags" %>
 
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags" %>
 
-<mytags:overallBasePage pageHeadline="${cardDto.content} Card">
+<spring:message code="title.cards.display.one" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${cardDto.content} | ${pageTitle}">
 
     <div class="d-flex justify-content-center align-items-center">
         <div class="card" style="width: 23rem;">
 
             <h5 class="card-header">
-                <spring:message code="headline.card.read" arguments="${cardDto.id}"/>
+                <spring:message code="cards.display.one.header" arguments="${cardDto.id}"/>
             </h5>
 
             <div class="bg-primary d-flex justify-content-center">
@@ -41,7 +43,7 @@
                     <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
                 </button>
 
-                <span id="cardTranscription" class="text-orangered">[${cardDto.pron.transcription}]</span>
+                <span id="cardTranscription" style="color: orangered;">[${cardDto.pron.transcription}]</span>
 
                 <br>
 
@@ -66,10 +68,10 @@
                     <br>
 
                     <button type="button"
-                            class="btn btn-primary btn-block border-secondary"
+                            class="btn btn-primary btn-block border shadow-none"
                             data-toggle="modal"
                             data-target="#userCardCreationModal">
-                        <spring:message code="button.card.add-to-dictionary"/>
+                        <spring:message code="user-cards.add.form.button.show"/>
                     </button>
 
                 </spring_security:authorize>
@@ -91,7 +93,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="userCardCreationFormLabel">
-                                <spring:message code="user-card.adding-form.headline"/>
+                                <spring:message code="user-cards.add.form.headline"/>
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -105,7 +107,7 @@
                                 <div class="form-group">
 
                                     <label for="userCardStatusSelect">
-                                        <spring:message code="user-card.adding-form.attribute.status.caption"/>
+                                        <spring:message code="user-card.status.label"/>
                                     </label>
                                     <div id="userCardStatusSelect">
                                         <mytags:statusSelect/>
@@ -117,13 +119,13 @@
 
                                     <label for="additionalSample">
                                         <spring:message
-                                                code="user-card.adding-form.attribute.additional-sample.caption"/>
+                                                code="user-card.additional-sample.label"/>
                                     </label>
 
                                     <spring:message var="additionalSamplePlaceholder"
                                                     code="common.placeholder.input"/>
                                     <input id="additionalSample"
-                                           class="form-control"
+                                           class="form-control shadow-none"
                                            name="userSample"
                                            type="text"
                                            aria-describedby="emailHelp"
@@ -131,12 +133,12 @@
 
                                     <small id="emailHelp" class="form-text text-muted">
                                         <spring:message
-                                                code="user-card.adding-form.attribute.additional-sample.recommendation.intro"/>
+                                                code="user-cards.add.recommendation.additional-sample.intro"/>
                                         <ul>
                                             <li><spring:message
-                                                    code="user-card.adding-form.attribute.additional-sample.recommendation.source"/></li>
+                                                    code="user-cards.add.recommendation.additional-sample.source"/></li>
                                             <li><spring:message
-                                                    code="user-card.adding-form.attribute.additional-sample.recommendation.new"/></li>
+                                                    code="user-cards.add.recommendation.additional-sample.new"/></li>
                                         </ul>
                                     </small>
 
@@ -147,7 +149,10 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-create-user-card">Add</button>
+                            <button type="button" id="btn-create-user-card"
+                                    class="btn btn-primary border shadow-none">
+                                <spring:message code="user-cards.add.form.button.submit"/>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -159,18 +164,23 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h5 class="modal-title">Result</h5>
+                            <h5 class="modal-title">
+                                <spring:message code="user-cards.add.result.headline"/>
+                            </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
 
                         <div class="modal-body">
-                            Card was added successfully! You will find it when checks your dictionary next time.
+                            <spring:message code="user-cards.add.result.message.success"/>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                            <button type="button" data-dismiss="modal"
+                                    class="btn btn-primary border shadow-none" >
+                                OK
+                            </button>
                         </div>
 
                     </div>
@@ -183,14 +193,16 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h5 class="modal-title">Result</h5>
+                            <h5 class="modal-title">
+                                <spring:message code="user-cards.add.result.headline"/>
+                            </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
 
                         <div id="failModalBody" class="modal-body">
-                            Error is occurred. Card wasn't added.
+                            <spring:message code="user-cards.add.result.message.fail"/>
                         </div>
 
                         <div class="modal-footer">

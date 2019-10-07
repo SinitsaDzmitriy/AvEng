@@ -4,7 +4,7 @@ import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
 import edu.sam.aveng.base.contract.v1.service.ICrudService;
 import edu.sam.aveng.base.model.entity.Sample;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
 
 import java.util.List;
 

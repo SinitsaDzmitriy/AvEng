@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/demo")
 public class TestRestController {
 
     private SessionFactory sessionFactory;
@@ -52,16 +52,14 @@ public class TestRestController {
 
         Map<String, Object> response = new HashMap<>();
 
-        List<String> words = analyze(input, new StandardAnalyzer());
+        List<String> words = tokenize(input, new StandardAnalyzer());
         List<List<String>> permutations = getPermutations(words);
         List<String> likeCriterias = new ArrayList<>();
 
-        System.out.println(permutations);
+        int wordsCount = words.size();
+        int permutationsCount = permutations.size();
 
-        int numberOfWords = words.size();
-        int numberOfPermutations = permutations.size();
-
-        if (numberOfPermutations == 1) {
+        if (permutationsCount == 1) {
 
             String criteriaToMatchStringBeginning = "'" + permutations.get(0).get(0) + " %'";
             String criteriaToMatchStringMiddle = "'% " + permutations.get(0).get(0) + " %'";
@@ -74,33 +72,32 @@ public class TestRestController {
             likeCriterias.add(criteriaToMatchStringExclamationEnd);
 
         } else {
-
             for (List<String> permutation : permutations) {
 
                 StringBuilder firstTermStart = new StringBuilder()
                         .append("'")
                         .append(permutation.get(0));
 
-                StringBuilder firstTermMiddle =  new StringBuilder()
+                StringBuilder firstTermMiddle = new StringBuilder()
                         .append("'% ")
                         .append(permutation.get(0));
 
                 StringBuilder lastTermMiddle = new StringBuilder()
                         .append(" %")
-                        .append(permutation.get(numberOfWords - 1))
+                        .append(permutation.get(wordsCount - 1))
                         .append(".'");
 
                 StringBuilder lastTermEnd = new StringBuilder()
                         .append(" %")
-                        .append(permutation.get(numberOfWords - 1))
+                        .append(permutation.get(wordsCount - 1))
                         .append(" %'");
 
                 StringBuilder criteriaCommonPart = new StringBuilder();
 
-                for (int i = 1; i < numberOfWords - 1; i++) {
+                for (int i = 1; i < wordsCount - 1; i++) {
                     criteriaCommonPart
-                        .append(" %")
-                        .append(permutation.get(i));
+                            .append(" %")
+                            .append(permutation.get(i));
                 }
 
                 String middleCriteria = new StringBuilder()
@@ -131,41 +128,10 @@ public class TestRestController {
                 likeCriterias.add(startEndCriteria);
                 likeCriterias.add(startCriteria);
                 likeCriterias.add(endCriteria);
-
             }
-
         }
 
         System.out.println(likeCriterias);
-
-//        StringBuilder criteriaToMatchStringBeginningBuilder = new StringBuilder();
-//        StringBuilder criteriaToMatchOtherPositionsBuilder = new StringBuilder();
-//        StringBuilder criteriaCommonPart = new StringBuilder();
-//
-//        criteriaToMatchStringBeginningBuilder
-//                .append("'")
-//                .append(words.get(0))
-//                .append(" %");
-//
-//        criteriaToMatchOtherPositionsBuilder
-//                .append("'% ")
-//                .append(words.get(0))
-//                .append(" %");
-//
-//        for (int i = 1; i < words.size() - 1; i++) {
-//            criteriaCommonPart
-//                    .append(words.get(i))
-//                    .append(" %");
-//        }
-//
-//        criteriaCommonPart
-//                .append(words.get(words.size() - 1))
-//                .append("%'");
-//
-//        List<String> likeCriterias = new ArrayList<>(2);
-//
-//        likeCriterias.add(criteriaToMatchStringBeginningBuilder.append(criteriaCommonPart).toString());
-//        likeCriterias.add(criteriaToMatchOtherPositionsBuilder.append(criteriaCommonPart).toString());
 
         long startTime = System.nanoTime();
 
@@ -186,7 +152,6 @@ public class TestRestController {
     @GetMapping("/test-samples/search/full-text")
     @Transactional
     public Map<String, Object> fullTextSearch(@RequestParam String input) {
-
         Map<String, Object> response = new HashMap<>();
 
         FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.openSession());
@@ -223,7 +188,7 @@ public class TestRestController {
         return response;
     }
 
-    private List<String> analyze(String text, Analyzer analyzer) throws IOException {
+    private List<String> tokenize(String text, Analyzer analyzer) throws IOException {
         List<String> result = new ArrayList<String>();
         TokenStream tokenStream = analyzer.tokenStream("text", text);
         CharTermAttribute attr = tokenStream.addAttribute(CharTermAttribute.class);
@@ -235,20 +200,14 @@ public class TestRestController {
     }
 
     private List<List<String>> getPermutations(List<String> words) {
-
         List<List<String>> permutations;
         int numberOfWords = words.size();
 
         switch (numberOfWords) {
-
             case 1:
-
-                /*
-                    One word => only one permutation.
-                    1. Create list for all permutations with initial capacity = 1
-                    2. Create list for the only permutation containing the passed word
-                */
-
+                // One word => only one permutation.
+                // 1. Create list for all permutations with initial capacity = 1
+                // 2. Create list for the only permutation containing the passed word
                 permutations = new ArrayList<>(1);
 
                 List<String> singlePermutation = new ArrayList<>(1);
@@ -259,15 +218,12 @@ public class TestRestController {
                 break;
 
             case 2:
-
                 /*
                     Two words (recursion endpoint) => 2 permutations: direct and reverse order of elements
                     1. Create list for all permutations with initial capacity = 2
                     2. Create list for the permutation with direct word order
                     3. Create list for the permutation with reverse word order
-
                 */
-
                 permutations = new ArrayList<>(2);
 
                 List<String> directPermutation = new ArrayList<>(2);
@@ -284,16 +240,13 @@ public class TestRestController {
                 break;
 
             default:
-
                 /*
                     1. Count number of permutations.
                     2. Create list for permutation.
                 */
-
                 int numberOfPermutations;
 
-                // Count number of permutations.
-
+                // calculate permutations count.
                 numberOfPermutations = 1;
 
                 for (int i = 2; i <= numberOfWords; i++) {
@@ -301,13 +254,11 @@ public class TestRestController {
                 }
 
                 // Create list for permutations
-
                 permutations = new ArrayList<>(numberOfPermutations);
 
                 int numberOfTilePermutations;
 
                 for (int i = 0; i < numberOfWords; i++) {
-
                     String permutationStartWord = words.get(i);
 
                     List<String> tileWords = new ArrayList<String>(numberOfWords);
@@ -320,21 +271,14 @@ public class TestRestController {
                     List<String> permutation;
 
                     for (int j = 0; j < numberOfTilePermutations; j++) {
-
                         permutation = new ArrayList<>(numberOfWords);
                         permutation.add(permutationStartWord);
                         permutation.addAll(tilePermutations.get(j));
 
                         permutations.add(permutation);
-
                     }
-
                 }
-
         }
-
         return permutations;
-
     }
-
 }

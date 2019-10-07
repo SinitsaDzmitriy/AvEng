@@ -1,6 +1,6 @@
 <%@ tag description="generic page base" pageEncoding="UTF-8" %>
 
-<%@attribute name="pageHeadline" required="true" %>
+<%@ attribute name="pageTitle" required="true" %>
 
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -29,7 +29,7 @@
         }
     </style>
 
-    <title>${pageHeadline}</title>
+    <title>${pageTitle}</title>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 <div class="container-fluid d-flex h-100 w-100 flex-column">
     <!-- I want this container to stretch to the height of the parent -->
     <header class="row border-bottom border-secondary">
-        <div class="col-1 d-md-none d-flex justify-content-center align-items-center px-0">
+        <div class="col-1 d-lg-none d-flex justify-content-center align-items-center px-0">
 
             <div class="dropdown">
 
@@ -54,14 +54,14 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="dropdown-item" href="${homePagePath}">
-                        <spring:message code="common.caption.homepage"/>
+                        <spring:message code="common.homepage"/>
                     </a>
 
                     <security:authorize access="isFullyAuthenticated()">
 
                         <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
                         <a class="dropdown-item" href="${personalDictionaryPath}">
-                            <spring:message code="sidebar.anchor.user-cards"/>
+                            <spring:message code="sidebar.anchor.user-cards.all"/>
                         </a>
 
                     </security:authorize>
@@ -76,7 +76,7 @@
 
                         <spring:url value="/cards/display/list" var="cardListPagePath"/>
                         <a class="dropdown-item" href="${cardListPagePath}">
-                            <spring:message code="sidebar.anchor.cards"/>
+                            <spring:message code="sidebar.anchor.cards.table"/>
                         </a>
 
                         <spring:url value="/cards/create" var="cardCreatePagePath"/>
@@ -92,14 +92,14 @@
 
         </div>
 
-        <div class="col-1 col-md-2 text-center px-0">
+        <div class="col-1 col-lg-2 text-center px-0">
 
             <spring:url value="/initial" var="initialPagePath"/>
             <a class="navbar-brand nav-link h-100 w-100 mx-0 my-1 py-2" href="${initialPagePath}">
                 <div class="media d-flex justify-content-center">
                     <spring:url value="/resources/images/logo.svg" var="logoPath"/>
                     <img src="${logoPath}" width="32" height="30" class="d-inline-block align-top" alt="">
-                    <div class="d-none d-md-flex">
+                    <div class="d-none d-lg-flex">
                         <div class="media-body w-auto text-secondary">AvEng</div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
 <%--                    Language--%>
 <%--                </button>--%>
 
-                <select title="Language" id="siteLang" class="selectpicker">
+                <select id="siteLang" title="Language" class="selectpicker">
                     <option>Русский</option>
                     <option>English</option>
                 </select>
@@ -131,11 +131,11 @@
 
         <div class="col px-0">
 
-            <form id="searchForm" class="d-none d-md-flex w-100 m-0" method="get" action="/cards/search" autocomplete="off">
+            <form id="searchForm" class="d-none d-lg-flex w-100 m-0" method="get" action="/cards/search" autocomplete="off">
 
                 <div class="input-group mx-1 my-2">
 
-                    <spring:message code="nav.search.placeholder" var="searchPlaceholder"/>
+                    <spring:message code="nav.input.search.placeholder" var="searchPlaceholder"/>
                     <input id="searchInput"
                            value=""
                            name="userInput"
@@ -166,7 +166,7 @@
 
                         <button id="searchButton" class="btn btn-warning border-secondary shadow-none rounded-right"
                                 type="submit">
-                            <spring:message code="nav.search.button"/>
+                            <spring:message code="nav.button.search"/>
                         </button>
 
                     </div>
@@ -179,7 +179,7 @@
 
         <div class="col-auto d-flex align-items-center position-static px-0">
 
-            <div class="dropdown d-md-none position-static my-1 mx-1">
+            <div class="dropdown d-lg-none position-static my-1 mx-1">
 
                 <div class="media"
                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -213,15 +213,15 @@
 
                     <div class="nav-item">
                         <spring:url value="/login" var="loginLink"/>
-                        <a href="${loginLink}" class="btn btn-light text-nowrap mx-1">
-                            <spring:message code="common.caption.login"/>
+                        <a href="${loginLink}" class="btn btn-light text-nowrap shadow-none mx-1">
+                            <spring:message code="nav.button.login"/>
                         </a>
                     </div>
 
                     <div class="nav-item">
                         <spring:url value="/register" var="registerLink"/>
-                        <a href="${registerLink}" class="btn btn-primary text-nowrap mx-1">
-                            <spring:message code="nav.register"/>
+                        <a href="${registerLink}" class="btn btn-primary text-nowrap shadow-none mx-1">
+                            <spring:message code="nav.button.register"/>
                         </a>
                     </div>
 
@@ -231,8 +231,8 @@
 
                     <div class="nav-item">
                         <spring:url value="/logout" var="logoutLink"/>
-                        <a href="${logoutLink}" class="btn btn-light text-primary text-nowrap">
-                            <spring:message code="nav.logout"/>
+                        <a href="${logoutLink}" class="btn btn-light text-primary text-nowrap shadow-none">
+                            <spring:message code="nav.button.logout"/>
                         </a>
                     </div>
 
@@ -246,7 +246,7 @@
 
     <div class="row flex-grow-1">
 
-        <div class="col-2 d-none d-md-block border-right border-secondary h-100 px-0">
+        <div class="col-2 d-none d-lg-block border-right border-secondary h-100 px-0">
 
             <nav id="sidebar" class="nav flex-column mx-5 my-3">
 
@@ -260,19 +260,19 @@
 
                     <spring:url value="/" var="homePagePath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${homePagePath}">
-                        <spring:message code="common.caption.homepage"/>
+                        <spring:message code="common.homepage"/>
                     </a>
 
-                    <spring:url value="/cards/display/list" var="displayCardsPagePath"/>
+                    <spring:url value="/cards/display/table" var="displayCardsPagePath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${displayCardsPagePath}">
-                        <spring:message code="sidebar.anchor.cards"/>
+                        <spring:message code="sidebar.anchor.cards.table"/>
                     </a>
 
                     <security:authorize access="isFullyAuthenticated()">
 
                         <spring:url value="/user_cards/display" var="personalDictionaryPath"/>
                         <a class="nav-link px-4 py-1 text-secondary" href="${personalDictionaryPath}">
-                            <spring:message code="sidebar.anchor.user-cards"/>
+                            <spring:message code="sidebar.anchor.user-cards.all"/>
                         </a>
 
                     </security:authorize>
@@ -287,39 +287,33 @@
                         </small>
                     </div>
 
-                    <ul class="pl-4 text-secondary">
-
-                        <li>
-                            <b>
-                                <spring:message code="sidebar.sub-header.users"/>
-                            </b>
-                        </li>
-
-                        <a class="nav-link text-secondary px-0 py-1" href="...">
-                            <span>list</span>
-                        </a>
-
-
-                        <li>
-                            <b>
-                                <spring:message code="sidebar.sub-header.cards"/>
-                            </b>
-                        </li>
-
-                        <spring:url value="/cards/create" var="cardCreatePagePath"/>
-                        <a class="nav-link text-secondary px-0 py-1" href="${cardCreatePagePath}">
-                            <spring:message code="sidebar.anchor.cards.create"/>
-                        </a>
-
-                    </ul>
+                    <spring:url value="/cards/create" var="cardCreatePagePath"/>
+                    <a class="nav-link text-secondary px-4 py-1" href="${cardCreatePagePath}">
+                        <spring:message code="sidebar.anchor.cards.create"/>
+                    </a>
 
                 </security:authorize>
+
+                <div id="demoPanel">
+
+                    <div class="nav-item d-flex align-items-center py-2">
+                        <small class="text-secondary">
+                            <spring:message code="sidebar.header.demo"/>
+                        </small>
+                    </div>
+
+                    <spring:url value="/demo/like-vs-fts" var="likeVsFtsPath"/>
+                    <a class="nav-link px-4 py-1 text-secondary" href="${likeVsFtsPath}">
+                        <spring:message code="sidebar.anchor.like-vs-fts"/>
+                    </a>
+
+                </div>
 
             </nav>
 
         </div>
 
-        <div class="col-12 col-md-10 p-0">
+        <div class="col-12 col-lg-10 p-0">
             <main class="p-3 h-100">
                 <jsp:doBody/>
             </main>

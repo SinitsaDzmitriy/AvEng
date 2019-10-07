@@ -11,7 +11,8 @@
     }
 </style>
 
-<mytags:overallBasePage pageHeadline="Search for ${searchInput}">
+<spring:message code="title.cards.search" var="pageTitlePart"/>
+<mytags:overallBasePage pageTitle="${pageTitlePart}: ${searchInput}">
 
     <div class="container-fluid w-75">
 
@@ -19,9 +20,20 @@
 
             <div class="row">
                 <div class="col">
-                    <div class="alert alert-warning" role="alert">
+                    <div class="alert alert-warning m-0" role="alert">
 
-                        <spring:message code="alert.search.no-results" arguments="${searchInput}"/>
+                        <p class="m-0 text-body">
+                            <spring:message code="cards.search.alert.no-results.main" arguments="<b><i>${searchInput}</i></b>"/>
+                        </p>
+                        <p class="m-0 text-body font-weight-bold">
+                            <spring:message code="cards.search.alert.no-results.tip.lang"/>
+                        </p>
+                        <p class="m-0 text-body font-weight-bold">
+                            <spring:message code="cards.search.alert.no-results.tip.typos"/>
+                        </p>
+                        <p class="m-0 text-body">
+                            <spring:message code="cards.search.alert.no-results.conclusion"/>
+                        </p>
 
                     </div>
                 </div>
@@ -46,7 +58,9 @@
                     <span class="text-orangered">[${searchItem.get("transcription")}]</span>
 
                     <spring:url value="/resources/images/playPronIcon.svg" var="playPronIconPath"/>
-                    <img src="${playPronIconPath}" width="28" height="28" alt="playPronIcon">
+                    <img src="${playPronIconPath}" style="cursor: pointer;"
+                         width="28" height="28" alt="Play pronunciation icon"
+                         onclick="playPron('${searchItem.get("content")}', '${searchInputLang.code}')">
 
                     <br>
 
@@ -56,7 +70,7 @@
 
                     <jstl:if test="${searchItem.coupledCards.size() > 0}">
 
-                        <h6><spring:message code="search.translations"/>:</h6>
+                        <h6><spring:message code="cards.search.label.translations"/>:</h6>
 
                         <ul class="m-0">
                             <jstl:forEach items="${searchItem.coupledCards}" var="card">
@@ -80,5 +94,16 @@
         </jstl:forEach>
 
     </div>
+
+    <script>
+
+        function playPron(text, lang) {
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = lang;
+            speechSynthesis.speak(msg);
+        }
+
+    </script>
 
 </mytags:overallBasePage>

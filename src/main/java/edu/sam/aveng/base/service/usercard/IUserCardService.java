@@ -4,8 +4,8 @@ import edu.sam.aveng.base.contract.v1.converter.IShortConverter;
 import edu.sam.aveng.base.contract.v1.service.ICrudService;
 import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.enumeration.Status;
-import edu.sam.aveng.base.model.transfer.dto.UserCardDto;
-import edu.sam.aveng.base.model.transfer.dto.UserCardShortDto;
+import edu.sam.aveng.base.model.dto.UserCardDto;
+import edu.sam.aveng.base.model.dto.UserCardShortDto;
 
 public interface IUserCardService extends ICrudService<UserCard,
         UserCardDto,

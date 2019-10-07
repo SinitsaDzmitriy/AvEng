@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer.dto;
+package edu.sam.aveng.base.model.dto;
 
 public class PronunciationDto {
     private String transcription;

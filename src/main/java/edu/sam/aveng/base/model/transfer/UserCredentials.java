@@ -1,5 +1,6 @@
-package edu.sam.aveng.base.model.transfer.user.credentials;
+package edu.sam.aveng.base.model.transfer;
 
+import edu.sam.aveng.base.model.transfer.IUserCredentials;
 import edu.sam.aveng.temp.validation.constraint.UniqueEmail;
 
 import javax.validation.constraints.Email;
@@ -19,7 +20,7 @@ public class UserCredentials implements IUserCredentials {
 
     @NotBlank(message = "validation.back.password.blank")
     @Size(min = 8, max = 64, message = "{validation.password.size}")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$", message = "{validation.password.pattern}")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$", message = "{validation.back.password.pattern}")
     private String password;
 
     public UserCredentials() {}

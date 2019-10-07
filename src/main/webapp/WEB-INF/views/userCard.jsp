@@ -13,7 +13,8 @@
     }
 </style>
 
-<mytags:overallBasePage pageHeadline="${userCardDto.card.content} UserCard">
+<spring:message code="title.user-cards.display.one" var="pageTitlePart"/>
+<mytags:overallBasePage pageTitle="${userCardDto.card.content} | ${pageTitlePart}">
 
     <div class="d-flex justify-content-center align-items-center">
         <div class="card" style="width: 30rem;">
@@ -35,8 +36,13 @@
 
                 <h5 class="d-inline-block"> | </h5>
 
-                <spring:url value="/resources/images/playPronIcon.svg" var="playPronIcon"/>
-                <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
+                <button id="playPronBtn"
+                        class="use-existent-sample-btn btn btn-link shadow-none p-0"
+                        type="button">
+
+                    <spring:url value="/resources/images/playPronIcon.svg" var="playPronIcon"/>
+                    <img src="${playPronIcon}" width="28" height="28" alt="playPronIcon">
+                </button>
 
                 <span id="cardTranscription" class="text-orangered">[${userCardDto.card.pron.transcription}]</span>
 
@@ -59,7 +65,7 @@
                 </ul>
 
                 <h6 class="card-subtitle my-2">
-                    <spring:message code="user-card.adding-form.attribute.additional-sample.caption"/>:
+                    <spring:message code="user-card.additional-sample.label"/>:
                 </h6>
 
                 <input id="userSample" name="updatedSample" class="list-group-item w-100 rounded" autocomplete="off"/>
@@ -144,7 +150,15 @@
 
             var userSampleId = "#userSample";
 
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = "${userCardDto.card.content}";
+            msg.lang = "${userCardDto.card.lang.code}";
+
             $(userSampleId).val("${userCardDto.userSample}");
+
+            $("#playPronBtn").click(function () {
+                speechSynthesis.speak(msg);
+            });
 
             $(".make-status-new").click(function (event) {
 

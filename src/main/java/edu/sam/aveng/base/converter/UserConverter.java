@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.converter;
 
 import edu.sam.aveng.base.model.entity.User;
-import edu.sam.aveng.base.model.transfer.user.UserTableItem;
+import edu.sam.aveng.base.model.transfer.UserTableItem;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

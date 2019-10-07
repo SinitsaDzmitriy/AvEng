@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer.user;
+package edu.sam.aveng.base.model.transfer;
 
 import java.util.Date;
 

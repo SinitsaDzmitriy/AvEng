@@ -14,8 +14,11 @@ public final class Constants {
         public static final String CARD_TABLE_ITEMS_KEY = "cardTableItems";
 
         public static final String USER_CREDENTIALS_KEY = "userCredentials";
+
+        public static final String SEARCH_INPUT_LANG = "searchInputLang";
         public static final String SEARCH_INPUT = "searchInput";
         public static final String SEARCH_OUTPUT = "searchOutput";
+
         public static final String CARD_DTO_KEY = "cardDto";
         public static final String USER_CARD_DTO_KEY = "userCardDto";
         public static final String USER_CARD_TABLE_ITEMS = "userCardTableItems";
@@ -26,8 +29,9 @@ public final class Constants {
     }
 
     public static final class View {
-        public static final String USER_REGISTRATION_FORM = "userRegistrationForm";
-        public static final String USER_ACTIVATION = "userActivation";
+        public static final String USER_REG_FORM = "userRegForm";
+        public static final String USER_REG_SUCCESS = "userRegSuccess";
+        public static final String USER_REG_ACTIVATION = "userRegActivation";
 
         public static final String CARD_CREATION_FORM = "cardCreationForm";
         public static final String CARD_UPDATE_FORM = "cardUpdateForm";

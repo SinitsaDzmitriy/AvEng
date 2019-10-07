@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.controller;
 
-import edu.sam.aveng.base.model.transfer.dto.CardDto;
+import edu.sam.aveng.base.model.dto.CardDto;
 import edu.sam.aveng.base.service.card.ICardService;
 
 import org.springframework.beans.factory.annotation.Autowired;

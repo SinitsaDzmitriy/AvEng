@@ -2,7 +2,7 @@ package edu.sam.aveng.base.converter;
 
 import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
 import edu.sam.aveng.base.model.entity.Sample;
-import edu.sam.aveng.base.model.transfer.dto.SampleDto;
+import edu.sam.aveng.base.model.dto.SampleDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

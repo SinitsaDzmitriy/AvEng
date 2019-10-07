@@ -8,8 +8,8 @@ import edu.sam.aveng.base.converter.UserConverter;
 import edu.sam.aveng.base.model.entity.SimpleGrantedAuthority;
 import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.entity.UserCard;
-import edu.sam.aveng.base.model.transfer.user.credentials.UserCredentials;
-import edu.sam.aveng.base.model.transfer.user.UserTableItem;
+import edu.sam.aveng.base.model.transfer.UserCredentials;
+import edu.sam.aveng.base.model.transfer.UserTableItem;
 
 import edu.sam.aveng.temp.dao.IPopGenericHiberDao;
 
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 @EnableTransactionManagement
 @Transactional
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
     private int EXPIRATION_PERIOD_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
@@ -136,8 +136,8 @@ public class UserServiceImpl implements IUserService {
 
         User user = userDao.findByProperty("email", s);
 
-        if(user != null && !user.isEnabled()){
-            throw new UsernameNotFoundException("User is disabled.");
+        if(user == null || !user.isEnabled()){
+            throw new UsernameNotFoundException("Not found or disabled.");
         }
         return user;
 

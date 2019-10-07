@@ -9,16 +9,15 @@
 
 <html>
 
-<!-- ToDo: Set table borders' properties in CSS file -->
-
-<mytags:overallBasePage pageHeadline="List of Cards">
+<spring:message code="title.cards.display.table" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${pageTitle}">
 
     <div class="table-responsive">
 
         <table class="table m-0">
 
             <caption>
-                <spring:message code="headline.card.read.all"/>
+                <spring:message code="cards.display.table.caption"/>
             </caption>
 
             <thead>
@@ -33,7 +32,7 @@
                 <th scope="col"><spring:message code="card.attribute.label.definition"/></th>
 
                 <security:authorize access="hasRole('ADMIN')">
-                    <th scope="col" class="text-center" colspan="2"><spring:message code="headline.actions"/></th>
+                    <th scope="col" class="text-center" colspan="2"><spring:message code="cards.display.table.admin-actions"/></th>
                 </security:authorize>
 
             </tr>
@@ -57,16 +56,16 @@
                         <td>
                             <div class="d-flex justify-content-center align-items-center">
 
-                                <button class="btn btn-warning border-secondary mx-1"
+                                <button class="btn btn-info shadow-none mx-1"
                                         type="button"
-                                        onclick="location.pathname = '/cards/update/${cardDto.id}'">
-                                    <spring:message code="button.update"/>
+                                        onclick="location.href = location.origin + '/cards/update/${cardDto.id}'">
+                                    <spring:message code="common.update"/>
                                 </button>
 
-                                <button class="btn btn-danger border-secondary mx-1"
+                                <button class="btn btn-danger shadow-none mx-1"
                                         type="button"
-                                        onclick="location.pathname = '/cards/delete/${cardDto.id}'">
-                                    <spring:message code="button.delete"/>
+                                        onclick="deleteCard('${cardDto.id}')">
+                                    <spring:message code="common.delete"/>
                                 </button>
 
                             </div>
@@ -83,17 +82,43 @@
 
     </div>
 
-    <jstl:if test = "${!isListFirst}">
-        <button id="prevCardTablePartBtn" type="button" class="btn btn-secondary">Prev.</button>
-    </jstl:if>
+    <button id="prevCardTablePartBtn" type="button" class="btn btn-secondary shadow-none">
+        <spring:message code="common.previous"/>
+    </button>
 
-    <jstl:if test = "${!isListLast}">
-        <button id="nextCardTablePartBtn" type="button" class="btn btn-secondary">Next</button>
-    </jstl:if>
+    <button id="nextCardTablePartBtn" type="button" class="btn btn-secondary shadow-none">
+        <spring:message code="common.next"/>
+    </button>
 
 </mytags:overallBasePage>
 
 <script>
+
+    $(document).ready(function () {
+
+        if(${isListFirst}){
+            $("#prevCardTablePartBtn").attr("disabled", true);
+        }
+
+        if(${isListLast}){
+            $("#nextCardTablePartBtn").attr("disabled", true);
+        }
+
+    });
+
+    function deleteCard(cardId) {
+        $.ajax({
+            type: "DELETE",
+            url: location.origin + "/api/cards/delete/" + cardId,
+        })
+            .done(function () {
+                console.log("Successful deletion.");
+                location.reload();
+            })
+            .fail(function (response) {
+                console.log("Deletion failure.");
+            })
+    }
 
     $("#nextCardTablePartBtn").click(function () {
 

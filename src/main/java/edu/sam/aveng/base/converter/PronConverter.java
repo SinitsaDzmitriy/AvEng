@@ -2,7 +2,7 @@ package edu.sam.aveng.base.converter;
 
 import edu.sam.aveng.base.contract.v1.converter.IBaseConverter;
 import edu.sam.aveng.base.model.entity.Pronunciation;
-import edu.sam.aveng.base.model.transfer.dto.PronunciationDto;
+import edu.sam.aveng.base.model.dto.PronunciationDto;
 import org.springframework.stereotype.Component;
 
 @Component

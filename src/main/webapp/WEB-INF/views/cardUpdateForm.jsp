@@ -26,7 +26,8 @@
     }
 </style>
 
-<mytags:overallBasePage pageHeadline="Card Update Form">
+<spring:message code="title.cards.update" var="pageTitle"/>
+<mytags:overallBasePage pageTitle="${cardDto.content} | ${pageTitle}">
 
     <div class="container-fluid h-100 d-flex flex-column align-items-center justify-content-center">
 
@@ -145,7 +146,7 @@
                                 <button id="addSampleBtn"
                                         class="btn btn-primary p-2 shadow-none"
                                         type="button">
-                                    <spring:message code="button.sample.add"/>
+                                    <spring:message code="cards.common.samples.add"/>
                                 </button>
                             </div>
 
@@ -160,7 +161,7 @@
                                data-toggle="collapse"
                                data-target="#existentSamplesBody">
 
-                                <spring:message code="button.sample.check-existent"/>
+                                <spring:message code="cards.common.samples.check-existent.button"/>
                             </a>
 
                             <div id="existentSamplesBody" class="collapse" aria-labelledby="existentSamplesCollapserHeader">
@@ -179,16 +180,16 @@
                         <div id="actionButtons" class="btn-group d-flex mt-2">
 
                             <button id="updateCardBtn"
-                                    class="btn btn-block btn-primary d-inline-block shadow-none"
+                                    class="btn btn-block btn-info d-inline-block shadow-none"
                                     type="submit">
-                                <spring:message code="button.update"/>
+                                <spring:message code="common.update"/>
                             </button>
 
                             <button id="deleteCardBtn"
                                     class="btn btn-danger shadow-none"
                                     type="button"
-                                    onclick="location.pathname = '/cards/delete/${cardDto.id}'">
-                                <spring:message code="button.delete"/>
+                                    onclick="deleteCard('${cardDto.id}')">
+                                <spring:message code="common.delete"/>
                             </button>
 
                         </div>
@@ -229,8 +230,8 @@
 
     // Caution messages
 
-    var loadExistentSamplesEmptyCaution = "<spring:message code='sample.load-existent.caution.empty'/>";
-    var loadExistentSamplesFailureCaution = "<spring:message code='sample.load-existent.caution.failure'/>";
+    var loadExistentSamplesEmptyCaution = "<spring:message code='cards.common.samples.check-existent.caution.empty'/>";
+    var loadExistentSamplesFailureCaution = "<spring:message code='cards.common.samples.check-existent.caution.failure'/>";
 
     // Variables with IDs' and classes' names for jQuery:
 
@@ -467,6 +468,20 @@
         }
 
     });
+
+    function deleteCard(cardId) {
+        $.ajax({
+            type: "DELETE",
+            url: location.origin + "/api/cards/delete/" + cardId
+        })
+            .done(function () {
+                console.log("Successful deletion.");
+                location.href = location.origin + "/cards/display/table";
+            })
+            .fail(function (response) {
+                console.log("Deletion failure.");
+            })
+    }
 
     /*
     ====================================================================================================================

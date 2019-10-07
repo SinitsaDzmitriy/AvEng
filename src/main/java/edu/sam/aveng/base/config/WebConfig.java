@@ -128,7 +128,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         registry.addResourceHandler("/resources/styles/**")
                 .addResourceLocations("/WEB-INF/styles/")
                 .setCachePeriod(31556926);
@@ -136,7 +135,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/images/**")
                 .addResourceLocations("/WEB-INF/images/")
                 .setCachePeriod(31556926);
-
     }
 
 }

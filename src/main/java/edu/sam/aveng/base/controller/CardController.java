@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.controller;
 
 import edu.sam.aveng.base.model.enumeration.Lang;
-import edu.sam.aveng.base.model.transfer.dto.CardDto;
+import edu.sam.aveng.base.model.dto.CardDto;
 import edu.sam.aveng.base.service.card.ICardService;
 import edu.sam.aveng.base.util.Constants;
 import org.slf4j.Logger;
@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/cards")
+@RequestMapping("/cards")
 public class CardController {
 
-    private final String DEFAULT_CARD_TABLE_SIZE = "5";
+    private final String DEFAULT_CARD_TABLE_SIZE = "20";
     private final String DEFAULT_CARD_TABLE_PAGE_NUMBER = "1";
 
     private ICardService cardService;
@@ -43,15 +43,14 @@ public class CardController {
         return Constants.View.CARD_CREATION_FORM;
     }
 
-    @GetMapping(value = "/display/list")
-    public String create(Model model) {
-        model.addAttribute(cardService.findAllAsTableItems());
-        return "cardList";
+    @RequestMapping(value = "/display/{cardId}", method = RequestMethod.GET)
+    public String spittle(Model model, @PathVariable long cardId) {
+        LOGGER.info("Displaying card with id={}.", cardId);
+        model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
+        return "card";
     }
 
-
-
-    @GetMapping(value = "/display/table")
+    @GetMapping("/display/table")
     public String displayCardTable(Model model,
             @RequestParam(defaultValue = DEFAULT_CARD_TABLE_SIZE) int pageSize,
             @RequestParam(defaultValue = DEFAULT_CARD_TABLE_PAGE_NUMBER) int pageNum) {
@@ -83,15 +82,6 @@ public class CardController {
         return "cardTable";
     }
 
-
-
-    @RequestMapping(value = "/display/{cardId}", method = RequestMethod.GET)
-    public String spittle(Model model, @PathVariable long cardId) {
-        LOGGER.info("Displaying card with id={}.", cardId);
-        model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
-        return "card";
-    }
-
     @RequestMapping(value = "/update/{cardId}", method = RequestMethod.GET)
     public String displayCardUpdateForm(@PathVariable long cardId, Model model) {
         LOGGER.info("Displaying update form for Card with id={}.", cardId);
@@ -114,7 +104,7 @@ public class CardController {
         cardService.update(cardId, cardDto);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
 
-        return "redirect:/cards/display/list";
+        return "redirect:/cards/display/table";
     }
 
     @RequestMapping(value = "/delete/{cardId}", method = RequestMethod.GET)
@@ -122,7 +112,7 @@ public class CardController {
         LOGGER.info("Deletion card with id={}.", cardId);
         cardService.delete(cardId);
         LOGGER.debug("Redirection to \"{}\"", "/card/list");
-        return "redirect:/cards/display/list";
+        return "redirect:/cards/display/table";
     }
 
     @GetMapping("/search")
@@ -144,8 +134,9 @@ public class CardController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Provide correct supported languages", new IllegalArgumentException());
         } else {
             List<Map> searchOutput = cardService.search(usedLang, desiredLang, userInput);
-            model.addAttribute(Constants.Model.SEARCH_OUTPUT, searchOutput);
+            model.addAttribute(Constants.Model.SEARCH_INPUT_LANG, usedLang);
             model.addAttribute(Constants.Model.SEARCH_INPUT, userInput);
+            model.addAttribute(Constants.Model.SEARCH_OUTPUT, searchOutput);
         }
         return Constants.View.SEARCH_OUTPUT;
     }

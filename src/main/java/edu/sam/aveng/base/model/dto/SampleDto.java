@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.model.transfer.dto;
+package edu.sam.aveng.base.model.dto;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;

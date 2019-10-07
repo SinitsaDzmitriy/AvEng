@@ -6,7 +6,7 @@
 <%@ tag import="edu.sam.aveng.base.model.enumeration.Status" %>
 
 <label>
-    <select class="form-control" id="statusSelect" name="status">
+    <select class="form-control shadow-none" id="statusSelect" name="status">
         <jstl:forEach items="${Status.values()}" var="status">
             <option>${status.name()}</option>
         </jstl:forEach>
