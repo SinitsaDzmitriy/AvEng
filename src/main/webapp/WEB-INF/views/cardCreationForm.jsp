@@ -157,7 +157,7 @@
 
                                                     <div class="input-group-append">
                                                         <button id="addSampleBtn" type="button"
-                                                                class="btn btn-secondary shadow-none">
+                                                                class="btn btn-primary shadow-none">
                                                             <spring:message code="cards.common.samples.add"/>
                                                         </button>
                                                     </div>
@@ -198,7 +198,7 @@
                                                 <input id="createCardBtn"
                                                        type="submit"
                                                        value="${createCardBtnValue}"
-                                                       class="btn btn-block btn-warning border-secondary shadow-none my-1"/>
+                                                       class="btn btn-block btn-primary shadow-none my-1"/>
 
                                             </div>
 
@@ -346,7 +346,12 @@
     // Builds on content value
     var sampleValidationRegex;
 
-
+    $(cardCreationFormId).keypress(function (event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            event.preventDefault();
+        }
+    });
 
     function validateContent() {
 
@@ -441,7 +446,7 @@
 
     $(enabledContentInputId).keypress(function (event) {
         if (event.which === 13) {
-            validateContent();
+            this.blur();
         }
     });
 
