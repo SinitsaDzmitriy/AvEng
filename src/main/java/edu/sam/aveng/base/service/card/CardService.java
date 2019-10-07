@@ -80,10 +80,19 @@ public class CardService implements ICardService {
 
     @Override
     public void create(CardDto cardDto) {
+        String transcription = cardDto.getPron().getTranscription();
+        Pronunciation pron = pronDao.findByProperty("transcription", transcription);
+        if(pron == null) {
+            pron = new Pronunciation(transcription);
+            pronDao.create(pron);
+        }
+
+        Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
 
         Card card = cardConverter.convertToEntity(cardDto);
-        Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
+        card.setPron(pron);
         card.setSamples(preparedSamples);
+
         cardDao.persist(card);
 
     }
@@ -123,7 +132,6 @@ public class CardService implements ICardService {
         }
 
         Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
-
 
         Card card = cardConverter.convertToEntity(cardDto);
         card.setId(id);
