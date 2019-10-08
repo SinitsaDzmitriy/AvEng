@@ -11,18 +11,16 @@ public final class TestConstants {
 
         }
 
-        public static final class SimpleRecords {
+        public static final class Tables {
 
-            private SimpleRecords() {
+            public static final class SimpleRecords {
+                private SimpleRecords() {
+                }
 
+                public static final String TABLE_NAME = "simple_records";
+                public static final String ID_COLUMN_NAME = "id";
+                public static final String STRING_COLUMN_NAME = "string";
             }
-
-            public static final String TABLE_NAME = "simple_records";
-            public static final String ID_COLUMN_NAME = "id";
-            public static final String STRING_COLUMN_NAME = "string";
-
         }
-
     }
-
 }
