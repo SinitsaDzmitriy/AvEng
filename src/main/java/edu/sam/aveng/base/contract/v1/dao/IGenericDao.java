@@ -11,7 +11,7 @@ public interface IGenericDao<T extends Serializable> {
 
     T findByProperty(String property, Object value);
 
-    T findEagerlyByProperty(String property, String value);
+    T findEagerlyByProperty(String property, Object value);
 
     List<T> findAll();
 
@@ -29,7 +29,7 @@ public interface IGenericDao<T extends Serializable> {
 
     Object getPropertyById(String property, Long id);
 
-    List<T> findWithLikeCriterias(String targetProperty, List<String> likeCriterias);
+    List<T> findAllWithLikeCriterias(String targetProperty, List<String> likeCriterias);
 
     void setClazz(Class<T> clazzToSet);
 

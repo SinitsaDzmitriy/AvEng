@@ -136,7 +136,7 @@ public class DemoRestController {
         long startTime = System.nanoTime();
 
         List<DemoSample> demoSamples = demoSampleDao
-                .findWithLikeCriterias("content", likeCriterias);
+                .findAllWithLikeCriterias("content", likeCriterias);
 
         long endTime = System.nanoTime();
 

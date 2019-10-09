@@ -1,12 +1,9 @@
 package edu.sam.aveng.base.suit.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
-
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 

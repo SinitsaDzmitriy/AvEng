@@ -10,9 +10,6 @@ import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.model.transfer.UserTableItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -77,35 +73,26 @@ public class UserService implements IUserService {
 
     @Override
     public void create(UserCredentials userCredentials) {
-        // Encode user password
-        String encodedPassword = passEncoder.encode(userCredentials.getPassword());
-
-        // Create new User
         User user = new User();
         user.setEmail(userCredentials.getEmail());
         user.setPassword(passEncoder.encode(userCredentials.getPassword()));
         user.setEnabled(false);
 
-        // ToDo refactor as obtain(String roleName): fetch or persist
         user.addAuthority(authorityDao.findEagerlyByProperty("role", "ROLE_USER"));
 
-        // Creat their verification token
         VerificationToken verificationToken = new VerificationToken(user);
         verificationTokenDao.create(verificationToken);
 
-        // Prepare email hardcode
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("AvEng Registration");
         msg.setTo(user.getEmail());
         msg.setText("To activate your account just click the following link "
                 + "http://localhost:8888/users/activation?token=" + verificationToken.getToken());
 
-        // Send message
         try{
             this.mailSender.send(msg);
         }
         catch (MailException ex) {
-            // Simply log it and go on.
             ex.printStackTrace();
         }
     }
@@ -119,17 +106,12 @@ public class UserService implements IUserService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userDao.findByProperty("email", s);
-
         if(user == null){
             throw new UsernameNotFoundException("User isn't found.");
         }
-
         if(!user.isEnabled()) {
-            String messageKey = "AbstractUserDetailsAuthenticationProvider.disabled";
-            Locale locale = LocaleContextHolder.getLocale();
             throw new DisabledException("User is disabled, check your mail");
         }
-
         return user;
     }
 
