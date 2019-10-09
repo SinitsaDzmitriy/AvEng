@@ -1,83 +1,65 @@
 package edu.sam.aveng.base.service.user;
 
 import edu.sam.aveng.base.model.entity.VerificationToken;
-
 import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
 import edu.sam.aveng.base.converter.UserConverter;
-
 import edu.sam.aveng.base.model.entity.SimpleGrantedAuthority;
 import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.entity.UserCard;
 import edu.sam.aveng.base.model.transfer.UserCredentials;
 import edu.sam.aveng.base.model.transfer.UserTableItem;
 
-import edu.sam.aveng.temp.dao.IPopGenericHiberDao;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
-/**
- * Artificial population free.
- */
-
-@EnableTransactionManagement
 @Transactional
+@Service
 public class UserService implements IUserService {
+    private final int EXPIRATION_PERIOD_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
-    private int EXPIRATION_PERIOD_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
-
-    protected IPopGenericHiberDao<User> userDao;
+    private IGenericDao<User> userDao;
     private IGenericDao<SimpleGrantedAuthority> authorityDao;
     private IGenericDao<UserCard> userCardDao;
     private IGenericDao<VerificationToken> verificationTokenDao;
 
-    private PasswordEncoder passEncoder;
     private UserConverter userConverter = new UserConverter();
-
+    private PasswordEncoder passEncoder;
     private MailSender mailSender;
 
     @Autowired
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    @Autowired
-    public void setUserDao(IPopGenericHiberDao<User> daoToSet) {
+    public void setUserDao(IGenericDao<User> daoToSet) {
         userDao = daoToSet;
         userDao.setClazz(User.class);
     }
 
     @Autowired
-    @Qualifier("genericHiberDao")
     public void setAuthorityDao(IGenericDao<SimpleGrantedAuthority> daoToSet) {
         authorityDao = daoToSet;
         authorityDao.setClazz(SimpleGrantedAuthority.class);
     }
 
     @Autowired
-    @Qualifier("genericHiberDao")
     public void setUserCardDao(IGenericDao<UserCard> daoToSet) {
         userCardDao = daoToSet;
         userCardDao.setClazz(UserCard.class);
     }
 
     @Autowired
-    @Qualifier("genericHiberDao")
     public void setVerificationTokenDao(IGenericDao<VerificationToken> daoToSet) {
         verificationTokenDao = daoToSet;
         verificationTokenDao.setClazz(VerificationToken.class);
@@ -88,9 +70,13 @@ public class UserService implements IUserService {
         this.passEncoder = passEncoder;
     }
 
+    @Autowired
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
     @Override
     public void create(UserCredentials userCredentials) {
-
         // Encode user password
         String encodedPassword = passEncoder.encode(userCredentials.getPassword());
 
@@ -122,7 +108,6 @@ public class UserService implements IUserService {
             // Simply log it and go on.
             ex.printStackTrace();
         }
-
     }
 
     @Override
@@ -133,14 +118,19 @@ public class UserService implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-
         User user = userDao.findByProperty("email", s);
 
-        if(user == null || !user.isEnabled()){
-            throw new UsernameNotFoundException("Not found or disabled.");
+        if(user == null){
+            throw new UsernameNotFoundException("User isn't found.");
         }
-        return user;
 
+        if(!user.isEnabled()) {
+            String messageKey = "AbstractUserDetailsAuthenticationProvider.disabled";
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new DisabledException("User is disabled, check your mail");
+        }
+
+        return user;
     }
 
     @Override
@@ -167,12 +157,10 @@ public class UserService implements IUserService {
 
     @Override
     public String activate(String token) {
-
         String userEmail = null;
         VerificationToken verificationToken = verificationTokenDao.findByProperty("token", token);
 
         if(verificationToken != null) {
-
             User userToActivate = verificationToken.getUser();
             verificationTokenDao.delete(verificationToken);
 
@@ -181,12 +169,10 @@ public class UserService implements IUserService {
         }
 
         return userEmail;
-
     }
 
     @Override
     public boolean isUserRegistered(String email) {
-
         boolean isRegistered = false;
         User user = userDao.findByProperty("email", email);
 
@@ -195,7 +181,6 @@ public class UserService implements IUserService {
             if(user.isEnabled()){
                 isRegistered = true;
             } else {
-
                 VerificationToken verificationToken = verificationTokenDao.findByProperty("user", user);
 
                 if(verificationToken == null){
@@ -206,20 +191,12 @@ public class UserService implements IUserService {
                             < EXPIRATION_PERIOD_IN_MILLISECONDS) {
                         isRegistered = true;
                     } else {
-
                         verificationTokenDao.delete(verificationToken);
                         userDao.delete(user);
-
                     }
-
                 }
-
             }
-
         }
-
         return isRegistered;
-
     }
-
 }

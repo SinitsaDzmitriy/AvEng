@@ -1,16 +1,11 @@
 package edu.sam.aveng.base.converter;
 
-import edu.sam.aveng.base.contract.v1.converter.IBaseConverter;
-import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
-import edu.sam.aveng.base.model.entity.Card;
-import edu.sam.aveng.base.model.entity.Pronunciation;
-import edu.sam.aveng.base.model.entity.Sample;
-import edu.sam.aveng.base.model.dto.CardDto;
 import edu.sam.aveng.base.model.dto.PronunciationDto;
-import edu.sam.aveng.base.model.transfer.CardTableItem;
 import edu.sam.aveng.base.model.dto.SampleDto;
+import edu.sam.aveng.base.model.entity.Card;
+import edu.sam.aveng.base.model.dto.CardDto;
+import edu.sam.aveng.base.model.transfer.CardTableItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -21,52 +16,45 @@ import java.util.stream.Stream;
 
 @Component
 public class CardConverter{
-
-    private IBaseConverter<Pronunciation, PronunciationDto> pronConverter;
-    private ICollectionConverter<Sample, SampleDto> sampleConverter;
+    private SampleConverter sampleConverter;
 
     @Autowired
-    @Qualifier("pronConverter")
-    public void setPronConverter(IBaseConverter<Pronunciation,
-            PronunciationDto> pronConverter) {
-        this.pronConverter = pronConverter;
-    }
-
-    @Autowired
-    @Qualifier("oldSampleConverter")
-    public void setSampleConverter(ICollectionConverter<Sample,
-            SampleDto> sampleConverter) {
+    public void setSampleConverter(SampleConverter sampleConverter) {
         this.sampleConverter = sampleConverter;
     }
 
     public CardDto convertToDto(Card card) {
+        CardDto cardDto = null;
 
-        CardDto cardDto = new CardDto();
+        if(card != null){
+            List<SampleDto> sampleDtos = sampleConverter
+                    .convertToDto(card.getSamples())
+                    .collect(Collectors.toList());
+            PronunciationDto pronDto = new PronunciationDto();
+            pronDto.setTranscription(card.getPron().getTranscription());
 
-        List<SampleDto> sampleDtos = sampleConverter
-                .convertToDto(card.getSamples())
-                .collect(Collectors.toList());
-
-        cardDto.setId(card.getId());
-        cardDto.setLang(card.getLang());
-        cardDto.setContent(card.getContent());
-        cardDto.setType(card.getType());
-        cardDto.setPron(pronConverter.convertToDto(card.getPron()));
-        cardDto.setDefinition(card.getDefinition());
-        cardDto.setSamples(sampleDtos);
+            cardDto = new CardDto();
+            cardDto.setId(card.getId());
+            cardDto.setLang(card.getLang());
+            cardDto.setContent(card.getContent());
+            cardDto.setType(card.getType());
+            cardDto.setPron(pronDto);
+            cardDto.setDefinition(card.getDefinition());
+            cardDto.setSamples(sampleDtos);
+        }
 
         return cardDto;
     }
 
     public Card convertToEntity(CardDto cardDto) {
-
         Card card = new Card();
 
-        card.setLang(cardDto.getLang());
-        card.setContent(cardDto.getContent());
-        card.setType(cardDto.getType());
-        card.setPron(pronConverter.convertToEntity(cardDto.getPron()));
-        card.setDefinition(cardDto.getDefinition());
+        if(cardDto != null) {
+            card.setLang(cardDto.getLang());
+            card.setContent(cardDto.getContent());
+            card.setType(cardDto.getType());
+            card.setDefinition(cardDto.getDefinition());
+        }
 
         return card;
     }

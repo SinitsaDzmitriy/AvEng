@@ -67,7 +67,7 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!-- Spring to test -->
+        <!-- Spring to suit -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@EnableTransactionManagement
 @Transactional
 public abstract class StandardGenericCrudService<E extends Serializable & Identifiable,
         D>

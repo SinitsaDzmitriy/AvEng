@@ -1,7 +1,7 @@
-package edu.sam.aveng.temp.validation.validator;
+package edu.sam.aveng.base.validation.validator;
 
 import edu.sam.aveng.base.service.user.IUserService;
-import edu.sam.aveng.temp.validation.constraint.UniqueEmail;
+import edu.sam.aveng.base.validation.constraint.UniqueEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

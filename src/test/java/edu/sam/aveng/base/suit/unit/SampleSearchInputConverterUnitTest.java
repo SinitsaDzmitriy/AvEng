@@ -1,4 +1,4 @@
-package edu.sam.aveng.base.test.unit;
+package edu.sam.aveng.base.suit.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleSearchInputConverterUnitTest {
-
     private SampleSearchInputConverter subject = new SampleSearchInputConverter();
 
     private List<String> expectedCriteriasForWord;
@@ -62,5 +61,4 @@ public class SampleSearchInputConverterUnitTest {
         final String INPUT = "%very_ long_ %like search %%query__";
         assertEquals(expectedCriteriasForPhrase, subject.convertToLikeCriterias(INPUT));
     }
-
 }

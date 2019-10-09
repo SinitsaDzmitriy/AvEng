@@ -8,7 +8,9 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public class SampleDao
@@ -80,5 +82,18 @@ public class SampleDao
         }
 
         return samples;
+    }
+
+    @Override
+    public Stream<Sample> obtain(Stream<Sample> samples) {
+        return samples.map(sample -> {
+            Sample foundSample = findByContent(sample.getContent());
+            if(foundSample != null) {
+                sample = foundSample;
+            } else {
+                persist(sample);
+            }
+            return sample;
+        });
     }
 }

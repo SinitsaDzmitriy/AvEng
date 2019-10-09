@@ -16,7 +16,6 @@ import javax.servlet.ServletRegistration;
  */
 public class WebAppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
-
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};

@@ -243,8 +243,6 @@
 
 <spring_security:authorize access="isFullyAuthenticated()">
 
-<spring_security:authentication property="principal.id" var="currentUserId"/>
-
 <script>
 
     function objectifyForm(formArray) {
@@ -265,8 +263,8 @@
 
             $.ajax({
                 type: "POST",
-                url: location.origin + "/api/user_cards/assign?userId=${currentUserId}&cardId=${cardDto.id}",
-                // data: { test: "test "}
+                url: location.origin + "/api/user_cards/assign?cardId=${cardDto.id}",
+                // data: { suit: "suit "}
                 data: JSON.stringify(formData),
                 // ToDo: understand what this line change?
                 contentType: "application/json"

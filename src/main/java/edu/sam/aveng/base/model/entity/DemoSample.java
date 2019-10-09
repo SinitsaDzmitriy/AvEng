@@ -19,12 +19,12 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "test_samples")
+@Table(name = "demo_samples")
 @Indexed
 @AnalyzerDef(name = "TestSampleAnalyzer",
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
         filters = {@TokenFilterDef(factory = LowerCaseFilterFactory.class)})
-public class TestSample implements Serializable, Identifiable {
+public class DemoSample implements Serializable, Identifiable {
 
     @Id
     @GeneratedValue
@@ -33,10 +33,10 @@ public class TestSample implements Serializable, Identifiable {
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String content;
 
-    public TestSample() {
+    public DemoSample() {
     }
 
-    public TestSample(String content) {
+    public DemoSample(String content) {
         this.content = content;
     }
 
@@ -69,7 +69,7 @@ public class TestSample implements Serializable, Identifiable {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        TestSample testSample = (TestSample) obj;
-        return this.content.equals(testSample.content);
+        DemoSample demoSample = (DemoSample) obj;
+        return this.content.equals(demoSample.content);
     }
 }

@@ -20,23 +20,19 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
-
-    @Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private IUserService userService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    @Autowired
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/register")
     public String displayUserRegistrationForm(Model model) {
-
         LOGGER.info("User registration form displaying.");
-        LOGGER.debug("Initial state of params: model={}", model);
-
         model.addAttribute(Constants.Model.USER_CREDENTIALS_KEY, new UserCredentials());
-
-        LOGGER.debug("Final state of params: model={}", model);
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.USER_REG_FORM);
-
         return Constants.View.USER_REG_FORM;
     }
 
@@ -54,17 +50,12 @@ public class UserController {
     }
 
     @GetMapping("/users/activation")
-    public String activate(@RequestParam String token, Model model) {
-
+    public String activateUser(@RequestParam String token, Model model) {
         String userEmail = userService.activate(token);
-
         if (userEmail == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-
         model.addAttribute(Constants.Model.USER_EMAIL_KEY, userEmail);
         return Constants.View.USER_REG_ACTIVATION;
-
     }
-
 }

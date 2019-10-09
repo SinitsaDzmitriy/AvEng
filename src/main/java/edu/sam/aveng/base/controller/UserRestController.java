@@ -1,13 +1,13 @@
 package edu.sam.aveng.base.controller;
 
 import edu.sam.aveng.base.model.transfer.UserTableItem;
-import edu.sam.aveng.temp.service.IPopUserService;
+import edu.sam.aveng.base.service.user.IUserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,22 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
-
-    private IPopUserService userService;
+    private IUserService userService;
 
     @Autowired
-    public void setUserService(IPopUserService userService) {
+    public void setUserService(IUserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/create")
-    public void register() {
-
-        // ToDo: Additional server-side validation credentials.password = retypedPassword
-//        @Valid @RequestBody UserRegCredentials regCredentials
-//        UserCredentials credentials = Converter.simplify(regCredentials);
-//        long newUserId = userService.persist(credentials);
-//        userService.populate(newUserId);
     }
 
     @GetMapping

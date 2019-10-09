@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.model.entity;
 
 import edu.sam.aveng.base.contract.v2.model.Identifiable;
-import edu.sam.aveng.base.util.SampleContentLangDiscriminator;
+import edu.sam.aveng.base.util.SampleLangDiscriminator;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.de.GermanStemFilterFactory;
 import org.apache.lucene.analysis.en.PorterStemFilterFactory;
@@ -51,7 +51,7 @@ public class Sample implements Serializable, Identifiable {
     private Long id;
 
     @Field
-    @AnalyzerDiscriminator(impl = SampleContentLangDiscriminator.class)
+    @AnalyzerDiscriminator(impl = SampleLangDiscriminator.class)
     private String content;
 
     public Sample() {

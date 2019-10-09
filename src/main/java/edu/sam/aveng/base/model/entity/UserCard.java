@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,6 +38,7 @@ public class UserCard implements Serializable, Identifiable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", foreignKey =
         @ForeignKey(name = "CARD_ID_FK"))
+    @NotNull
     private Card card;
 
     // Payload:

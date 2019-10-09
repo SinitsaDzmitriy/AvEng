@@ -1,6 +1,6 @@
-package edu.sam.aveng.temp.validation.constraint;
+package edu.sam.aveng.base.validation.constraint;
 
-import edu.sam.aveng.temp.validation.validator.UniqueEmailValidator;
+import edu.sam.aveng.base.validation.validator.UniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

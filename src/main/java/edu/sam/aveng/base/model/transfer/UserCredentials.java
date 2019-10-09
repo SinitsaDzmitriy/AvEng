@@ -1,7 +1,6 @@
 package edu.sam.aveng.base.model.transfer;
 
-import edu.sam.aveng.base.model.transfer.IUserCredentials;
-import edu.sam.aveng.temp.validation.constraint.UniqueEmail;
+import edu.sam.aveng.base.validation.constraint.UniqueEmail;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

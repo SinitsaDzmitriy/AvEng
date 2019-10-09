@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,7 +23,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/cards")
 public class CardController {
-
     private final String DEFAULT_CARD_TABLE_SIZE = "20";
     private final String DEFAULT_CARD_TABLE_PAGE_NUMBER = "1";
 
@@ -38,28 +35,27 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @GetMapping(value = "/create")
-    public String create() {
+    @GetMapping("/create")
+    public String displayCardCreationForm() {
         return Constants.View.CARD_CREATION_FORM;
     }
 
-    @RequestMapping(value = "/display/{cardId}", method = RequestMethod.GET)
-    public String spittle(Model model, @PathVariable long cardId) {
+    @GetMapping("/display/{cardId}")
+    public String displayCard(Model model, @PathVariable long cardId) {
         LOGGER.info("Displaying card with id={}.", cardId);
         model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
-        return "card";
+        return Constants.View.CARD;
     }
 
     @GetMapping("/display/table")
     public String displayCardTable(Model model,
             @RequestParam(defaultValue = DEFAULT_CARD_TABLE_SIZE) int pageSize,
             @RequestParam(defaultValue = DEFAULT_CARD_TABLE_PAGE_NUMBER) int pageNum) {
-
-        long totalNumberOfCards = cardService.countAll();
-        int firstCardPositionToRead = (pageSize * (pageNum - 1));
         boolean isListFirst = false;
         boolean isListLast = false;
 
+        int firstCardPositionToRead = (pageSize * (pageNum - 1));
+        long totalNumberOfCards = cardService.countAll();
 
         if(firstCardPositionToRead >= totalNumberOfCards) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -70,7 +66,6 @@ public class CardController {
         if(pageNum == 1) {
             isListFirst = true;
         }
-
         if (restNumberOfCards <= pageSize) {
             isListLast = true;
         }
@@ -79,46 +74,41 @@ public class CardController {
         model.addAttribute(Constants.Model.IS_LIST_LAST_KEY, isListLast);
         model.addAttribute(Constants.Model.CARD_TABLE_ITEMS_KEY, cardService.findAllAsTableItems(pageSize, firstCardPositionToRead));
 
-        return "cardTable";
+        return Constants.View.CARD_TABLE;
     }
 
-    @RequestMapping(value = "/update/{cardId}", method = RequestMethod.GET)
+    @GetMapping("/update/{cardId}")
     public String displayCardUpdateForm(@PathVariable long cardId, Model model) {
         LOGGER.info("Displaying update form for Card with id={}.", cardId);
-        LOGGER.debug("Initial state of params: model={}", model);
 
-        model.addAttribute(Constants.Model.CARD_DTO_KEY, cardService.findOne(cardId));
+        CardDto cardToUpdate = cardService.findOne(cardId);
 
-        LOGGER.debug("Final state of params: model={}", model);
+        model.addAttribute(Constants.Model.CARD_DTO_KEY, cardToUpdate);
+
+        LOGGER.debug("Card to update: cardDto={}", cardToUpdate);
         LOGGER.debug("View name to render: viewName=\"{}\"", Constants.View.CARD_UPDATE_FORM);
+
         return Constants.View.CARD_UPDATE_FORM;
     }
 
     @PostMapping("/update/{cardId}")
-    public String update(@PathVariable long cardId, CardDto cardDto) {
-
-        // ToDo: Fix logging
-
+    public String update(@PathVariable long cardId, CardDto updatedCard) {
         LOGGER.info("Updating Card with id={}.", cardId);
-        LOGGER.debug("Updated Card: updatedCard={}", cardDto);
-        cardService.update(cardId, cardDto);
-        LOGGER.debug("Redirection to \"{}\"", "/card/list");
 
-        return "redirect:/cards/display/table";
-    }
+        final String REDIRECTION = "redirect:/cards/display/table";
+        cardService.update(cardId, updatedCard);
 
-    @RequestMapping(value = "/delete/{cardId}", method = RequestMethod.GET)
-    public String delete(@PathVariable long cardId) {
-        LOGGER.info("Deletion card with id={}.", cardId);
-        cardService.delete(cardId);
-        LOGGER.debug("Redirection to \"{}\"", "/card/list");
-        return "redirect:/cards/display/table";
+        LOGGER.debug("Updated Card: cardDto={}", updatedCard);
+        LOGGER.debug("Redirection to \"{}\"", REDIRECTION);
+
+        return REDIRECTION;
     }
 
     @GetMapping("/search")
-    public String search(Model model, @RequestParam(value = "usedLang", required = false) String usedLangStr,
-                         @RequestParam(value = "desiredLang", required = false) String desiredLangStr, @RequestParam String userInput) throws MethodArgumentNotValidException {
-
+    public String search(Model model,
+            @RequestParam(value = "usedLang", required = false) String usedLangStr,
+            @RequestParam(value = "desiredLang", required = false) String desiredLangStr,
+            @RequestParam String userInput){
         Lang usedLang = null;
         Lang desiredLang = null;
 
@@ -131,7 +121,8 @@ public class CardController {
         }
 
         if(usedLang == null || desiredLang == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Provide correct supported languages", new IllegalArgumentException());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Provide correct supported languages", new IllegalArgumentException());
         } else {
             List<Map> searchOutput = cardService.search(usedLang, desiredLang, userInput);
             model.addAttribute(Constants.Model.SEARCH_INPUT_LANG, usedLang);
@@ -140,5 +131,4 @@ public class CardController {
         }
         return Constants.View.SEARCH_OUTPUT;
     }
-
 }

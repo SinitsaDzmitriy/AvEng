@@ -10,13 +10,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -38,36 +35,14 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:production.app.properties")
 public class WebConfig implements WebMvcConfigurer {
-
     private Environment env;
 
     @Autowired
     public WebConfig(Environment env) {
         if (env == null) {
-            // ToDo: Handle the exception properly
             throw new IllegalArgumentException();
         }
         this.env = env;
-    }
-
-    @Bean
-    public MailSender mailSender() {
-
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("aveng.comp@gmail.com");
-        mailSender.setPassword("Ol234567");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
     }
 
     @Bean
@@ -137,4 +112,22 @@ public class WebConfig implements WebMvcConfigurer {
                 .setCachePeriod(31556926);
     }
 
+    @Bean
+    public MailSender mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("aveng.comp@gmail.com");
+        mailSender.setPassword("Ol234567");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
+    }
 }

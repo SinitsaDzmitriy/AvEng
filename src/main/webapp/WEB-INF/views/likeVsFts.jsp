@@ -195,31 +195,31 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/demo/test-samples/search/like?input=" + searchInputVal,
+                    url: location.origin + "/api/demo-samples/search/like?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
 
                         console.log(response);
 
-                        var testSamples = response.testSamples;
+                        var demoSamples = response.demoSamples;
 
                         $(likeStatisticsWrapperId).empty();
                         $(likeTableBodyId).empty();
 
                         var likeStatistics = $("<div class='alert alert-primary w-100 m-0'>"
-                            + "<p class='m-0'>${results}: " + testSamples.length + " (${seconds}: " + response.time + ")</p>"
+                            + "<p class='m-0'>${results}: " + demoSamples.length + " (${seconds}: " + response.time + ")</p>"
                             + "</div>");
 
                         $(likeStatisticsWrapperId).append(likeStatistics);
 
                         var tableEntry;
 
-                        for (var i = 0; i < testSamples.length; i++) {
+                        for (var i = 0; i < demoSamples.length; i++) {
 
                             tableEntry = $("<tr class='d-flex'>"
-                                + "<th scope='row' style='width: 120px;'>" + testSamples[i].id + "</th>"
-                                + "<td class='w-100'>" + testSamples[i].content + "</td>"
+                                + "<th scope='row' style='width: 120px;'>" + demoSamples[i].id + "</th>"
+                                + "<td class='w-100'>" + demoSamples[i].content + "</td>"
                                 + "</tr>");
 
                             $(likeTableBodyId).append(tableEntry);
@@ -237,31 +237,31 @@
 
                 $.ajax({
                     type: "GET",
-                    url: location.origin + "/api/demo/test-samples/search/full-text?input=" + searchInputVal,
+                    url: location.origin + "/api/demo-samples/search/full-text?input=" + searchInputVal,
                     dataType: "json"
                 })
                     .done(function(response) {
 
                         console.log(response);
 
-                        var testSamples = response.testSamples;
+                        var demoSamples = response.demoSamples;
 
                         $(fullTextStatisticsWrapperId).empty();
                         $(fullTextTableBodyId).empty();
 
                         var fullTextStatistics = $("<div class='alert alert-primary w-100 m-0'>"
-                            + "<p class='m-0'>${results}: " + testSamples.length + " (${seconds}: " + response.time + ")</p>"
+                            + "<p class='m-0'>${results}: " + demoSamples.length + " (${seconds}: " + response.time + ")</p>"
                             + "</div>");
 
                         $(fullTextStatisticsWrapperId).append(fullTextStatistics);
 
                         var tableEntry;
 
-                        for (var i = 0; i < testSamples.length; i++) {
+                        for (var i = 0; i < demoSamples.length; i++) {
 
                             tableEntry = $("<tr class='d-flex'>"
-                                + "<th scope='row' style='width: 120px;'>" + testSamples[i].id + "</th>"
-                                + "<td class='w-100'>" + testSamples[i].content + "</td>"
+                                + "<th scope='row' style='width: 120px;'>" + demoSamples[i].id + "</th>"
+                                + "<td class='w-100'>" + demoSamples[i].content + "</td>"
                                 + "</tr>");
 
                             $(fullTextTableBodyId).append(tableEntry);

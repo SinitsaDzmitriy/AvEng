@@ -302,7 +302,7 @@
                         </small>
                     </div>
 
-                    <spring:url value="/demo/like-vs-fts" var="likeVsFtsPath"/>
+                    <spring:url value="/demo-samples/like-vs-fts" var="likeVsFtsPath"/>
                     <a class="nav-link px-4 py-1 text-secondary" href="${likeVsFtsPath}">
                         <spring:message code="sidebar.anchor.like-vs-fts"/>
                     </a>

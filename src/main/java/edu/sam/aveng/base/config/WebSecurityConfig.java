@@ -20,11 +20,13 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 @PropertySource("classpath:production.app.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private Environment env;
 
     @Autowired
     public WebSecurityConfig(Environment env) {
+        if (env == null) {
+            throw new IllegalArgumentException();
+        }
         this.env = env;
     }
 
@@ -37,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    @Qualifier("popUserServiceImpl")
+    @Qualifier("userService")
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
@@ -49,32 +51,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding(env.getProperty("request.encoding", "UTF-8"));
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
-        String[] devUrls = {
-                "/test/**",
-                "/utility/**",
-                "/users/activation"
-        };
-
         String[] publicUrls = {
                 "/", "/initial",
-                "/register", "/login",
+                "/register", "/login", "/users/activation",
                 "/cards/search", "/cards/display/**",
                 "/favicon.ico", "/resources/**",
                 "/errors/**",
-                "/api/demo/**", "/demo/**"
+                "/demo-samples/**", "/api/demo-samples/**"
         };
 
         String[] additionalUserUrls = {
@@ -83,8 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
 
         http.authorizeRequests()
-                .antMatchers(devUrls)
-                .permitAll()
                 .antMatchers(publicUrls)
                 .permitAll()
                 .antMatchers(additionalUserUrls)
@@ -94,14 +86,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin();
-
-//        // ToDo: Remove temporary config
-//        http.authorizeRequests()
-//                .anyRequest()
-//                .permitAll()
-//                .and()
-//                .csrf().disable()
-//                .formLogin();
-
     }
 }

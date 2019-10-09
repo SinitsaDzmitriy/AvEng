@@ -22,21 +22,6 @@ public class CardDao
     }
 
     @Override
-    public List<CardTableItem> findAllAsTableItems() {
-        return getCurrentSession().createQuery("select new "
-                + CardTableItem.class.getName()
-                + "("
-                + "c.id, "
-                + "c.lang, "
-                + "c.content, "
-                + "c.type, "
-                + "c.definition"
-                + ") "
-                + "from " + Card.class.getName() + " c", CardTableItem.class)
-                .list();
-    }
-
-    @Override
     public List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition) {
         return getCurrentSession().createQuery("select new "
                 + CardTableItem.class.getName()

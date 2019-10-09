@@ -17,12 +17,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-
 @RestController
 
 @RequestMapping(value = "/utility")
 public class UtilityController {
-
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -30,48 +28,35 @@ public class UtilityController {
         this.sessionFactory = sessionFactory;
     }
 
-    // Actual mappings:
-
     @GetMapping("/populate-db-with-english-samples")
     public String supply() {
-
         BufferedReader reader = null;
         int counter = 0;
 
         try {
-
             reader = new BufferedReader(new FileReader("c:\\EnglishSentences.txt"));
 
-            String tmp = null;
+            String tmp;
 
             Session session = sessionFactory.openSession();
             Transaction transaction;
 
             while ((tmp = reader.readLine()) != null) {
-
                 if (tmp.length() <= 255
                         && tmp.length() >= 50
                         && Pattern.matches("[\\p{Alnum} ',.:!?-]{50,255}", tmp)) {
-
                     try {
-
                         transaction = session.beginTransaction();
                         session.persist(new Sample(tmp));
                         transaction.commit();
-
                         // If Sample has been persisted without exceptions
                         counter++;
-
                     } catch (Exception e) {
                         System.out.println("Exception is occurred.");
                     }
-
                 }
-
             }
-
             session.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -85,12 +70,10 @@ public class UtilityController {
         }
 
         return counter + " Samples were persisted.";
-
     }
 
     @PostMapping("/index-samples")
     public void index() {
-
         try {
             FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.openSession());
             fullTextSession.createIndexer().startAndWait();
@@ -99,7 +82,5 @@ public class UtilityController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
 }

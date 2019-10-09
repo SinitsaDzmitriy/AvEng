@@ -1,6 +1,6 @@
 package edu.sam.aveng.base.controller;
 
-import edu.sam.aveng.base.model.entity.TestSample;
+import edu.sam.aveng.base.model.entity.DemoSample;
 import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/demo")
-public class TestRestController {
+@RequestMapping("/api/demo-samples/search")
+public class DemoRestController {
 
     private SessionFactory sessionFactory;
 
-    private IGenericDao<TestSample> testSampleDao;
+    private IGenericDao<DemoSample> demoSampleDao;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -41,12 +41,12 @@ public class TestRestController {
 
     @Autowired
     @Qualifier("genericHiberDao")
-    public void setTestSampleDao(IGenericDao<TestSample> sentenceDao) {
-        sentenceDao.setClazz(TestSample.class);
-        this.testSampleDao = sentenceDao;
+    public void setDemoSampleDao(IGenericDao<DemoSample> sentenceDao) {
+        sentenceDao.setClazz(DemoSample.class);
+        this.demoSampleDao = sentenceDao;
     }
 
-    @GetMapping("/test-samples/search/like")
+    @GetMapping("/like")
     @Transactional
     public Map<String, Object> like(@RequestParam String input) throws IOException {
 
@@ -135,21 +135,21 @@ public class TestRestController {
 
         long startTime = System.nanoTime();
 
-        List<TestSample> testSamples = testSampleDao
+        List<DemoSample> demoSamples = demoSampleDao
                 .findWithLikeCriterias("content", likeCriterias);
 
         long endTime = System.nanoTime();
 
-        testSamples.sort(Comparator.comparing(TestSample::getId));
+        demoSamples.sort(Comparator.comparing(DemoSample::getId));
         double elapsedTimeInSeconds = (double) (endTime - startTime) / 1_000_000_000.0;
 
-        response.put("testSamples", testSamples);
+        response.put("demoSamples", demoSamples);
         response.put("time", elapsedTimeInSeconds);
 
         return response;
     }
 
-    @GetMapping("/test-samples/search/full-text")
+    @GetMapping("/full-text")
     @Transactional
     public Map<String, Object> fullTextSearch(@RequestParam String input) {
         Map<String, Object> response = new HashMap<>();
@@ -158,7 +158,7 @@ public class TestRestController {
         Transaction tx = fullTextSession.beginTransaction();
 
         QueryBuilder sentenceQueryBuilder = fullTextSession.getSearchFactory()
-                .buildQueryBuilder().forEntity(TestSample.class).get();
+                .buildQueryBuilder().forEntity(DemoSample.class).get();
 
         long startTime = System.nanoTime();
 
@@ -170,19 +170,19 @@ public class TestRestController {
                 .createQuery();
 
         org.hibernate.query.Query hibQuery =
-                fullTextSession.createFullTextQuery(query, TestSample.class);
+                fullTextSession.createFullTextQuery(query, DemoSample.class);
 
-        List<TestSample> testSamples = new ArrayList<>(hibQuery.list());
+        List<DemoSample> demoSamples = new ArrayList<>(hibQuery.list());
 
         long endTime = System.nanoTime();
 
         tx.commit();
         fullTextSession.close();
 
-        testSamples.sort(Comparator.comparing(TestSample::getId));
+        demoSamples.sort(Comparator.comparing(DemoSample::getId));
         double elapsedTimeInSeconds = (double) (endTime - startTime) / 1_000_000_000.0;
 
-        response.put("testSamples", testSamples);
+        response.put("demoSamples", demoSamples);
         response.put("time", elapsedTimeInSeconds);
 
         return response;

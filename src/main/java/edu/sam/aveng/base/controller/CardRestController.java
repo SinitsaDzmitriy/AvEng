@@ -16,7 +16,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/cards")
 public class CardRestController {
-
     private ICardService cardService;
 
     @Autowired
@@ -33,5 +32,4 @@ public class CardRestController {
     public void delete(@PathVariable long id) {
         cardService.delete(id);
     }
-
 }

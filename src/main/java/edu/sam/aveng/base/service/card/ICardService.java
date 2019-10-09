@@ -8,12 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICardService {
-
     void create(final CardDto cardDto);
 
     CardDto findOne(final long id);
-
-    List<CardTableItem> findAllAsTableItems();
 
     List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition);
 

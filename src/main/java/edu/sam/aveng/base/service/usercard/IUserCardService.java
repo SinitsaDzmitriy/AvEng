@@ -12,14 +12,11 @@ public interface IUserCardService extends ICrudService<UserCard,
         UserCardShortDto,
         IShortConverter<UserCard, UserCardDto, UserCardShortDto>> {
 
-    void create(long userId, long cardId, UserCardDto userCardDto);
+    void create(long cardId, UserCardDto userCardDto);
 
     void swapFavorite(long id);
 
     void changeStatus(long id, Status status);
 
     void changeUserSample(long id, String sample);
-
-//    void updateUserSample(String userSample);
-
 }

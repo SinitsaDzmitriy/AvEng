@@ -1,6 +1,7 @@
 package edu.sam.aveng.base.service.card;
 
 import edu.sam.aveng.base.dao.sample.ISampleDao;
+import edu.sam.aveng.base.model.dto.PronunciationDto;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.entity.CardMapping;
 import edu.sam.aveng.base.model.entity.Pronunciation;
@@ -25,17 +26,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
-@EnableTransactionManagement
 @Transactional
+@EnableTransactionManagement
 public class CardService implements ICardService {
-
-    // Separate DAOs
     private ICardDao cardDao;
     private ISampleDao sampleDao;
 
-    // Generic DAOs
     private IGenericDao<Pronunciation> pronDao;
     private IGenericDao<UserCard> userCardDao;
     private IGenericDao<CardMapping> cardMappingDao;
@@ -80,26 +79,12 @@ public class CardService implements ICardService {
 
     @Override
     public void create(CardDto cardDto) {
-        String transcription = cardDto.getPron().getTranscription();
-        Pronunciation pron = pronDao.findByProperty("transcription", transcription);
-        if(pron == null) {
-            pron = new Pronunciation(transcription);
-            pronDao.create(pron);
-        }
-
-        Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
-
-        Card card = cardConverter.convertToEntity(cardDto);
-        card.setPron(pron);
-        card.setSamples(preparedSamples);
-
+        Card card = formCardWithAssociations(cardDto);
         cardDao.persist(card);
-
     }
 
     @Override
     public CardDto findOne(final long id) {
-
         CardDto cardDto;
         Card card = cardDao.findEagerly(id);
 
@@ -113,39 +98,19 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public List<CardTableItem> findAllAsTableItems() {
-        return  cardDao.findAllAsTableItems();
-    }
-
-    @Override
     public List<CardTableItem> findAllAsTableItems(int maxNumberOfResults, int firstResultPosition) {
         return cardDao.findAllAsTableItems(maxNumberOfResults, firstResultPosition);
     }
 
     @Override
     public void update(Long id, CardDto cardDto) {
-        String transcription = cardDto.getPron().getTranscription();
-        Pronunciation pron = pronDao.findByProperty("transcription", transcription);
-        if(pron == null) {
-            pron = new Pronunciation(transcription);
-            pronDao.create(pron);
-        }
-
-        Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
-
-        Card card = cardConverter.convertToEntity(cardDto);
+        Card card = formCardWithAssociations(cardDto);
         card.setId(id);
-        card.setPron(pron);
-        card.setSamples(preparedSamples);
-
         cardDao.update(card);
     }
 
     @Override
     public void delete(long id) {
-
-        Card cardToDelete = cardDao.find(id);
-
         // Delete associated UserCards (fk constraint)
         userCardDao.deleteByProperty("card.id", id);
 
@@ -153,13 +118,7 @@ public class CardService implements ICardService {
         cardMappingDao.deleteByProperty("sourceCard.id", id);
         cardMappingDao.deleteByProperty("destCard.id", id);
 
-        cardDao.delete(cardToDelete);
-
-    }
-
-    @Override
-    public long countAll() {
-        return cardDao.countAll();
+        cardDao.delete(id);
     }
 
     @Override
@@ -167,19 +126,46 @@ public class CardService implements ICardService {
         return cardDao.search(usedLang, desiredLang, userInput);
     }
 
-    private Set<Sample> prepareSamples(List<SampleDto> sampleDtos) {
-        return sampleDtos.stream()
-                .filter(sampleDto -> !sampleDto.getContent().isEmpty())
-                .map(sampleDto -> {
-                    Sample sample = sampleDao.findByContent(sampleDto.getContent());
-                    if(sample == null) {
-                        sample = new Sample();
-                        sample.setContent(sampleDto.getContent());
-                        sampleDao.persist(sample);
-                    }
-                    return sample;
-                })
-                .collect(Collectors.toSet());
+    @Override
+    public long countAll() {
+        return cardDao.countAll();
     }
 
+    private Card formCardWithAssociations(CardDto cardDto) {
+        Pronunciation preparedPron = obtainPron(cardDto.getPron());
+        Set<Sample> preparedSamples = prepareSamples(cardDto.getSamples());
+
+        Card card = cardConverter.convertToEntity(cardDto);
+        card.setPron(preparedPron);
+        card.setSamples(preparedSamples);
+
+        return card;
+    }
+
+    private Set<Sample> prepareSamples(List<SampleDto> sampleDtos) {
+         Set<Sample> preparedSamples = null;
+
+         if(sampleDtos != null && !sampleDtos.isEmpty()) {
+             Stream<Sample> sampleStream = sampleDtos.stream()
+                     .filter(sampleDto -> sampleDto != null && !sampleDto.getContent().isEmpty())
+                     .map(sampleDto -> new Sample(sampleDto.getContent()));
+             preparedSamples = sampleDao.obtain(sampleStream).collect(Collectors.toSet());
+         }
+
+        return preparedSamples;
+    }
+
+    private Pronunciation obtainPron(PronunciationDto pronDto) {
+        Pronunciation pron = null;
+
+        if(pronDto != null) {
+            pron = pronDao.findByProperty("transcription", pronDto.getTranscription());
+            if(pron == null) {
+                pron = new Pronunciation(pronDto.getTranscription());
+                pronDao.create(pron);
+            }
+        }
+
+        return pron;
+    }
 }

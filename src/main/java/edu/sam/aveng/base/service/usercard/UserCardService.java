@@ -11,22 +11,22 @@ import edu.sam.aveng.base.model.dto.UserCardDto;
 import edu.sam.aveng.base.model.dto.UserCardShortDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@EnableTransactionManagement
 @Transactional
 public class UserCardService
         extends SmartGenericCrudService<UserCard, UserCardDto, UserCardShortDto>
         implements IUserCardService {
 
-    private IGenericDao<User> userDao;
     private IGenericDao<Card> cardDao;
 
     @Override
@@ -38,124 +38,91 @@ public class UserCardService
 
     @Autowired
     @Qualifier("genericHiberDao")
-    public void setUserDao(IGenericDao<User> userDao) {
-        userDao.setClazz(User.class);
-        this.userDao = userDao;
-    }
-
-    @Autowired
-    @Qualifier("genericHiberDao")
     public void setCardDao(IGenericDao<Card> cardDao) {
         cardDao.setClazz(Card.class);
         this.cardDao = cardDao;
     }
 
     @Override
-    public void create(long userId, long cardId, UserCardDto draft) {
-
-        User currentUser = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        // Such check is unacceptable for real REST api
-
-        if (currentUser.getId() == userId) {
-
-            User owner = userDao.find(userId);
-            Card baseCard = cardDao.find(cardId);
-
-            if (owner != null && baseCard != null) {
-
-                UserCard userCard = new UserCard();
-
-                userCard.setOwner(owner);
-                userCard.setCard(baseCard);
-                userCard.setStatus(draft.getStatus());
-                userCard.setUserSample(draft.getUserSample());
-
-                dao.create(userCard);
-
-            } else {
-                // ToDo: handle this exception!
-            }
-
-        } else {
-            // ToDo: handle this exception!
+    public void create(long cardId, UserCardDto draft) {
+        Card card = cardDao.find(cardId);
+        if(card == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+        UserCard userCard = new UserCard();
+
+        userCard.setOwner(getCurrentUser());
+        userCard.setCard(card);
+
+        if(draft != null) {
+            userCard.setStatus(draft.getStatus());
+            userCard.setUserSample(draft.getUserSample());
+        } else {
+            userCard.setStatus(Status.NEW);
+        }
+
+        dao.create(userCard);
     }
 
     @Override
-    public UserCardDto findOne(long id) {
-
-        // ToDo: Rewrite awful cast
-        User currentUser = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        UserCard userCard = dao.find(id);
-
-        if (!userCard.getOwner().getId().equals(currentUser.getId())) {
-            System.out.println("You don't have enough permissions");
-            // ToDo: Throw proper type exception
-            // throw new Exception();
-            return null;
-        }
+    public UserCardDto findOne(long userCardId) {
+        UserCard userCard = getUserCardSecurely(userCardId);
         return converter.convertToDto(userCard);
     }
 
     @Override
     public List<UserCardShortDto> findAll() {
-
-        // ToDo: Move user check in separate method (duplication)
-        // ToDo: Rewrite awful cast
-        User currentUser = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
         return converter
-                .convertToShortDto(dao.findAllEagerlyByProperty("owner.id", currentUser.getId()))
+                .convertToShortDto(dao.findAllEagerlyByProperty("owner.id", getCurrentUser().getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long userCardId) {
+        UserCard userCardToDelete = getUserCardSecurely(userCardId);
+        dao.delete(userCardToDelete);
+    }
 
-        // ToDo: Rewrite awful cast
-        User currentUser = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+    @Override
+    public void swapFavorite(long userCardId) {
+        verifyUserCardOwner(userCardId);
+        boolean favorite = (boolean) dao.getPropertyById("favorite", userCardId);
+        dao.updatePropertyById("favorite", !favorite, userCardId);
+    }
 
-        UserCard userCardToDelete = dao.find(id);
+    @Override
+    public void changeStatus(long userCardId, Status status) {
+        verifyUserCardOwner(userCardId);
+        dao.updatePropertyById("status", status, userCardId);
+    }
 
-        if (userCardToDelete.getOwner().getId().equals(currentUser.getId())) {
-            dao.delete(userCardToDelete);
-        } else {
-            System.out.println("You don't have enough permissions");
-            // ToDo: Throw proper type exception
-            // throw new Exception();
+    @Override
+    public void changeUserSample(long userCardId, String sample) {
+        verifyUserCardOwner(userCardId);
+        dao.updatePropertyById("userSample", sample, userCardId);
+    }
+
+    private UserCard getUserCardSecurely(Long userCardId) {
+        User currentUser = getCurrentUser();
+        UserCard userCard = dao.find(userCardId);
+        if(!currentUser.getId().equals(userCard.getOwner().getId())) {
+            throw new AccessDeniedException("This User card doesn't belong to you!");
+        }
+        return userCard;
+    }
+
+    private void verifyUserCardOwner(long userCardId) {
+        User owner = (User) dao.getPropertyById("owner", userCardId);
+        if(!getCurrentUser().getId().equals(owner.getId())) {
+            throw new AccessDeniedException("This User card doesn't belong to you!");
         }
     }
 
-    @Override
-    public void swapFavorite(long id) {
-        // ToDo add check if boolean (or pass type to check inside)
-        boolean favorite = (boolean) dao.getPropertyById("favorite", id);
-        System.out.println(favorite);
-        dao.updatePropertyById("favorite", !favorite, id);
-    }
-
-    @Override
-    public void changeStatus(long id, Status status) {
-        dao.updatePropertyById("status", status, id);
-    }
-
-    @Override
-    public void changeUserSample(long id, String sample) {
-        dao.updatePropertyById("userSample", sample, id);
+    private User getCurrentUser(){
+        return (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }

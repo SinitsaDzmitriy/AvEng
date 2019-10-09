@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@EnableTransactionManagement
 @Transactional
 public class SampleService
         extends StandardGenericCrudService<Sample, SampleDto>

@@ -18,4 +18,5 @@ public interface ISampleService
 
     List<SampleDto> fullTextSearch(String searchInput, Lang searchLang);
 
+
 }

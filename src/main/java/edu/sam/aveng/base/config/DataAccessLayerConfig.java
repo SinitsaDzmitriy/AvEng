@@ -18,13 +18,11 @@ import java.util.Properties;
 @PropertySource("classpath:production.app.properties")
 @TestPropertySource("classpath:test.app.properties")
 public class DataAccessLayerConfig {
-
     private Environment env;
 
     @Autowired
     public DataAccessLayerConfig(Environment env) {
         if (env == null) {
-            // ToDo: Handle the exception properly
             throw new IllegalArgumentException();
         }
         this.env = env;
@@ -42,7 +40,6 @@ public class DataAccessLayerConfig {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
-
         Properties hibernateProps = new Properties();
         hibernateProps.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProps.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.mode"));

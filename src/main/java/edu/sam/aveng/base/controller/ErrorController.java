@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/errors")
 public class ErrorController {
-
     @RequestMapping
     public String renderErrorPage(Model model, HttpServletRequest httpRequest) {
         Integer httpErrorCode = (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
@@ -46,5 +44,4 @@ public class ErrorController {
     public void trigger500HttpError() {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
