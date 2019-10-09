@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- -->
-<!-- &quot;&quot;: &quot;&quot;,%n -->
-
-<!--
-    Configuration attributes:
-    dest - destination where events will be logged
-    status - level of internal Log4j events that should be logged to the destination
--->
-
-<Configuration status="WARN">
+<Configuration status="INFO">
 
     <Appenders>
 
@@ -26,11 +17,10 @@
 
     <Loggers>
 
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>
 
-        <!-- default attribute: additivity="true" -->
         <Logger name="edu.sam.aveng.base.controller" level="DEBUG">
             <AppenderRef ref="Logbook"/>
         </Logger>
