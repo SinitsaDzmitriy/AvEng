@@ -6,8 +6,6 @@ import edu.sam.aveng.base.contract.v2.model.Identifiable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;

@@ -1,11 +1,9 @@
 package edu.sam.aveng.base.contract.v1.service;
 
 import edu.sam.aveng.base.contract.v1.converter.ICollectionConverter;
-
 import java.util.List;
 
 public interface ICrudService<E, D, M, C extends ICollectionConverter<E, D>> {
-
     void create(D dto);
 
     List<M> findAll();

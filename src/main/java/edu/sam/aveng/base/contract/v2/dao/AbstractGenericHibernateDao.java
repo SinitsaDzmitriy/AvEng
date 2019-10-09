@@ -105,5 +105,4 @@ public abstract class AbstractGenericHibernateDao<T extends Identifiable & Seria
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
-
 }
