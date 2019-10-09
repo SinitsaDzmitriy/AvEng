@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SampleSearchInputConverter implements ISearchInputConverter {
+public class SearchInputConverter implements ISearchInputConverter {
 
     @Override
     public List<String> convertToLikeCriterias(String searchInput) {

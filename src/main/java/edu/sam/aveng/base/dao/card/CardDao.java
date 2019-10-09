@@ -1,7 +1,7 @@
 package edu.sam.aveng.base.dao.card;
 
 import edu.sam.aveng.base.contract.v2.dao.AbstractGenericHibernateDao;
-import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
+import edu.sam.aveng.base.converter.search.SearchInputConverter;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.enumeration.Lang;
 import edu.sam.aveng.base.model.transfer.CardTableItem;
@@ -48,7 +48,7 @@ public class CardDao
     @Override
     public List<Map> search(Lang cardLang, Lang coupledCardsLang, String formattedSearchInput) {
         Session session =  getCurrentSession();
-        List<String> likeCriterias = new SampleSearchInputConverter()
+        List<String> likeCriterias = new SearchInputConverter()
                 .convertToLikeCriterias(formattedSearchInput);
 
         List<Map> cardSearchResults = session.createQuery(

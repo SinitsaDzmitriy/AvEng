@@ -7,12 +7,11 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
 @Repository
+@SuppressWarnings("unchecked")
 public class SampleDao
         extends AbstractGenericHibernateDao<Sample>
         implements ISampleDao {
@@ -39,7 +38,6 @@ public class SampleDao
                 .append(" s");
 
         if (likeCriterias != null && likeCriterias.size() > 0) {
-
             queryBuilder.append(" where s.content like ")
                     .append(likeCriterias.get(0));
 
@@ -56,13 +54,12 @@ public class SampleDao
 
     @Override
     public List<Sample> fullTextSearch(String searchQuery, Lang searchLang) {
-
         FullTextSession fullTextSession = Search.getFullTextSession(getCurrentSession());
 
         QueryBuilder sampleQueryBuilder = fullTextSession.getSearchFactory()
                 .buildQueryBuilder()
                 .forEntity(Sample.class)
-                .overridesForField("content",searchLang.getCode())
+                .overridesForField("content", searchLang.getCode())
                 .get();
 
         org.apache.lucene.search.Query query = sampleQueryBuilder

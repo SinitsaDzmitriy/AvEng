@@ -25,7 +25,7 @@ public class SampleDaoTest {
     }
 
     @Test
-    public void sampleMappingCreateSampleThenFindItSampleIsCreatedAndFound() {
+    public void sampleMapping() {
         Sample sample = new Sample("Sample's content.");
 
         TestTransaction.flagForCommit();

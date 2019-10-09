@@ -1,19 +1,19 @@
 package edu.sam.aveng.base.suit.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import edu.sam.aveng.base.converter.search.SampleSearchInputConverter;
+import edu.sam.aveng.base.converter.search.SearchInputConverter;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleSearchInputConverterUnitTest {
-    private SampleSearchInputConverter subject = new SampleSearchInputConverter();
+public class SearchInputConverterUnitTest {
+    private SearchInputConverter subject = new SearchInputConverter();
 
     private List<String> expectedCriteriasForWord;
     private List<String> expectedCriteriasForPhrase;
 
-    public SampleSearchInputConverterUnitTest() {
+    public SearchInputConverterUnitTest() {
 
         expectedCriteriasForWord = new ArrayList<>(2);
         expectedCriteriasForWord.add("'query%'");

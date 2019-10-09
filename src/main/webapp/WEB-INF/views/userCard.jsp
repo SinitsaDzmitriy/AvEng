@@ -154,7 +154,7 @@
             msg.text = "${userCardDto.card.content}";
             msg.lang = "${userCardDto.card.lang.code}";
 
-            $(userSampleId).val("${userCardDto.userSample}");
+            $(userSampleId).val('${userCardDto.userSample}');
 
             $("#playPronBtn").click(function () {
                 speechSynthesis.speak(msg);
