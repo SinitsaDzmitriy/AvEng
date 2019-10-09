@@ -255,10 +255,7 @@
     }
 
         $("#btn-create-user-card").click(function (event) {
-
             event.preventDefault();
-
-            console.log("bla");
 
             var formData = objectifyForm($("#userCardCreationForm").serializeArray());
 
