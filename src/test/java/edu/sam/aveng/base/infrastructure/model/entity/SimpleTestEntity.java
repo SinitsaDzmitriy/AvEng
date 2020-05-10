@@ -12,12 +12,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = TestConstants.Database.SimpleRecords.TABLE_NAME)
+@Table(name = "name")
 public class SimpleTestEntity implements Identifiable, Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = TestConstants.Database.SimpleRecords.ID_COLUMN_NAME)
+    @Column(name = "name")
     private Long id;
 
     private String temp;
@@ -30,7 +30,7 @@ public class SimpleTestEntity implements Identifiable, Serializable {
         this.temp = temp;
     }
 
-    @Column(name = TestConstants.Database.SimpleRecords.STRING_COLUMN_NAME)
+    @Column(name = "name")
     private String string;
 
     public SimpleTestEntity() {
@@ -68,5 +68,4 @@ public class SimpleTestEntity implements Identifiable, Serializable {
     public int hashCode() {
         return Objects.hash(string);
     }
-
 }

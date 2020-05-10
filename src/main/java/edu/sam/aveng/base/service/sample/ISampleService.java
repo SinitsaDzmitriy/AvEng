@@ -17,6 +17,4 @@ public interface ISampleService
     List<SampleDto> likeSearch(String searchInput);
 
     List<SampleDto> fullTextSearch(String searchInput, Lang searchLang);
-
-
 }

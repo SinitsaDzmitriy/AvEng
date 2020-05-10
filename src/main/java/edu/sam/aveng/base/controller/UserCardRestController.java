@@ -1,7 +1,10 @@
 package edu.sam.aveng.base.controller;
 
 import edu.sam.aveng.base.contract.v1.controller.AbstractCrudRestController;
+import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.enumeration.Lang;
+import edu.sam.aveng.base.model.enumeration.StatementType;
 import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.dto.UserCardDto;
 import edu.sam.aveng.base.model.dto.UserCardShortDto;
@@ -9,14 +12,11 @@ import edu.sam.aveng.base.service.usercard.IUserCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user_cards")
@@ -38,6 +38,16 @@ public class UserCardRestController extends AbstractCrudRestController<UserCard,
     @PostMapping("/assign")
     public void create(@RequestParam long cardId, @RequestBody UserCardDto userCardDraft) {
         service.create(cardId, userCardDraft);
+    }
+
+    @GetMapping("/search")
+    public List<UserCardShortDto> search(@RequestParam(required = false) Lang lang,
+                                         @RequestParam(required = false) String query,
+                                         @RequestParam(required = false) List<Status> statusList,
+                                         @RequestParam(required = false) List<StatementType> typeList) {
+        User currentUser = (User) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+        return service.search(currentUser, lang, query, statusList, typeList);
     }
 
     @PatchMapping("/update/{id}/swap-favorite")

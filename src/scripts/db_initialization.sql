@@ -1,286 +1,108 @@
-﻿﻿﻿CREATE DATABASE aveng;
+﻿SHOW TABLES;
+SELECT * FROM cards;
 
-USE aveng;
+SELECT * FROM pronunciation;
+INSERT INTO pronunciation (id, transcription) VALUES
+(0, 'none'),
+(1, 'beə(r)'),
+(2, '''kæri'),
+(3, 'ɪ''nɔ(r)ːməs'),
+(4, 'help'),
+(5, 'kæn'),
+(6, 'streɪn');
 
-DROP TABLE examples;
-DROP TABLE card_mapping;
-DROP TABLE cards;
-DROP TABLE categories;
-DROP TABLE transcriptions;
-DROP TABLE languages;
-
-CREATE TABLE languages
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    lang CHAR(2) NOT NULL,
-    supported BOOLEAN NOT NULL,
-    CONSTRAINT pk_languages PRIMARY KEY (id)
-);
-
-CREATE TABLE transcriptions
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    transcription VARCHAR(50) NOT NULL,
-    CONSTRAINT pk_transcriptions PRIMARY KEY (id)
-);
-
-CREATE TABLE categories
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    CONSTRAINT pk_categories PRIMARY KEY (id)
-);
-
-CREATE TABLE cards
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    content VARCHAR(50) NOT NULL,
-    definition VARCHAR(150) NOT NULL,
-    category_id INT NOT NULL,
-    lang_id INT NOT NULL,
-    transcription_id INT NOT NULL,
-    CONSTRAINT pk_aveng PRIMARY KEY (id),
-    CONSTRAINT fk_lang_id_languages FOREIGN KEY (lang_id) REFERENCES languages (id),
-    CONSTRAINT fk_transcription_id_transcriptions FOREIGN KEY (transcription_id) REFERENCES transcriptions (id)
-);
-
-CREATE TABLE card_mapping
-(
-    source_card_id INT NOT NULL,
-    dest_card_id INT NOT NULL,
-    frequency INT NOT NULL,
-    CONSTRAINT fk_source_card_id_cards FOREIGN KEY (source_card_id) REFERENCES cards (id),
-    CONSTRAINT fk_dest_card_id_cards FOREIGN KEY (dest_card_id) REFERENCES cards (id)
-);
-
-CREATE TABLE examples
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    example VARCHAR(150) NOT NULL,
-    card_id INT NOT NULL,
-    CONSTRAINT pk_examples PRIMARY KEY (id),
-    CONSTRAINT fk_card_id_cards FOREIGN KEY (card_id) REFERENCES cards (id)
-);
-
-INSERT INTO languages
-(
-    lang,
-    supported
-)
-VALUES
-(
-    'EN',
-    TRUE
-),
-(
-    'RU',
-    TRUE
-),
-(
-    'DE',
-    TRUE
-);
-
-INSERT INTO transcriptions
-(transcription)
-VALUES
--- 1
-('ɪk''stenʃ(ə)n'),
+INSERT INTO cards (
+id, content,
+definition,
+lang, type, pronunciation_id)
+VALUES (
 -- 2
-('раш:ыр''эн''ий''э'),
+1, 'bear',
+'to accept, tolerate, or endure something, especially something unpleasant.',
+0, 1, 1), (
 -- 3
-('beə(r)'),
+2, 'bear',
+'to have or continue to have something.',
+0, 1, 1), (
 -- 4
-('п''ир''инас''ит'''),
+3, 'bear',
+'a large, strong wild mammal with a thick fur coat that lives especially in colder parts of Europe, Asia, and North America.',
+0, 0, 1), (
 -- 5
-('м''эдв''эд'''),
+4, 'carry',
+'to hold something or someone with your hands, arms, or on your back and transport them from one place to another.',
+0, 1, 2), (
 -- 6
-('''kæri'),
+5, 'enormous',
+'extremely large',
+0, 2, 3), (
 -- 7
-('bɛːɐ̯,'),
+6, 'help',
+'make it easier for sb to do sth by offering one''s services or resources.',
+0, 1, 4), (
 -- 8
-('им''эт''');
+7, 'can',
+'to be able to or to be allowed to do sth.',
+0, 1, 5), (
+-- 9
+8, 'can',
+'a closed metal container, especially cylinder-shaped, in which some types of drink and food are sold.',
+0, 0, 5), (
+-- 10
+ 9, 'strain',
+'something that makes you feel nervous and worried.',
+0, 0, 6);
 
-INSERT INTO categories
-(name)
+SELECT * FROM samples;
+INSERT INTO samples (id, content) VALUES
+(1, 'The strain must have been enormous but she bore it well.'),
+(2, 'Tell me now! I can''t bear the suspense!'),
+(3, 'Thank you for your advice - I''ll bear it in mind.'),
+(4, 'He bore the name of the Greek god.'),
+(5, 'Russia is only a country where bears leave among citizens'),
+(6, 'The reduction of polar bears'' population is observed.'),
+(7, 'Can you help me carry this table?'),
+(8, 'I can''t carry objects from one place to another.'),
+(9, 'You made enormous amount of efforts to help.'),
+(10, 'He ate the whole can of beans'),
+(11, 'Cans prevent food spoilage.'),
+(12, 'She is still not ready to face the strains of a job.');
+
+SELECT * FROM cards_samples;
+INSERT INTO cards_samples (Card_id, samples_id) VALUES
+(1, 1), (1, 2),
+(2, 3), (2, 4),
+(3, 5), (3, 6),
+(4, 7), (4, 8),
+(5, 1), (5, 9),
+(6, 7), (6, 9),
+(7, 2), (7, 7),
+(8, 10), (8, 11),
+(9, 1), (9, 12);
+
+INSERT INTO cards (id, content, definition, lang, type, pronunciation_id)
 VALUES
--- Русский
-('существительное'),			-- 1
-('глагол'),						-- 2
-('прилагательное'),				-- 3
-('числительное'),				-- 4
-('местоимение'),				-- 5
-('наречие'),					-- 6
-('причастие'),					-- 7
-('деепричастие'),				-- 8
-('предлог'),					-- 9
-('частица'),					-- 10
-('союз'),						-- 11
-('междометие'),					-- 12
--- English
-('noun'),						-- 13
-('pronoun'),					-- 14
-('verb'),						-- 15
-('adjective'),					-- 16
-('adverb'),						-- 17
-('number'),						-- 18
-('preposition'),				-- 19
-('conjunction'),				-- 20
-('interjection'),				-- 21
-('article'),					-- 22
--- German
-('verb'), 						-- 23 verb
-('nomen'), 						-- 24 noun
-('artikel'),					-- 25 article
-('pronomen'), 					-- 26 pronoun
-('numerale'), 					-- 27 number
-('adjektiv'), 					-- 28 adjective
-('adverb'), 					-- 29 adverb
-('präposition'), 				-- 30 preposition
-('konjunktion'),	 			-- 31 conjunction
-('interjektion'); 				-- 32 interjection
+(10, 'спправляться с', '-', 1, 1, 0),
+(11, 'иметь', '-', 1, 1, 0),
+(12, 'медведь', '-', 1, 0, 0),
+(13, 'переносить', '-', 1, 1, 0),
+(14, 'громадный', '-', 1, 2, 0),
+(15, 'помогать', '-', 1, 1, 0),
+(16, 'мочь', '-', 1, 1, 0),
+(17, 'жестяная банка', '-', 1, 0, 0),
+(18, 'напряжение', '-', 1, 0, 0),
+(19, 'расширение', '-', 1, 0, 0);
 
-INSERT INTO cards
-(
-    content,
-    definition,
-    category_id,
-    lang_id,
-    transcription_id
-)
+SELECT * FROM card_mappings;
+INSERT INTO card_mappings (id, frequency, dest_card_id, source_card_id)
 VALUES
-(
-    -- 1
-    'extension',
-    'the last part of the name of a computer file, which comes after a dot and shows what type of file it is.',
-    13,
-    1,
-    1
-),(
-    -- 2
-    'расширение',
-    'the last part of the name of a computer file, which comes after a dot and shows what type of file it is.',
-    1,
-    2,
-    2
-),(
-    -- 3
-    'bear',
-    'to accept, tolerate, or endure something, especially something unpleasant.',
-    15,
-    1,
-    3
-),(
-    -- 4
-    'bear',
-    'to have or continue to have something.',
-    15,
-    1,
-    3
-),(
-    -- 5
-    'переносить',
-    'испытывать какие-либо негативные ощущения, опыт, оставаясь в живых и без значительных негативных последствий.',
-    2,
-    2,
-    4
-),(
-    -- 6
-    'переносить',
-    'перемещать что-либо с места на место, на некоторое расстояние с отрывом от поверхности.',
-    2,
-    2,
-    4
-),(
-    -- 7
-    'bear',
-    'a large, strong wild mammal with a thick fur coat that lives especially in colder parts of Europe, Asia, and North America.',
-    13,
-    1,
-    3
-),(
-    -- 8
-    'медведь',
-    'крупное хищное млекопитающее животное с длинной шерстью и толстыми ногами.',
-    1,
-    2,
-    5
-),(
-    -- 9
-    'carry',
-    'to hold something or someone with your hands, arms, or on your back and transport them from one place to another.',
-    15,
-    1,
-    6
-),(
-    -- 10
-    'bär',
-    'großes Raubtier mit dickem Pelz, gedrungenem Körper und kurzem Schwanz.',
-    24,
-    3,
-    7
-),(
-    -- 11
-    'иметь',
-    'обладать свойством или владеть имуществом.',
-    24,
-    2,
-    8
-);
-
-INSERT INTO examples
-(example, card_id)
-VALUES
-('Most applications provide extensions for the files they persist.', 1),
-('Relational database scripts have to be stored in the file with ".sql" extension.', 1),
-('Расширение помогает системе понять, какой программой открывать файлы.', 2),
-('Некоторые расширения могут указывать на способ кодирования.', 2),
-('The strain must have been enormous but she bore it well.', 3),
-('Tell me now! I can''t bear the suspense!', 3),
-('Thank you for your advice - I''ll bear it in mind', 4),
-('He bore the name of the Greek god.', 4),
-('Он умел, конечно, переносить боль и терпеть ее, но что значит — терпеть?', 5),
-('Пациент успешно перенес операцию.', 5),
-('Женя принялась переносить еду и посуду в комнату.', 6),
-('Он попросил меня перенести чемоданы из спальни в зал.', 6),
-('Russia is only a country where bears leave among citizens', 7),
-('The reduction of polar bears'' population is observed.', 7),
-('Медведи зимой впадают в спячку.', 8),
-('Почему медведя называют косолапым?', 8),
-('Can you help me carry this table?', 9),
-('I can''t carry objects from one place to another.', 9),
-('Der Bär gilt als blutrünstiges Raubtier, ist aber ein Allesfresser', 10),
-('Dort oben siehst du den großen Bären!', 10),
-('Иван Ильич имел в Симбирске дом.', 11),
-('Он имел надежных друзей.', 11);
-
-INSERT INTO aveng.card_mapping
-(source_card_id, dest_card_id, frequency)
-VALUES
-(1, 2, 0.9),
-(2, 1, 0.8),
-(3, 5, 0.6),
-(4, 11, 0.9),
-(5, 3, 0.6),
-(6, 9, 1),
-(7, 8, 1),
-(7, 10, 0.3),
-(8, 7, 1),
-(8, 10, 1),
-(9, 6, 0.7),
-(10, 8, 1),
-(10, 7, 0.3),
-(11, 4, 0.9);
-
-SELECT
-    c1.content,
-    tr.transcription,
-    c1.definition,
-    c2.content,
-    ex.example
-FROM cards AS c1
-         INNER JOIN transcriptions AS tr ON c1.transcription_id = tr.id
-         INNER JOIN card_mapping AS cm ON c1.id = cm.source_card_id
-         INNER JOIN cards AS c2 ON c2.id = cm.dest_card_id
-         LEFT JOIN examples AS ex ON c1.id = ex.card_id
-WHERE c1.lang_id = (SELECT id from languages WHERE lang = 'EN');
+(1, 1, 24, 19), (2, 1, 19, 24),
+(3, 1, 1, 10), (4, 1, 10, 1),
+(5, 1, 2, 11), (6, 1, 11, 2),
+(7, 1, 3, 12), (8, 1, 12, 3),
+(9, 1, 4, 13), (10, 1, 13, 4),
+(11, 1, 5, 14), (12, 1, 14, 5),
+(13, 1, 6, 15), (14, 1, 15, 6),
+(15, 1, 7, 16), (16, 1, 16, 7),
+(17, 1, 8, 17), (18, 1, 17, 8),
+(19, 1, 9, 18), (20, 1, 18, 9);

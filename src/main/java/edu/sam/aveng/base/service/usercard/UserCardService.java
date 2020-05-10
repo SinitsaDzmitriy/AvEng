@@ -3,9 +3,12 @@ package edu.sam.aveng.base.service.usercard;
 import edu.sam.aveng.base.contract.v1.converter.IShortConverter;
 import edu.sam.aveng.base.contract.v1.dao.IGenericDao;
 import edu.sam.aveng.base.contract.v1.service.SmartGenericCrudService;
+import edu.sam.aveng.base.dao.usercard.IUserCardDao;
 import edu.sam.aveng.base.model.entity.Card;
 import edu.sam.aveng.base.model.entity.User;
 import edu.sam.aveng.base.model.entity.UserCard;
+import edu.sam.aveng.base.model.enumeration.Lang;
+import edu.sam.aveng.base.model.enumeration.StatementType;
 import edu.sam.aveng.base.model.enumeration.Status;
 import edu.sam.aveng.base.model.dto.UserCardDto;
 import edu.sam.aveng.base.model.dto.UserCardShortDto;
@@ -15,19 +18,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class UserCardService
         extends SmartGenericCrudService<UserCard, UserCardDto, UserCardShortDto>
         implements IUserCardService {
-
+    private IUserCardDao userCardDao;
     private IGenericDao<Card> cardDao;
+
+    @Autowired
+    public void setUserCardDao(IUserCardDao userCardDao) {
+        this.userCardDao = userCardDao;
+    }
 
     @Override
     @Autowired
@@ -76,6 +86,14 @@ public class UserCardService
         return converter
                 .convertToShortDto(dao.findAllEagerlyByProperty("owner.id", getCurrentUser().getId()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserCardShortDto> search(User owner, Lang lang, String query, List<Status> statusList,
+                                         List<StatementType> typeList) {
+        List<UserCard> userCardList = userCardDao.search(owner, lang, query, statusList, typeList);
+        Stream<UserCardShortDto> userCardShortDtoStream = converter.convertToShortDto(userCardList);
+        return userCardShortDtoStream.collect(Collectors.toList());
     }
 
     @Override
